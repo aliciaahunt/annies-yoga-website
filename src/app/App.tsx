@@ -57,19 +57,24 @@ export default function App() {
             <p className="eyebrow light">Yoga · Pilates · Retreats</p>
             <h1>Move gently.<br /><em>Feel deeply.</em></h1>
             <p>Welcoming classes in Strabane and Castlederg, created to help you find more ease in body and mind.</p>
-            <a className="circle-link" href="/schedule" aria-label="Explore Annie's classes">
-              <ArrowDownRight />
+            <a className="hero-book-button" href="/schedule">
+              Book a class <ArrowRight size={18} />
             </a>
           </div>
         </section>
 
-        <section className="welcome-section">
-          <div className="section-shell welcome-grid">
-            <p className="eyebrow">Your space to reset</p>
-            <div>
-              <h2>Come as you are.<br />Leave feeling <em>lighter.</em></h2>
-              <p className="large-copy">Annie's Yoga is a warm, down-to-earth space for movement, rest and reconnection. Whether you are brand new or have practised for years, there is room for you here.</p>
-              <a className="text-link" href="#about">Meet Annie <ArrowRight size={17} /></a>
+        <section className="about-section about-section-first" id="about">
+          <div className="section-shell about-grid">
+            <div className="about-image-wrap">
+              <img src="/images/annie-portrait.jpg" alt="Annie sitting on a yoga mat in a bright studio" />
+              <span>Move · Breathe · Be</span>
+            </div>
+            <div className="about-copy">
+              <p className="eyebrow">Meet your teacher</p>
+              <h2>Hi, I'm <em>Annie.</em></h2>
+              <p className="large-copy">I believe movement should feel supportive, never intimidating. My classes are clear, friendly and grounded in helping you feel better in your own body.</p>
+              <p>From weekly yoga and Pilates to restorative sessions and sun-filled retreats, every offering is an invitation to slow down and reconnect.</p>
+              <a className="text-link" href="tel:+447716034570">Get in touch <ArrowRight size={17} /></a>
             </div>
           </div>
         </section>
@@ -123,18 +128,13 @@ export default function App() {
           </article>
         </section>
 
-        <section className="about-section" id="about">
-          <div className="section-shell about-grid">
-            <div className="about-image-wrap">
-              <img src="/images/annie-portrait.jpg" alt="Annie sitting on a yoga mat in a bright studio" />
-              <span>Move · Breathe · Be</span>
-            </div>
-            <div className="about-copy">
-              <p className="eyebrow">Meet your teacher</p>
-              <h2>Hi, I'm <em>Annie.</em></h2>
-              <p className="large-copy">I believe movement should feel supportive, never intimidating. My classes are clear, friendly and grounded in helping you feel better in your own body.</p>
-              <p>From weekly yoga and Pilates to restorative sessions and sun-filled retreats, every offering is an invitation to slow down and reconnect.</p>
-              <a className="text-link" href="tel:+447716034570">Get in touch <ArrowRight size={17} /></a>
+        <section className="welcome-section">
+          <div className="section-shell welcome-grid">
+            <p className="eyebrow">Your space to reset</p>
+            <div>
+              <h2>Come as you are.<br />Leave feeling <em>lighter.</em></h2>
+              <p className="large-copy">Annie's Yoga is a warm, down-to-earth space for movement, rest and reconnection. Whether you are brand new or have practised for years, there is room for you here.</p>
+              <a className="text-link" href="/schedule">Find your class <ArrowRight size={17} /></a>
             </div>
           </div>
         </section>

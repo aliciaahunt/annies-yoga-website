@@ -19,8 +19,8 @@
 .hero-content > p:last-of-type { max-width: 530px; font-size: 18px; line-height: 1.7; }
 .eyebrow { margin-bottom: 16px; color: var(--moss); font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
 .eyebrow.light { color: rgba(255,255,255,.78); }
-.circle-link { display: grid; width: 58px; height: 58px; margin-top: 28px; place-items: center; border: 1px solid rgba(255,255,255,.65); border-radius: 50%; transition: .25s; }
-.circle-link:hover { color: var(--forest); background: white; transform: rotate(-10deg); }
+.hero-book-button { display: inline-flex; align-items: center; gap: 18px; margin-top: 28px; padding: 16px 21px; color: var(--forest); background: var(--paper); font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; transition: .2s; }
+.hero-book-button:hover { background: var(--sage); transform: translateY(-2px); }
 
 .welcome-section { padding: 130px 0; background: var(--cream); }
 .welcome-grid { display: grid; grid-template-columns: .7fr 1.5fr; gap: 80px; }
@@ -68,6 +68,7 @@
 .private-card > p:not(.eyebrow) { color: rgba(255,255,255,.75); }
 
 .about-section { background: var(--cream); }
+.about-section-first { background: var(--paper); }
 .about-grid { display: grid; grid-template-columns: minmax(320px,.85fr) 1fr; gap: 10vw; align-items: center; }
 .about-image-wrap { position: relative; }
 .about-image-wrap img { width: 100%; aspect-ratio: 4/5; object-fit: cover; filter: saturate(.8); }
@@ -205,5 +206,5 @@
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .leaf-branch { animation: none; }
-  .story-card img, .circle-link { transition: none; }
+  .story-card img, .hero-book-button { transition: none; }
 }
