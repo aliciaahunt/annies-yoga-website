@@ -37,10 +37,7 @@ export default function SchedulePage() {
   return (
     <div className="schedule-page">
       <header className="site-header schedule-header">
-        <a className="brand" href="/" aria-label="Annie's Yoga home">
-          <span className="brand-flourish" aria-hidden="true">✦</span>
-          <span>Annie's Yoga</span>
-        </a>
+        <span className="brand">Annie's Yoga</span>
         <button
           className="menu-button"
           type="button"

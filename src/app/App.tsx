@@ -17,10 +17,7 @@ export default function App() {
   return (
     <div className="site">
       <header className="site-header">
-        <a className="brand" href="#home" onClick={closeMenu}>
-          <span className="brand-flourish" aria-hidden="true">✦</span>
-          <span>Annie's Yoga</span>
-        </a>
+        <span className="brand">Annie's Yoga</span>
         <button
           className="menu-button"
           type="button"

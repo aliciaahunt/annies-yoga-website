@@ -1,8 +1,7 @@
-.site { min-height: 100vh; overflow: hidden; }
+.site { min-height: 100vh; overflow-x: clip; }
 .section-shell { width: min(1240px, calc(100% - 80px)); margin: 0 auto; }
-.site-header { position: relative; z-index: 30; display: flex; align-items: center; min-height: 82px; padding: 0 38px; background: var(--paper); border-bottom: 1px solid var(--line); }
-.brand { display: flex; align-items: center; gap: 10px; margin-right: auto; font-family: var(--serif); font-size: 27px; font-weight: 400; letter-spacing: -.03em; }
-.brand-flourish { color: var(--moss); font-family: var(--sans); font-size: 16px; }
+.site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; min-height: 82px; padding: 0 38px; background: rgba(250,248,242,.96); border-bottom: 1px solid var(--line); backdrop-filter: blur(14px); }
+.brand { display: block; margin-right: auto; font-family: var(--serif); font-size: 21px; font-weight: 400; letter-spacing: -.03em; cursor: default; user-select: none; }
 .site-nav { display: flex; align-items: center; gap: clamp(15px, 2vw, 32px); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; }
 .site-nav > a:not(.nav-cta) { padding: 31px 0; }
 .site-nav > a:not(.nav-cta):hover { color: var(--moss); }

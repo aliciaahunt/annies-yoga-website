@@ -34,10 +34,7 @@ export default function PrivateClassesPage() {
   return (
     <div className="private-classes-page">
       <header className="site-header">
-        <a className="brand" href="/" aria-label="Annie's Yoga home">
-          <span className="brand-flourish" aria-hidden="true">✦</span>
-          <span>Annie's Yoga</span>
-        </a>
+        <span className="brand">Annie's Yoga</span>
         <button
           className="menu-button"
           type="button"
