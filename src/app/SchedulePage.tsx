@@ -55,7 +55,7 @@ export default function SchedulePage() {
           <a className="active" href="/schedule">Classes</a>
           <a href="/#retreats">Retreats</a>
           <a href="/#about">About</a>
-          <a href="/#gift-cards">Gift cards</a>
+          <a href="/private-classes">Private classes</a>
           <a href="/#contact">Contact</a>
           <a className="nav-cta" href="#weekly-schedule">Book a class <ArrowRight size={16} /></a>
         </nav>

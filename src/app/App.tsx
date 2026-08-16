@@ -2,11 +2,9 @@ import {
   ArrowDownRight,
   ArrowRight,
   CalendarDays,
-  Gift,
   MapPin,
   Menu,
   Phone,
-  Sparkles,
   X,
 } from 'lucide-react'
 import { useState } from 'react'
@@ -41,7 +39,7 @@ export default function App() {
           <a href="/schedule" onClick={closeMenu}>Classes</a>
           <a href="#retreats" onClick={closeMenu}>Retreats</a>
           <a href="#about" onClick={closeMenu}>About</a>
-          <a href="#gift-cards" onClick={closeMenu}>Gift cards</a>
+          <a href="/private-classes" onClick={closeMenu}>Private classes</a>
           <a href="#contact" onClick={closeMenu}>Contact</a>
           <a className="nav-cta" href="/schedule" onClick={closeMenu}>
             Book a class <ArrowDownRight size={16} />
@@ -67,7 +65,6 @@ export default function App() {
           <div className="section-shell about-grid">
             <div className="about-image-wrap">
               <img src="/images/annie-portrait.jpg" alt="Annie sitting on a yoga mat in a bright studio" />
-              <span>Move · Breathe · Be</span>
             </div>
             <div className="about-copy">
               <p className="eyebrow">Meet your teacher</p>
@@ -111,23 +108,6 @@ export default function App() {
           </div>
         </section>
 
-        <section className="feature-pair" id="gift-cards">
-          <article className="feature-card gift-card">
-            <Gift size={28} />
-            <p className="eyebrow">Give a little calm</p>
-            <h2>Gift cards</h2>
-            <p>A thoughtful gift for someone who could use time to move, breathe and reset.</p>
-            <a className="button button-dark" href="tel:+447716034570">Ask Annie <ArrowRight size={18} /></a>
-          </article>
-          <article className="feature-card private-card">
-            <Sparkles size={28} />
-            <p className="eyebrow light">Made for you</p>
-            <h2>Private sessions</h2>
-            <p>One-to-one and group sessions, sports recovery, yoga for MS, anxiety and schools.</p>
-            <a className="button button-light" href="tel:+447716034570">Enquire <ArrowRight size={18} /></a>
-          </article>
-        </section>
-
         <section className="welcome-section">
           <div className="section-shell welcome-grid">
             <p className="eyebrow">Your space to reset</p>
@@ -158,7 +138,7 @@ export default function App() {
       <footer className="site-footer">
         <div className="footer-brand"><span>Annie's Yoga</span><p>Movement for real life.</p></div>
         <div><h3>Explore</h3><a href="/schedule">Classes</a><a href="#retreats">Retreats</a><a href="#about">About Annie</a></div>
-        <div><h3>Useful</h3><a href="#gift-cards">Gift cards</a><a href="/schedule">Schedule</a><a href="#contact">Contact</a></div>
+        <div><h3>Useful</h3><a href="/private-classes">Private classes</a><a href="/schedule">Schedule</a><a href="#contact">Contact</a></div>
         <div><h3>Visit</h3><p>Strabane & Castlederg<br />Northern Ireland</p><a href="tel:+447716034570">07716 034570</a></div>
         <p className="copyright">© {new Date().getFullYear()} Annie's Yoga</p>
       </footer>
@@ -178,7 +158,7 @@ function BotanicalLeaves() {
 const stories = [
   { kicker: 'Move together', title: 'Weekly classes', image: '/images/studio-yoga-class.jpg', alt: 'A yoga class practising together in a studio', href: '/schedule' },
   { kicker: 'Step away', title: 'Retreats', image: '/images/retreat-garden.jpg', alt: 'A green and peaceful retreat garden', href: '#retreats' },
-  { kicker: 'A little more ease', title: 'Rest & restore', image: '/images/studio-seated-yoga.jpg', alt: 'A seated yoga class moving gently together', href: '#contact' },
+  { kicker: 'Made for you', title: 'Private classes', image: '/images/studio-seated-yoga.jpg', alt: 'A seated yoga class moving gently together', href: '/private-classes' },
 ]
 
 const gallery = [
