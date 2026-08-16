@@ -2,7 +2,6 @@ import {
   ArrowDownRight,
   ArrowRight,
   CalendarDays,
-  Clock3,
   Gift,
   MapPin,
   Menu,
@@ -39,12 +38,12 @@ export default function App() {
           id="site-navigation"
           aria-label="Main navigation"
         >
-          <a href="#classes" onClick={closeMenu}>Classes</a>
+          <a href="/schedule" onClick={closeMenu}>Classes</a>
           <a href="#retreats" onClick={closeMenu}>Retreats</a>
           <a href="#about" onClick={closeMenu}>About</a>
           <a href="#gift-cards" onClick={closeMenu}>Gift cards</a>
           <a href="#contact" onClick={closeMenu}>Contact</a>
-          <a className="nav-cta" href="tel:+447716034570" onClick={closeMenu}>
+          <a className="nav-cta" href="/schedule" onClick={closeMenu}>
             Book a class <ArrowDownRight size={16} />
           </a>
         </nav>
@@ -58,7 +57,7 @@ export default function App() {
             <p className="eyebrow light">Yoga · Pilates · Retreats</p>
             <h1>Move gently.<br /><em>Feel deeply.</em></h1>
             <p>Welcoming classes in Strabane and Castlederg, created to help you find more ease in body and mind.</p>
-            <a className="circle-link" href="#classes" aria-label="Explore Annie's classes">
+            <a className="circle-link" href="/schedule" aria-label="Explore Annie's classes">
               <ArrowDownRight />
             </a>
           </div>
@@ -85,7 +84,7 @@ export default function App() {
             <p className="eyebrow light">Find your practice</p>
             <h2>See the weekly schedule</h2>
           </div>
-          <a className="button button-light" href="#classes">Book a class <ArrowRight size={18} /></a>
+          <a className="button button-light" href="/schedule">Book a class <ArrowRight size={18} /></a>
         </section>
 
         <section className="stories-section" id="retreats">
@@ -102,32 +101,6 @@ export default function App() {
                   <h3>{story.title}</h3>
                   <ArrowDownRight aria-hidden="true" />
                 </a>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="classes-section" id="classes">
-          <div className="section-shell">
-            <div className="section-title-row schedule-heading">
-              <div><p className="eyebrow">Move with Annie</p><h2>Weekly class <em>schedule</em></h2></div>
-              <p>Friendly yoga and Pilates for beginners and mixed abilities. Call Annie to save your place.</p>
-            </div>
-            <div className="schedule-list">
-              {scheduleDays.map((group) => (
-                <section className="schedule-day-group" key={group.day}>
-                  <header><span>{group.day}</span><small>Every week</small></header>
-                  <div>
-                    {group.items.map((item) => (
-                      <article className="schedule-row" key={`${item.name}-${item.time}`}>
-                        <div><h3>{item.name}</h3><p>{item.level || 'All levels welcome'}</p></div>
-                        <p><Clock3 size={17} />{item.time}</p>
-                        <p><MapPin size={17} />{item.place}</p>
-                        <a href="tel:+447716034570" aria-label={`Book ${item.name} on ${group.day}`}>Book <ArrowRight size={15} /></a>
-                      </article>
-                    ))}
-                  </div>
-                </section>
               ))}
             </div>
           </div>
@@ -175,7 +148,7 @@ export default function App() {
             <div><p className="eyebrow light">Start where you are</p><h2>Ready to make space <em>for yourself?</em></h2></div>
             <div className="contact-actions">
               <a href="tel:+447716034570"><Phone /><span><small>Call Annie</small>07716 034570</span></a>
-              <a href="#classes"><CalendarDays /><span><small>Find a class</small>View the timetable</span></a>
+              <a href="/schedule"><CalendarDays /><span><small>Find a class</small>View the timetable</span></a>
               <p><MapPin /><span><small>Find us</small>Strabane & Castlederg</span></p>
             </div>
           </div>
@@ -184,8 +157,8 @@ export default function App() {
 
       <footer className="site-footer">
         <div className="footer-brand"><span>Annie's Yoga</span><p>Movement for real life.</p></div>
-        <div><h3>Explore</h3><a href="#classes">Classes</a><a href="#retreats">Retreats</a><a href="#about">About Annie</a></div>
-        <div><h3>Useful</h3><a href="#gift-cards">Gift cards</a><a href="#classes">Pricing</a><a href="#contact">Contact</a></div>
+        <div><h3>Explore</h3><a href="/schedule">Classes</a><a href="#retreats">Retreats</a><a href="#about">About Annie</a></div>
+        <div><h3>Useful</h3><a href="#gift-cards">Gift cards</a><a href="/schedule">Schedule</a><a href="#contact">Contact</a></div>
         <div><h3>Visit</h3><p>Strabane & Castlederg<br />Northern Ireland</p><a href="tel:+447716034570">07716 034570</a></div>
         <p className="copyright">© {new Date().getFullYear()} Annie's Yoga</p>
       </footer>
@@ -202,34 +175,8 @@ function BotanicalLeaves() {
   )
 }
 
-type ClassItem = { day: string; name: string; time: string; level: string; place: string }
-
-const classes: ClassItem[] = [
-  { day: 'Monday', name: 'Yoga', time: '11am', level: '', place: 'Castlederg' },
-  { day: 'Monday', name: 'Pilates', time: '6pm', level: 'Beginners', place: 'Strabane' },
-  { day: 'Monday', name: 'Yoga', time: '7.30pm', level: 'Suitable for everyone', place: 'Castlederg' },
-  { day: 'Tuesday', name: 'Yoga', time: '10am', level: 'Beginners', place: 'Strabane' },
-  { day: 'Tuesday', name: 'Restorative Yoga', time: '4.30pm', level: 'Beginners', place: 'Strabane' },
-  { day: 'Tuesday', name: 'Yoga', time: '6pm', level: 'Mixed ability', place: 'Strabane' },
-  { day: 'Wednesday', name: 'Pilates', time: '6.15pm', level: 'Beginners', place: 'Strabane' },
-  { day: 'Wednesday', name: 'Pilates', time: '7.30pm', level: 'Mixed ability', place: 'Strabane' },
-  { day: 'Thursday', name: 'Pilates', time: '10am', level: 'Beginners', place: 'Strabane' },
-  { day: 'Thursday', name: 'Yoga', time: '11.15am', level: 'Beginners', place: 'Strabane' },
-  { day: 'Thursday', name: 'Yoga', time: '6pm', level: 'Mixed ability', place: 'Strabane' },
-  { day: 'Thursday', name: 'Yoga', time: '7.30pm', level: 'Beginners', place: 'Strabane' },
-  { day: 'Friday', name: 'Pilates', time: '10am', level: 'Suitable for everyone', place: 'Castlederg' },
-  { day: 'Saturday', name: 'Yoga', time: '9am', level: 'Suitable for beginners', place: 'Strabane' },
-]
-
-const scheduleDays = classes.reduce<{ day: string; items: ClassItem[] }[]>((groups, item) => {
-  const group = groups.find((entry) => entry.day === item.day)
-  if (group) group.items.push(item)
-  else groups.push({ day: item.day, items: [item] })
-  return groups
-}, [])
-
 const stories = [
-  { kicker: 'Move together', title: 'Weekly classes', image: '/images/studio-yoga-class.jpg', alt: 'A yoga class practising together in a studio', href: '#classes' },
+  { kicker: 'Move together', title: 'Weekly classes', image: '/images/studio-yoga-class.jpg', alt: 'A yoga class practising together in a studio', href: '/schedule' },
   { kicker: 'Step away', title: 'Retreats', image: '/images/retreat-garden.jpg', alt: 'A green and peaceful retreat garden', href: '#retreats' },
   { kicker: 'A little more ease', title: 'Rest & restore', image: '/images/studio-seated-yoga.jpg', alt: 'A seated yoga class moving gently together', href: '#contact' },
 ]
