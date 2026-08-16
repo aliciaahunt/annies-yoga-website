@@ -1,0 +1,798 @@
+.site {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 72px;
+  padding: 14px 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+  background: rgba(251, 250, 246, 0.92);
+  backdrop-filter: blur(18px);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-text);
+  font-size: 18px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.brand-mark {
+  display: inline-grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-surface-strong);
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.site-nav a {
+  min-height: 38px;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  color: var(--color-muted-strong);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.site-nav a:hover {
+  background: var(--color-green-soft);
+  color: var(--color-text);
+}
+
+.hero {
+  position: relative;
+  display: grid;
+  min-height: 82svh;
+  overflow: hidden;
+  color: #ffffff;
+}
+
+.hero-image,
+.hero-shade {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-image {
+  background-image:
+    url('/images/garden-yoga-pose.jpg'),
+    url('/images/garden-yoga-pose.jpg');
+  background-position:
+    right 8% bottom,
+    center 48%;
+  background-repeat: no-repeat;
+  background-size:
+    auto min(96%, 920px),
+    cover;
+}
+
+.hero-shade {
+  background: rgba(21, 34, 25, 0.54);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-content: center;
+  gap: 22px;
+  width: min(1120px, calc(100% - 40px));
+  min-height: inherit;
+  margin: 0 auto;
+  padding: 76px 0 88px;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--color-accent-strong);
+  font-size: 13px;
+  font-weight: 850;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.hero .eyebrow {
+  color: #f8d8a2;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+blockquote {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: inherit;
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+h1 {
+  max-width: 760px;
+  margin-bottom: 0;
+  font-size: 72px;
+}
+
+h2 {
+  margin-bottom: 18px;
+  font-size: 44px;
+}
+
+h3 {
+  margin-bottom: 10px;
+  font-size: 22px;
+}
+
+h4 {
+  margin-bottom: 0;
+  font-size: 20px;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+.hero-copy {
+  max-width: 620px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 22px;
+  line-height: 1.45;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 48px;
+  padding: 13px 18px;
+  border-radius: var(--radius-md);
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.button-primary {
+  background: var(--color-accent);
+  color: #ffffff;
+}
+
+.button-primary:hover {
+  background: var(--color-accent-strong);
+}
+
+.button-light {
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--color-text);
+}
+
+.button-light:hover {
+  background: #ffffff;
+}
+
+.section-inner {
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.intro-section,
+.timetable-section,
+.photos-section,
+.contact-section {
+  padding: 86px 0;
+}
+
+.intro-section {
+  background: var(--color-page);
+}
+
+.intro-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(280px, 1fr) minmax(220px, 0.65fr);
+  gap: 42px;
+  align-items: start;
+}
+
+.intro-photo {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  object-position: center top;
+  box-shadow: var(--shadow-card);
+}
+
+.intro-text,
+.section-heading p,
+.contact-grid > div > p {
+  color: var(--color-muted-strong);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.offer-section {
+  padding: 0 0 86px;
+  background: var(--color-page);
+}
+
+.offer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.offer-card {
+  min-height: 210px;
+  padding: 28px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.offer-card svg {
+  margin-bottom: 22px;
+  color: var(--color-green);
+}
+
+.offer-card p,
+.retreat-card p,
+.schedule-row p {
+  color: var(--color-muted);
+}
+
+.timetable-section {
+  background: var(--color-surface-soft);
+}
+
+.section-heading {
+  max-width: 700px;
+  margin-bottom: 34px;
+}
+
+.schedule-board {
+  display: block;
+}
+
+.schedule-list {
+  display: grid;
+  overflow: hidden;
+  border: 2px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.schedule-day-group + .schedule-day-group {
+  border-top: 5px solid var(--color-border-strong);
+}
+
+.schedule-day {
+  display: block;
+  margin-bottom: 0;
+  padding: 15px 22px;
+  border-bottom: 2px solid var(--color-border);
+  background: var(--color-green-soft);
+  color: var(--color-accent-strong);
+  font-size: 17px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.schedule-day-classes {
+  display: grid;
+}
+
+.schedule-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 110px 160px;
+  gap: 18px;
+  align-items: center;
+  min-height: 78px;
+  padding: 17px 22px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.schedule-day-classes .schedule-row:last-child {
+  border-bottom: 0;
+}
+
+.schedule-class-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.schedule-icon {
+  display: inline-grid;
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-page);
+  color: var(--color-green);
+}
+
+.schedule-icon-yoga {
+  background: var(--color-gold-soft);
+  color: var(--color-accent-strong);
+}
+
+.schedule-icon-pilates {
+  background: var(--color-green-soft);
+  color: var(--color-green);
+}
+
+.schedule-icon-restorative {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+.schedule-row p {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.schedule-level {
+  margin-top: 6px;
+  color: var(--color-muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.booking-strip {
+  display: grid;
+  gap: 14px;
+  margin-top: 22px;
+  padding: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.booking-strip h3 {
+  margin-bottom: 0;
+  font-size: 22px;
+}
+
+.booking-strip ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.booking-strip li {
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--color-green-soft);
+  color: var(--color-muted-strong);
+  font-weight: 750;
+}
+
+.retreat-section {
+  padding: 86px 0;
+  background: var(--color-surface);
+}
+
+.retreat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.retreat-card {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.retreat-card summary {
+  display: grid;
+  cursor: pointer;
+  list-style: none;
+}
+
+.retreat-card summary::-webkit-details-marker {
+  display: none;
+}
+
+.retreat-card summary > img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.retreat-card summary > div {
+  display: grid;
+  padding: 26px;
+}
+
+.retreat-photo-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  margin-top: 18px;
+  color: var(--color-accent-strong);
+  font-size: 14px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.retreat-photo-count svg {
+  transition: transform 160ms ease;
+}
+
+.retreat-card[open] .retreat-photo-count svg {
+  transform: rotate(180deg);
+}
+
+.retreat-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 0 18px 22px;
+}
+
+.retreat-photo-grid img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+}
+
+.retreat-date {
+  margin-bottom: 10px;
+  color: var(--color-accent-strong);
+  font-size: 13px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.quote-section {
+  padding: 62px 0;
+  background: var(--color-surface-strong);
+  color: #ffffff;
+}
+
+.quote-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  text-align: center;
+}
+
+.quote-inner svg {
+  flex: 0 0 auto;
+  color: #f8d8a2;
+}
+
+blockquote {
+  margin-bottom: 0;
+  font-size: 34px;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.photos-section {
+  background: var(--color-page);
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 235px;
+  grid-auto-flow: dense;
+  gap: 16px;
+}
+
+.photo-grid img {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  box-shadow: var(--shadow-card);
+}
+
+.photo-grid img:first-child {
+  grid-column: span 2;
+}
+
+.photo-grid img:nth-child(2) {
+  grid-row: span 2;
+}
+
+.photo-grid img:nth-child(3) {
+  grid-column: span 2;
+}
+
+.contact-section {
+  background: var(--color-surface-warm);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.8fr);
+  gap: 52px;
+  align-items: start;
+}
+
+.contact-panel {
+  display: grid;
+  gap: 14px;
+  padding: 26px;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 25%, white);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.contact-panel a,
+.contact-panel p {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  min-width: 0;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-page);
+  color: var(--color-text);
+}
+
+.contact-panel a:hover {
+  background: var(--color-green-soft);
+}
+
+.contact-panel svg {
+  flex: 0 0 auto;
+  color: var(--color-green);
+}
+
+.contact-panel span {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+  overflow-wrap: anywhere;
+}
+
+.contact-panel strong {
+  color: var(--color-muted);
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.site-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 28px 32px;
+  background: #ffffff;
+  color: var(--color-muted-strong);
+}
+
+.site-footer p {
+  font-weight: 850;
+}
+
+.site-footer div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.site-footer a {
+  font-weight: 700;
+}
+
+@media (max-width: 860px) {
+  .site-header {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 14px 20px;
+  }
+
+  .site-nav {
+    justify-content: flex-start;
+  }
+
+  .hero {
+    min-height: 76svh;
+  }
+
+  .hero-image {
+    background-position:
+      right 14% bottom,
+      center 48%;
+    background-size:
+      auto 88%,
+      cover;
+  }
+
+  .hero-content {
+    width: min(100% - 32px, 720px);
+    padding: 58px 0 72px;
+  }
+
+  h1 {
+    font-size: 50px;
+  }
+
+  h2 {
+    font-size: 34px;
+  }
+
+  .hero-copy {
+    font-size: 19px;
+  }
+
+  .intro-grid,
+  .offer-grid,
+  .retreat-grid,
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .intro-photo {
+    max-width: 360px;
+  }
+
+  .schedule-row {
+    grid-template-columns: minmax(0, 1fr) 90px 130px;
+  }
+
+  .photo-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 220px;
+  }
+
+  .photo-grid img:first-child,
+  .photo-grid img:nth-child(2),
+  .photo-grid img:nth-child(3) {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .site-header {
+    position: static;
+  }
+
+  .brand {
+    font-size: 17px;
+  }
+
+  .site-nav a {
+    padding-inline: 10px;
+  }
+
+  .hero {
+    min-height: 74svh;
+  }
+
+  .hero-image {
+    background-position:
+      right 20% bottom,
+      center 48%;
+    background-size:
+      auto 76%,
+      cover;
+  }
+
+  h1 {
+    font-size: 42px;
+  }
+
+  h2 {
+    font-size: 30px;
+  }
+
+  blockquote {
+    font-size: 25px;
+  }
+
+  .section-inner {
+    width: calc(100% - 32px);
+  }
+
+  .intro-section,
+  .timetable-section,
+  .retreat-section,
+  .photos-section,
+  .contact-section {
+    padding: 64px 0;
+  }
+
+  .offer-section {
+    padding-bottom: 64px;
+  }
+
+  .offer-card {
+    min-height: auto;
+  }
+
+  .schedule-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .schedule-day {
+    padding: 14px 16px;
+  }
+
+  .schedule-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .retreat-photo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .photo-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 260px;
+  }
+
+  .contact-grid {
+    gap: 30px;
+  }
+
+  .contact-panel {
+    padding: 16px;
+  }
+
+  .site-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 24px 20px;
+  }
+}
