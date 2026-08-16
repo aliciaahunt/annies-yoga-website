@@ -1,533 +1,242 @@
 import {
+  ArrowDownRight,
+  ArrowRight,
   CalendarDays,
-  ChevronDown,
-  Flower2,
-  Leaf,
+  Clock3,
+  Gift,
   MapPin,
-  PersonStanding,
+  Menu,
   Phone,
   Sparkles,
-  Sunrise,
-  Waves,
+  X,
 } from 'lucide-react'
+import { useState } from 'react'
 
 export default function App() {
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  const closeMenu = () => setMenuOpen(false)
+
   return (
     <div className="site">
       <header className="site-header">
-        <a className="brand" href="#home" aria-label="Annie's Yoga home">
-          <span className="brand-mark">AY</span>
+        <a className="brand" href="#home" onClick={closeMenu}>
+          <span className="brand-flourish" aria-hidden="true">✦</span>
           <span>Annie's Yoga</span>
         </a>
-        <nav className="site-nav" aria-label="Main navigation">
-          <a href="#timetable">Timetable</a>
-          <a href="#retreats">Retreats</a>
-          <a href="#photos">Photos</a>
-          <a href="#contact">Contact</a>
+        <button
+          className="menu-button"
+          type="button"
+          aria-expanded={menuOpen}
+          aria-controls="site-navigation"
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          {menuOpen ? <X /> : <Menu />}
+        </button>
+        <nav
+          className={`site-nav${menuOpen ? ' is-open' : ''}`}
+          id="site-navigation"
+          aria-label="Main navigation"
+        >
+          <a href="#classes" onClick={closeMenu}>Classes</a>
+          <a href="#retreats" onClick={closeMenu}>Retreats</a>
+          <a href="#about" onClick={closeMenu}>About</a>
+          <a href="#gift-cards" onClick={closeMenu}>Gift cards</a>
+          <a href="#contact" onClick={closeMenu}>Contact</a>
+          <a className="nav-cta" href="tel:+447716034570" onClick={closeMenu}>
+            Book a class <ArrowDownRight size={16} />
+          </a>
         </nav>
       </header>
 
       <main>
         <section className="hero" id="home">
-          <div className="hero-image" aria-hidden="true" />
-          <div className="hero-shade" aria-hidden="true" />
+          <img src="/images/garden-yoga-pose.jpg" alt="Annie practising yoga in a sunlit garden" />
+          <div className="hero-overlay" aria-hidden="true" />
           <div className="hero-content">
-            <p className="eyebrow">Strabane, Castlederg and retreat yoga</p>
-            <h1>Annie's Yoga</h1>
-            <p className="hero-copy">
-              Friendly yoga and Pilates classes for moving well, breathing
-              deeply, and leaving class feeling lighter.
-            </p>
-            <div className="hero-actions">
-              <a className="button button-primary" href="#timetable">
-                <CalendarDays size={18} aria-hidden="true" />
-                View timetable
-              </a>
-              <a className="button button-light" href="#contact">
-                <Phone size={18} aria-hidden="true" />
-                Contact Annie
-              </a>
-            </div>
+            <p className="eyebrow light">Yoga · Pilates · Retreats</p>
+            <h1>Move gently.<br /><em>Feel deeply.</em></h1>
+            <p>Welcoming classes in Strabane and Castlederg, created to help you find more ease in body and mind.</p>
+            <a className="circle-link" href="#classes" aria-label="Explore Annie's classes">
+              <ArrowDownRight />
+            </a>
           </div>
         </section>
 
-        <section className="intro-section" aria-labelledby="welcome-title">
-          <div className="section-inner intro-grid">
+        <section className="welcome-section">
+          <div className="section-shell welcome-grid">
+            <p className="eyebrow">Your space to reset</p>
             <div>
-              <p className="eyebrow">Welcome</p>
-              <h2 id="welcome-title">
-                A calm place to stretch, breathe, and come back to yourself.
-              </h2>
-            </div>
-            <p className="intro-text">
-              Annie's Yoga offers weekly yoga and Pilates in Strabane and
-              Castlederg, restorative sessions, private bookings, and sunny
-              retreat time. Classes are welcoming, clear, and suitable whether
-              you are brand new or have practised for years.
-            </p>
-            <img
-              className="intro-photo"
-              src="/images/annie-portrait.jpg"
-              alt="Annie sitting on a yoga mat in a bright room"
-            />
-          </div>
-        </section>
-
-        <section className="offer-section" aria-label="What Annie offers">
-          <div className="section-inner offer-grid">
-            <article className="offer-card">
-              <Sunrise size={24} aria-hidden="true" />
-              <h3>Yoga classes</h3>
-              <p>Steady, friendly classes for beginners and mixed ability groups.</p>
-            </article>
-            <article className="offer-card">
-              <Waves size={24} aria-hidden="true" />
-              <h3>Pilates</h3>
-              <p>Beginner and mixed ability sessions in Strabane and Castlederg.</p>
-            </article>
-            <article className="offer-card">
-              <Sparkles size={24} aria-hidden="true" />
-              <h3>Retreats</h3>
-              <p>Peaceful time away with yoga, rest, shared food, and sunshine.</p>
-            </article>
-          </div>
-        </section>
-
-        <section className="timetable-section" id="timetable">
-          <div className="section-inner">
-            <div className="section-heading">
-              <p className="eyebrow">Classes</p>
-              <h2>Summer timetable</h2>
-              <p>
-                Current summer classes in Strabane and Castlederg. To book,
-                call Annie's Yoga on 07716034570.
-              </p>
-            </div>
-
-            <div className="schedule-board">
-              <div className="schedule-list" aria-label="Summer class timetable">
-                {scheduleDays.map((group) => (
-                  <section className="schedule-day-group" key={group.day}>
-                    <h3 className="schedule-day">{group.day}</h3>
-                    <div className="schedule-day-classes">
-                      {group.items.map((item) => (
-                        <article
-                          className="schedule-row"
-                          key={`${item.day}-${item.name}-${item.time}`}
-                        >
-                          <div className="schedule-class-title">
-                            <span
-                              className={`schedule-icon schedule-icon-${item.kind}`}
-                              aria-hidden="true"
-                            >
-                              <ClassIcon kind={item.kind} />
-                            </span>
-                            <div>
-                              <h4>{item.name}</h4>
-                              {item.level ? (
-                                <p className="schedule-level">{item.level}</p>
-                              ) : null}
-                            </div>
-                          </div>
-                          <p>{item.time}</p>
-                          <p>{item.place}</p>
-                        </article>
-                      ))}
-                    </div>
-                  </section>
-                ))}
-              </div>
-            </div>
-
-            <div className="booking-strip">
-              <h3>Also taking bookings for</h3>
-              <ul>
-                {bookings.map((booking) => (
-                  <li key={booking}>{booking}</li>
-                ))}
-              </ul>
+              <h2>Come as you are.<br />Leave feeling <em>lighter.</em></h2>
+              <p className="large-copy">Annie's Yoga is a warm, down-to-earth space for movement, rest and reconnection. Whether you are brand new or have practised for years, there is room for you here.</p>
+              <a className="text-link" href="#about">Meet Annie <ArrowRight size={17} /></a>
             </div>
           </div>
         </section>
 
-        <section className="retreat-section" id="retreats">
-          <div className="section-inner">
-            <div className="section-heading">
-              <p className="eyebrow">Retreats</p>
-              <h2>Retreat photo albums</h2>
-              <p>
-                Retreat moments from Santillan, Malaga and a peaceful Ireland
-                retreat, grouped so each retreat stays together.
-              </p>
-            </div>
+        <section className="botanical-statement" aria-label="Annie's approach to yoga">
+          <BotanicalLeaves />
+          <p>Yoga isn't about perfect poses.<br />It's about how you <em>feel.</em></p>
+        </section>
 
-            <div className="retreat-grid">
-              {retreatAlbums.map((retreat) => (
-                <details className="retreat-card" key={retreat.title}>
-                  <summary>
-                    <img src={retreat.cover} alt={retreat.coverAlt} />
-                    <div>
-                      <p className="retreat-date">{retreat.date}</p>
-                      <h3>{retreat.title}</h3>
-                      <p>{retreat.description}</p>
-                      <span className="retreat-photo-count">
-                        {retreat.photos.length} photos
-                        <ChevronDown size={18} aria-hidden="true" />
-                      </span>
-                    </div>
-                  </summary>
-                  <div className="retreat-photo-grid">
-                    {retreat.photos.map((photo) => (
-                      <img key={photo.src} src={photo.src} alt={photo.alt} />
+        <section className="booking-banner">
+          <div>
+            <p className="eyebrow light">Find your practice</p>
+            <h2>See the weekly schedule</h2>
+          </div>
+          <a className="button button-light" href="#classes">Book a class <ArrowRight size={18} /></a>
+        </section>
+
+        <section className="stories-section" id="retreats">
+          <div className="section-shell">
+            <div className="section-title-row">
+              <div><p className="eyebrow">Explore</p><h2>A practice for <em>every season</em></h2></div>
+              <p>Weekly movement, restorative moments and thoughtful escapes from the everyday.</p>
+            </div>
+            <div className="story-grid">
+              {stories.map((story) => (
+                <a className="story-card" href={story.href} key={story.title}>
+                  <img src={story.image} alt={story.alt} />
+                  <span>{story.kicker}</span>
+                  <h3>{story.title}</h3>
+                  <ArrowDownRight aria-hidden="true" />
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="classes-section" id="classes">
+          <div className="section-shell">
+            <div className="section-title-row schedule-heading">
+              <div><p className="eyebrow">Move with Annie</p><h2>Weekly class <em>schedule</em></h2></div>
+              <p>Friendly yoga and Pilates for beginners and mixed abilities. Call Annie to save your place.</p>
+            </div>
+            <div className="schedule-list">
+              {scheduleDays.map((group) => (
+                <section className="schedule-day-group" key={group.day}>
+                  <header><span>{group.day}</span><small>Every week</small></header>
+                  <div>
+                    {group.items.map((item) => (
+                      <article className="schedule-row" key={`${item.name}-${item.time}`}>
+                        <div><h3>{item.name}</h3><p>{item.level || 'All levels welcome'}</p></div>
+                        <p><Clock3 size={17} />{item.time}</p>
+                        <p><MapPin size={17} />{item.place}</p>
+                        <a href="tel:+447716034570" aria-label={`Book ${item.name} on ${group.day}`}>Book <ArrowRight size={15} /></a>
+                      </article>
                     ))}
                   </div>
-                </details>
+                </section>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="quote-section">
-          <div className="section-inner quote-inner">
-            <Leaf size={28} aria-hidden="true" />
-            <blockquote>"Let the breath lead, and the body will follow."</blockquote>
+        <section className="feature-pair" id="gift-cards">
+          <article className="feature-card gift-card">
+            <Gift size={28} />
+            <p className="eyebrow">Give a little calm</p>
+            <h2>Gift cards</h2>
+            <p>A thoughtful gift for someone who could use time to move, breathe and reset.</p>
+            <a className="button button-dark" href="tel:+447716034570">Ask Annie <ArrowRight size={18} /></a>
+          </article>
+          <article className="feature-card private-card">
+            <Sparkles size={28} />
+            <p className="eyebrow light">Made for you</p>
+            <h2>Private sessions</h2>
+            <p>One-to-one and group sessions, sports recovery, yoga for MS, anxiety and schools.</p>
+            <a className="button button-light" href="tel:+447716034570">Enquire <ArrowRight size={18} /></a>
+          </article>
+        </section>
+
+        <section className="about-section" id="about">
+          <div className="section-shell about-grid">
+            <div className="about-image-wrap">
+              <img src="/images/annie-portrait.jpg" alt="Annie sitting on a yoga mat in a bright studio" />
+              <span>Move · Breathe · Be</span>
+            </div>
+            <div className="about-copy">
+              <p className="eyebrow">Meet your teacher</p>
+              <h2>Hi, I'm <em>Annie.</em></h2>
+              <p className="large-copy">I believe movement should feel supportive, never intimidating. My classes are clear, friendly and grounded in helping you feel better in your own body.</p>
+              <p>From weekly yoga and Pilates to restorative sessions and sun-filled retreats, every offering is an invitation to slow down and reconnect.</p>
+              <a className="text-link" href="tel:+447716034570">Get in touch <ArrowRight size={17} /></a>
+            </div>
           </div>
         </section>
 
-        <section className="photos-section" id="photos">
-          <div className="section-inner">
-            <div className="section-heading">
-              <p className="eyebrow">Photos</p>
-              <h2>Class moments</h2>
-              <p>
-                Real class spaces, wall work, studio practice, and outdoor
-                movement with Annie.
-              </p>
-            </div>
-
-            <div className="photo-grid">
-              {photos.map((photo) => (
-                <img key={photo.src} src={photo.src} alt={photo.alt} />
-              ))}
-            </div>
-          </div>
+        <section className="gallery-strip" aria-label="Life at Annie's Yoga">
+          {gallery.map((photo) => <img key={photo.src} src={photo.src} alt={photo.alt} />)}
         </section>
 
         <section className="contact-section" id="contact">
-          <div className="section-inner contact-grid">
-            <div>
-              <p className="eyebrow">Contact</p>
-              <h2>Ask about classes, private sessions, or retreats.</h2>
-              <p>
-                The booking part is kept simple: call Annie directly to book or
-                ask a question.
-              </p>
-            </div>
-
-            <div className="contact-panel">
-              <a href="tel:+447716034570">
-                <Phone size={22} aria-hidden="true" />
-                <span>
-                  <strong>Call Annie's Yoga</strong>
-                  07716034570
-                </span>
-              </a>
-              <a href="#timetable">
-                <CalendarDays size={22} aria-hidden="true" />
-                <span>
-                  <strong>Summer timetable</strong>
-                  Yoga and Pilates classes from Monday to Saturday
-                </span>
-              </a>
-              <p>
-                <MapPin size={22} aria-hidden="true" />
-                <span>
-                  <strong>Class locations</strong>
-                  Strabane and Castlederg
-                </span>
-              </p>
+          <div className="section-shell contact-grid">
+            <div><p className="eyebrow light">Start where you are</p><h2>Ready to make space <em>for yourself?</em></h2></div>
+            <div className="contact-actions">
+              <a href="tel:+447716034570"><Phone /><span><small>Call Annie</small>07716 034570</span></a>
+              <a href="#classes"><CalendarDays /><span><small>Find a class</small>View the timetable</span></a>
+              <p><MapPin /><span><small>Find us</small>Strabane & Castlederg</span></p>
             </div>
           </div>
         </section>
       </main>
 
       <footer className="site-footer">
-        <p>Annie's Yoga</p>
-        <div>
-          <a href="#timetable">Timetable</a>
-          <a href="#retreats">Retreats</a>
-          <a href="#contact">Contact</a>
-        </div>
+        <div className="footer-brand"><span>Annie's Yoga</span><p>Movement for real life.</p></div>
+        <div><h3>Explore</h3><a href="#classes">Classes</a><a href="#retreats">Retreats</a><a href="#about">About Annie</a></div>
+        <div><h3>Useful</h3><a href="#gift-cards">Gift cards</a><a href="#classes">Pricing</a><a href="#contact">Contact</a></div>
+        <div><h3>Visit</h3><p>Strabane & Castlederg<br />Northern Ireland</p><a href="tel:+447716034570">07716 034570</a></div>
+        <p className="copyright">© {new Date().getFullYear()} Annie's Yoga</p>
       </footer>
     </div>
   )
 }
 
-const classes = [
-  {
-    day: 'Monday',
-    name: 'Yoga',
-    time: '11am',
-    level: '',
-    place: 'Castlederg',
-    kind: 'yoga',
-  },
-  {
-    day: 'Monday',
-    name: 'Pilates',
-    time: '6pm',
-    level: 'Beginners',
-    place: 'Strabane',
-    kind: 'pilates',
-  },
-  {
-    day: 'Monday',
-    name: 'Yoga',
-    time: '7.30pm',
-    level: 'Suitable for everyone',
-    place: 'Castlederg',
-    kind: 'yoga',
-  },
-  {
-    day: 'Tuesday',
-    name: 'Yoga',
-    time: '10am',
-    level: 'Beginners',
-    place: 'Strabane',
-    kind: 'yoga',
-  },
-  {
-    day: 'Tuesday',
-    name: 'Restorative Yoga',
-    time: '4.30pm',
-    level: 'Beginners',
-    place: 'Strabane',
-    kind: 'restorative',
-  },
-  {
-    day: 'Tuesday',
-    name: 'Yoga',
-    time: '6pm',
-    level: 'Mixed ability - new time',
-    place: 'Strabane',
-    kind: 'yoga',
-  },
-  {
-    day: 'Wednesday',
-    name: 'Pilates',
-    time: '6.15pm',
-    level: 'Beginners',
-    place: 'Strabane',
-    kind: 'pilates',
-  },
-  {
-    day: 'Wednesday',
-    name: 'Pilates',
-    time: '7.30pm',
-    level: 'Mixed ability',
-    place: 'Strabane',
-    kind: 'pilates',
-  },
-  {
-    day: 'Thursday',
-    name: 'Pilates',
-    time: '10am',
-    level: 'Beginners',
-    place: 'Strabane',
-    kind: 'pilates',
-  },
-  {
-    day: 'Thursday',
-    name: 'Yoga',
-    time: '11.15am',
-    level: 'Beginners',
-    place: 'Strabane',
-    kind: 'yoga',
-  },
-  {
-    day: 'Thursday',
-    name: 'Yoga',
-    time: '6pm',
-    level: 'Mixed ability',
-    place: 'Strabane',
-    kind: 'yoga',
-  },
-  {
-    day: 'Thursday',
-    name: 'Yoga',
-    time: '7.30pm',
-    level: 'Beginners',
-    place: 'Strabane',
-    kind: 'yoga',
-  },
-  {
-    day: 'Friday',
-    name: 'Pilates',
-    time: '10am',
-    level: 'Suitable for everyone',
-    place: 'Castlederg',
-    kind: 'pilates',
-  },
-  {
-    day: 'Saturday',
-    name: 'Yoga',
-    time: '9am',
-    level: 'Suitable for beginners',
-    place: 'Strabane',
-    kind: 'yoga',
-  },
-] satisfies ClassItem[]
-
-type ClassKind = 'yoga' | 'pilates' | 'restorative'
-
-type ClassItem = {
-  day: string
-  name: string
-  time: string
-  level: string
-  place: string
-  kind: ClassKind
+function BotanicalLeaves() {
+  return (
+    <svg className="botanical-leaves" viewBox="0 0 1200 520" aria-hidden="true">
+      <g className="leaf-branch branch-one"><path d="M92 520C104 369 171 211 326 51" /><path d="M158 360C105 330 75 285 64 231M194 292C248 264 279 221 287 169M123 428C76 405 51 370 39 331" /><ellipse cx="68" cy="227" rx="20" ry="56" transform="rotate(-38 68 227)" /><ellipse cx="290" cy="166" rx="20" ry="58" transform="rotate(40 290 166)" /><ellipse cx="38" cy="328" rx="18" ry="50" transform="rotate(-40 38 328)" /></g>
+      <g className="leaf-branch branch-two"><path d="M1120 520C1104 365 1038 216 886 55" /><path d="M1053 356C1104 326 1135 281 1145 227M1017 289C962 260 933 216 925 165M1088 427C1135 402 1161 367 1171 327" /><ellipse cx="1143" cy="224" rx="20" ry="56" transform="rotate(38 1143 224)" /><ellipse cx="922" cy="162" rx="20" ry="58" transform="rotate(-40 922 162)" /><ellipse cx="1172" cy="324" rx="18" ry="50" transform="rotate(40 1172 324)" /></g>
+    </svg>
+  )
 }
 
-const scheduleDays = classes.reduce<{ day: string; items: ClassItem[] }[]>(
-  (groups, item) => {
-    const group = groups.find((entry) => entry.day === item.day)
+type ClassItem = { day: string; name: string; time: string; level: string; place: string }
 
-    if (group) {
-      group.items.push(item)
-    } else {
-      groups.push({ day: item.day, items: [item] })
-    }
-
-    return groups
-  },
-  [],
-)
-
-function ClassIcon({ kind }: { kind: ClassKind }) {
-  if (kind === 'pilates') {
-    return <PersonStanding size={22} />
-  }
-
-  if (kind === 'restorative') {
-    return <Leaf size={22} />
-  }
-
-  return <Flower2 size={22} />
-}
-
-const bookings = [
-  "1-2-1's",
-  'Group sessions',
-  'Sports recovery',
-  'Yoga for MS',
-  'Yoga for anxiety',
-  'Yoga in school',
-  'Teacher training',
+const classes: ClassItem[] = [
+  { day: 'Monday', name: 'Yoga', time: '11am', level: '', place: 'Castlederg' },
+  { day: 'Monday', name: 'Pilates', time: '6pm', level: 'Beginners', place: 'Strabane' },
+  { day: 'Monday', name: 'Yoga', time: '7.30pm', level: 'Suitable for everyone', place: 'Castlederg' },
+  { day: 'Tuesday', name: 'Yoga', time: '10am', level: 'Beginners', place: 'Strabane' },
+  { day: 'Tuesday', name: 'Restorative Yoga', time: '4.30pm', level: 'Beginners', place: 'Strabane' },
+  { day: 'Tuesday', name: 'Yoga', time: '6pm', level: 'Mixed ability', place: 'Strabane' },
+  { day: 'Wednesday', name: 'Pilates', time: '6.15pm', level: 'Beginners', place: 'Strabane' },
+  { day: 'Wednesday', name: 'Pilates', time: '7.30pm', level: 'Mixed ability', place: 'Strabane' },
+  { day: 'Thursday', name: 'Pilates', time: '10am', level: 'Beginners', place: 'Strabane' },
+  { day: 'Thursday', name: 'Yoga', time: '11.15am', level: 'Beginners', place: 'Strabane' },
+  { day: 'Thursday', name: 'Yoga', time: '6pm', level: 'Mixed ability', place: 'Strabane' },
+  { day: 'Thursday', name: 'Yoga', time: '7.30pm', level: 'Beginners', place: 'Strabane' },
+  { day: 'Friday', name: 'Pilates', time: '10am', level: 'Suitable for everyone', place: 'Castlederg' },
+  { day: 'Saturday', name: 'Yoga', time: '9am', level: 'Suitable for beginners', place: 'Strabane' },
 ]
 
-const retreatAlbums = [
-  {
-    date: '5th-11th July 2026',
-    title: 'Santillan, Malaga retreat',
-    description:
-      'A 25-hour retreat with yoga, rest, sunshine, and time to fully step away.',
-    cover: '/images/santillan-retreat-villa.jpg',
-    coverAlt: 'Santillan retreat building in Malaga surrounded by gardens',
-    photos: [
-      {
-        src: '/images/santillan-retreat-villa.jpg',
-        alt: 'Santillan retreat building in Malaga surrounded by gardens',
-      },
-      {
-        src: '/images/malaga-retreat-view.jpg',
-        alt: 'Santillan retreat building in Malaga with sea views',
-      },
-      {
-        src: '/images/retreat-garden.jpg',
-        alt: 'Sunny retreat garden with fountains and plants',
-      },
-      {
-        src: '/images/retreat-studio-ready.jpg',
-        alt: 'Yoga mats and props laid out in a large retreat studio',
-      },
-      {
-        src: '/images/retreat-class.jpg',
-        alt: 'Group yoga class sitting on mats in a bright retreat studio',
-      },
-      {
-        src: '/images/retreat-lunch-spread.jpg',
-        alt: 'Colourful retreat lunch with salads and olives',
-      },
-      {
-        src: '/images/retreat-buffet.jpg',
-        alt: 'Retreat buffet table with salads, grains, and warm dishes',
-      },
-      {
-        src: '/images/retreat-doorway.jpg',
-        alt: 'A peaceful retreat doorway with a garlanded statue and candle',
-      },
-    ],
-  },
-  {
-    date: 'Ireland retreat',
-    title: 'Coastal Ireland retreat',
-    description:
-      'Beach views, a welcoming hotel, restful rooms, and hearty retreat food.',
-    cover: '/images/ireland-retreat-beach-panorama.jpg',
-    coverAlt: 'Wide sandy beach and blue sea at the Ireland retreat',
-    photos: [
-      {
-        src: '/images/ireland-retreat-beach-panorama.jpg',
-        alt: 'Wide sandy beach and blue sea at the Ireland retreat',
-      },
-      {
-        src: '/images/ireland-retreat-beach-aerial.jpg',
-        alt: 'Aerial view of a sandy beach and turquoise water in Ireland',
-      },
-      {
-        src: '/images/ireland-retreat-hotel.jpg',
-        alt: 'Ireland retreat hotel exterior with purple flowers',
-      },
-      {
-        src: '/images/ireland-retreat-bedroom.jpg',
-        alt: 'Calm retreat bedroom with tea tray on the bed',
-      },
-      {
-        src: '/images/ireland-retreat-meal.jpg',
-        alt: 'Retreat meal with roast dinner and gravy',
-      },
-    ],
-  },
+const scheduleDays = classes.reduce<{ day: string; items: ClassItem[] }[]>((groups, item) => {
+  const group = groups.find((entry) => entry.day === item.day)
+  if (group) group.items.push(item)
+  else groups.push({ day: item.day, items: [item] })
+  return groups
+}, [])
+
+const stories = [
+  { kicker: 'Move together', title: 'Weekly classes', image: '/images/studio-yoga-class.jpg', alt: 'A yoga class practising together in a studio', href: '#classes' },
+  { kicker: 'Step away', title: 'Retreats', image: '/images/retreat-garden.jpg', alt: 'A green and peaceful retreat garden', href: '#retreats' },
+  { kicker: 'A little more ease', title: 'Rest & restore', image: '/images/studio-seated-yoga.jpg', alt: 'A seated yoga class moving gently together', href: '#contact' },
 ]
 
-const photos = [
-  {
-    src: '/images/wall-yoga-class.jpg',
-    alt: 'Yoga class using wall ropes and chairs',
-  },
-  {
-    src: '/images/studio-yoga-class.jpg',
-    alt: 'Studio yoga class practising downward dog',
-  },
-  {
-    src: '/images/garden-yoga-square.jpg',
-    alt: 'Annie practising yoga outdoors in a sunny garden',
-  },
-  {
-    src: '/images/class-yoga-props.jpg',
-    alt: 'Yoga blocks and strap in a basket',
-  },
-  {
-    src: '/images/garden-class-mats.jpg',
-    alt: 'Outdoor yoga mats set up on grass',
-  },
-  {
-    src: '/images/studio-seated-yoga.jpg',
-    alt: 'Yoga class seated on mats with arms raised',
-  },
-  {
-    src: '/images/class-group-smiling.jpg',
-    alt: 'Smiling yoga class group with arms raised',
-  },
+const gallery = [
+  { src: '/images/garden-class-mats.jpg', alt: 'Yoga mats ready for an outdoor class' },
+  { src: '/images/class-group-smiling.jpg', alt: 'A smiling yoga class together' },
+  { src: '/images/retreat-lunch-spread.jpg', alt: 'A colourful lunch at a yoga retreat' },
+  { src: '/images/ireland-retreat-beach-panorama.jpg', alt: 'A wide beach beside the sea in Ireland' },
 ]
