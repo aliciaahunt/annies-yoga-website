@@ -7,7 +7,6 @@ const pageTitles: Record<string, string> = {
   '/retreats': "Retreats | Annie's Yoga",
   '/about': "About Annie | Annie's Yoga",
   '/private-classes': "Private Classes | Annie's Yoga",
-  '/gift-cards': "Gift Cards | Annie's Yoga",
   '/contact': "Contact | Annie's Yoga",
 }
 
@@ -17,8 +16,7 @@ const pageDescriptions: Record<string, string> = {
   '/retreats': "Explore restorative yoga and Pilates retreats with Annie.",
   '/about': "Meet Annie and discover her welcoming, down-to-earth approach to yoga and Pilates.",
   '/private-classes': "Explore one-to-one and private group yoga sessions shaped around your needs.",
-  '/gift-cards': "Arrange a thoughtful Annie's Yoga gift card for yoga and Pilates.",
-  '/contact': "Contact Annie about classes, private sessions, retreats and gift cards.",
+  '/contact': "Contact Annie about yoga and Pilates classes, private sessions and retreats.",
 }
 
 export default function RouteEffects() {

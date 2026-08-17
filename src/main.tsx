@@ -8,7 +8,6 @@ import PrivateClassesPage from '@/app/PrivateClassesPage'
 import RetreatsPage from '@/app/RetreatsPage'
 import AboutPage from '@/app/AboutPage'
 import ContactPage from '@/app/ContactPage'
-import GiftCardsPage from '@/app/GiftCardsPage'
 import NotFoundPage from '@/app/NotFoundPage'
 import RouteEffects from '@/components/RouteEffects'
 
@@ -23,7 +22,6 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/retreats" element={<RetreatsPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
-        <Route path="/gift-cards" element={<GiftCardsPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

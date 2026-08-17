@@ -17,7 +17,7 @@ export default function ContactPage() {
             </div>
             <p>
               Whether you need help choosing a class or want to ask about private sessions, retreats
-              or gift cards, Annie would love to hear from you.
+              or retreats, Annie would love to hear from you.
             </p>
           </div>
         </section>

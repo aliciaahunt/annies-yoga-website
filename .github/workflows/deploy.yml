@@ -34,7 +34,7 @@ jobs:
         run: npm run build
       - name: Add route entry points and single-page app fallback
         run: |
-          for route in schedule private-classes retreats about contact gift-cards; do
+          for route in schedule private-classes retreats about contact; do
             mkdir -p "dist/$route"
             cp dist/index.html "dist/$route/index.html"
           done
