@@ -219,7 +219,7 @@
 .contact-page-hero h1 { margin: 0; }
 .contact-page-hero-grid > p { max-width: 520px; margin: 0 0 8px; color: rgba(255,255,255,.72); font-size: 18px; line-height: 1.7; }
 .contact-page-options { padding: 115px 0 130px; }
-.contact-page-options-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 55px; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.contact-page-options-grid { display: grid; grid-template-columns: repeat(2, 1fr); margin-top: 55px; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
 .contact-page-options-grid article { min-height: 310px; padding: 34px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .contact-page-options-grid article > svg { margin-bottom: 46px; color: var(--moss); }
 .contact-page-options-grid h3 { margin-bottom: 14px; font-family: var(--serif); font-size: 30px; }

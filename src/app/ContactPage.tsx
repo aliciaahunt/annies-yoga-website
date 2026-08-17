@@ -1,4 +1,4 @@
-import { CalendarDays, MapPin, Phone } from 'lucide-react'
+import { CalendarDays, Mail, MapPin, Phone } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import SiteFooter from '@/components/SiteFooter'
 import SiteHeader from '@/components/SiteHeader'
@@ -32,6 +32,12 @@ export default function ContactPage() {
                 <h3>Call Annie</h3>
                 <p>Have a friendly conversation about what you are looking for.</p>
                 <a className="text-link" href="tel:+447716034570">07716 034570</a>
+              </article>
+              <article>
+                <Mail aria-hidden="true" />
+                <h3>Email Annie</h3>
+                <p>Send Annie a message and she will get back to you as soon as she can.</p>
+                <a className="text-link" href="mailto:anniesyoga@yahoo.ie">anniesyoga@yahoo.ie</a>
               </article>
               <article>
                 <CalendarDays aria-hidden="true" />
