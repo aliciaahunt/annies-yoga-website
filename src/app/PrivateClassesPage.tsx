@@ -1,5 +1,7 @@
-import { ArrowRight, Check, Menu, Phone, X } from 'lucide-react'
-import { useState } from 'react'
+import { Check, Phone } from 'lucide-react'
+import SiteFooter from '@/components/SiteFooter'
+import SiteHeader from '@/components/SiteHeader'
+import { siteUrl } from '@/lib/siteUrl'
 
 const offerings = [
   {
@@ -29,31 +31,9 @@ const offerings = [
 ]
 
 export default function PrivateClassesPage() {
-  const [menuOpen, setMenuOpen] = useState(false)
-
   return (
     <div className="private-classes-page">
-      <header className="site-header">
-        <span className="brand">Annie's Yoga</span>
-        <button
-          className="menu-button"
-          type="button"
-          aria-expanded={menuOpen}
-          aria-controls="private-navigation"
-          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          {menuOpen ? <X /> : <Menu />}
-        </button>
-        <nav className={`site-nav${menuOpen ? ' is-open' : ''}`} id="private-navigation" aria-label="Main navigation">
-          <a href="/schedule">Classes</a>
-          <a href="/#retreats">Retreats</a>
-          <a href="/#about">About</a>
-          <a className="active" href="/private-classes">Private classes</a>
-          <a href="/#contact">Contact</a>
-          <a className="nav-cta" href="/schedule">Book a class <ArrowRight size={16} /></a>
-        </nav>
-      </header>
+      <SiteHeader />
 
       <main>
         <section className="private-hero">
@@ -63,7 +43,7 @@ export default function PrivateClassesPage() {
             <p>Personal, supportive yoga with Annie—at your pace, for your body and your reasons for practising.</p>
             <a className="button button-light" href="tel:+447716034570">Talk to Annie <Phone size={17} /></a>
           </div>
-          <img src="/images/studio-seated-yoga.jpg" alt="A calm seated yoga practice with Annie" />
+          <img src={siteUrl('/images/studio-seated-yoga.jpg')} alt="A calm seated yoga practice with Annie" />
         </section>
 
         <section className="private-intro">
@@ -109,10 +89,7 @@ export default function PrivateClassesPage() {
         </section>
       </main>
 
-      <footer className="schedule-footer">
-        <a href="/">Annie's Yoga</a>
-        <p>Strabane & Castlederg · 07716 034570</p>
-      </footer>
+      <SiteFooter />
     </div>
   )
 }

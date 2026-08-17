@@ -1,7 +1,7 @@
 .site { min-height: 100vh; overflow-x: clip; }
 .section-shell { width: min(1240px, calc(100% - 80px)); margin: 0 auto; }
 .site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; min-height: 82px; padding: 0 38px; background: rgba(250,248,242,.96); border-bottom: 1px solid var(--line); backdrop-filter: blur(14px); }
-.brand { display: block; margin-right: auto; font-family: var(--serif); font-size: 21px; font-weight: 400; letter-spacing: -.03em; cursor: default; user-select: none; }
+.brand { display: block; margin-right: auto; font-family: var(--serif); font-size: 21px; font-weight: 400; letter-spacing: -.03em; }
 .site-nav { display: flex; align-items: center; gap: clamp(15px, 2vw, 32px); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; }
 .site-nav > a:not(.nav-cta) { padding: 31px 0; }
 .site-nav > a:not(.nav-cta):hover { color: var(--moss); }
@@ -13,7 +13,7 @@
 .hero > img { width: 100%; height: 100%; object-fit: cover; object-position: center 54%; }
 .hero-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(20,35,26,.61), rgba(20,35,26,.08) 72%), linear-gradient(0deg, rgba(17,28,21,.22), transparent 45%); }
 .hero-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; width: min(1240px, calc(100% - 80px)); margin: auto; }
-.hero h1 { max-width: 800px; margin: 14px 0 22px; font-family: var(--serif); font-size: clamp(72px, 8.2vw, 130px); font-weight: 300; line-height: .9; letter-spacing: -.055em; }
+.hero h1 { max-width: 800px; margin: 14px 0 22px; font-family: var(--serif); font-size: clamp(69px, calc(8.2vw - 3px), 127px); font-weight: 300; line-height: .9; letter-spacing: -.055em; }
 .hero h1 em { color: #dce2d3; }
 .hero-content > p:last-of-type { max-width: 530px; font-size: 18px; line-height: 1.7; }
 .eyebrow { margin-bottom: 16px; color: var(--moss); font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
@@ -29,7 +29,9 @@
 .text-link { display: inline-flex; align-items: center; gap: 16px; padding: 12px 0 7px; border-bottom: 1px solid var(--ink); font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
 
 .botanical-statement { position: relative; display: grid; min-height: 520px; place-items: center; overflow: hidden; padding: 80px 30px; background: var(--sage); }
-.botanical-statement > p { position: relative; z-index: 2; max-width: 980px; margin: 0; font-family: var(--serif); font-size: clamp(48px, 6.4vw, 92px); line-height: 1.02; text-align: center; }
+.botanical-statement blockquote { position: relative; z-index: 2; max-width: 1050px; margin: 0; text-align: center; }
+.botanical-statement blockquote p { margin: 0; font-family: var(--serif); font-size: clamp(40px, 5.2vw, 72px); line-height: 1.08; }
+.botanical-statement cite { display: block; margin-top: 28px; font-size: 12px; font-style: normal; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
 .botanical-statement em { color: #edf0e8; }
 .botanical-leaves { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .22; fill: var(--paper); stroke: var(--paper); stroke-width: 3; }
 .leaf-branch { transform-box: fill-box; transform-origin: bottom center; }
@@ -65,11 +67,11 @@
 .about-copy > p:not(.eyebrow) { color: var(--muted); line-height: 1.75; }
 .about-copy .text-link { margin-top: 18px; }
 
-.gallery-strip { display: grid; grid-template-columns: 1fr 1.25fr 1fr 1.25fr; height: 340px; }
-.gallery-strip img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.75); }
-.contact-section { padding: 110px 0; color: white; background: var(--forest); }
-.contact-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 100px; align-items: center; }
-.contact-section h2 { margin-bottom: 0; }
+.gallery-strip { position: relative; z-index: 0; display: grid; grid-template-columns: 1fr 1.25fr 1fr 1.25fr; height: 340px; overflow: hidden; }
+.gallery-strip img { width: 100%; min-width: 0; height: 100%; min-height: 0; object-fit: cover; filter: saturate(.75); }
+.contact-section { position: relative; z-index: 1; padding: clamp(80px, 7vw, 110px) 0; color: white; background: var(--forest); isolation: isolate; }
+.contact-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(320px, 1fr); gap: clamp(60px, 7vw, 100px); align-items: start; }
+.contact-section h2 { max-width: 720px; margin-bottom: 0; font-size: clamp(48px, 5vw, 72px); line-height: 1; overflow-wrap: normal; }
 .contact-section h2 em { color: var(--sage); }
 .contact-actions { display: grid; }
 .contact-actions > * { display: flex; align-items: center; gap: 20px; margin: 0; padding: 22px 0; border-bottom: 1px solid rgba(255,255,255,.2); }
@@ -79,6 +81,7 @@
 
 .site-footer { position: relative; display: grid; grid-template-columns: 1.6fr repeat(3, 1fr); gap: 50px; padding: 75px max(40px, calc((100% - 1240px)/2)) 115px; background: var(--paper); }
 .footer-brand span { font-family: var(--serif); font-size: 36px; }
+.footer-brand > a { font-family: var(--serif); font-size: 36px; }
 .footer-brand p, .site-footer p { color: var(--muted); }
 .site-footer h3 { margin-bottom: 18px; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
 .site-footer > div:not(.footer-brand) { display: flex; flex-direction: column; align-items: flex-start; gap: 9px; font-size: 14px; }
@@ -92,7 +95,7 @@
 .schedule-hero > div:last-child { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; width: min(1240px, calc(100% - 80px)); margin: auto; padding-bottom: 70px; }
 .schedule-hero h1 { margin: 0; font-family: var(--serif); font-size: clamp(70px, 8vw, 116px); line-height: .85; letter-spacing: -.035em; }
 .schedule-hero h1 em { color: #dce2d3; }
-.weekly-schedule { padding: 95px 0 120px; background: var(--paper); }
+.weekly-schedule { padding: 95px 0 120px; scroll-margin-top: 82px; background: var(--paper); }
 .schedule-shell { width: min(1320px, calc(100% - 64px)); margin: auto; }
 .schedule-intro { display: grid; grid-template-columns: 1.25fr .75fr; gap: 70px; align-items: end; margin-bottom: 55px; }
 .schedule-intro h2 { margin: 0; font-family: var(--serif); font-size: clamp(50px, 5.4vw, 76px); line-height: 1; }
@@ -167,6 +170,79 @@
 .private-enquiry-grid > div:last-child > p { color: var(--ink); line-height: 1.7; }
 .private-enquiry .button { margin-top: 18px; }
 
+/* Retreats page */
+.retreats-page { min-height: 100vh; background: var(--paper); }
+.retreats-hero { position: relative; height: min(70vw, 760px); min-height: 560px; color: white; }
+.retreats-hero > img { width: 100%; height: 100%; object-fit: cover; }
+.retreats-hero-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(27,42,32,.7), rgba(27,42,32,.08) 72%); }
+.retreats-hero-copy { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; width: min(1240px, calc(100% - 80px)); margin: auto; padding-bottom: 80px; }
+.retreats-hero h1 { margin: 0 0 24px; font-family: var(--serif); font-size: clamp(72px, 9vw, 128px); font-weight: 300; line-height: .85; letter-spacing: -.05em; }
+.retreats-hero h1 em { color: var(--sage); }
+.retreats-hero-copy > p:last-child { max-width: 580px; margin: 0; color: rgba(255,255,255,.82); font-size: 19px; line-height: 1.65; }
+.retreats-intro { padding: 120px 0; background: var(--cream); }
+.retreats-intro-grid { display: grid; grid-template-columns: .55fr 1.45fr; gap: 80px; }
+.retreats-intro h2, .retreats-feature h2, .retreats-enquiry h2 { margin: 0 0 30px; font-family: var(--serif); font-size: clamp(52px, 6vw, 84px); font-weight: 300; line-height: .95; letter-spacing: -.045em; }
+.retreats-intro-grid > div > p:last-child { max-width: 720px; color: var(--muted); line-height: 1.75; }
+.retreats-feature { display: grid; grid-template-columns: 1.1fr .9fr; min-height: 670px; color: white; background: var(--forest); }
+.retreats-feature > img { width: 100%; height: 100%; object-fit: cover; }
+.retreats-feature > div { display: flex; flex-direction: column; justify-content: center; padding: 70px clamp(40px, 7vw, 110px); }
+.retreats-feature ul { display: grid; gap: 18px; margin: 15px 0 0; padding: 28px 0 0; border-top: 1px solid rgba(255,255,255,.25); list-style: none; }
+.retreats-feature li { display: flex; align-items: center; gap: 15px; color: rgba(255,255,255,.8); }
+.retreats-feature li svg, .retreats-feature li span { width: 20px; color: var(--sage); }
+.retreats-gallery { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; padding-top: 110px; padding-bottom: 110px; }
+.retreats-gallery img { width: 100%; aspect-ratio: .8; object-fit: cover; }
+.retreats-gallery img:nth-child(2) { margin-top: 55px; }
+.retreats-enquiry { padding: 110px 0; background: var(--sage); }
+.retreats-enquiry-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 80px; align-items: center; }
+.retreats-enquiry h2 { margin: 0; }
+.retreats-enquiry-grid > div:last-child > p { line-height: 1.75; }
+.retreats-enquiry .button { margin-top: 20px; }
+
+/* About, contact and gift card pages */
+.about-page, .contact-page, .gift-cards-page, .simple-page { min-height: 100vh; background: var(--paper); }
+.about-page-hero { padding: 90px 0 120px; background: var(--paper); }
+.about-page-hero-grid { display: grid; grid-template-columns: minmax(320px, .85fr) 1.15fr; gap: 9vw; align-items: center; }
+.about-page-portrait img { width: 100%; aspect-ratio: 4/5; object-fit: cover; filter: saturate(.8); }
+.about-page h1, .contact-page h1, .gift-cards-page h1, .not-found h1 { margin: 0 0 30px; font-family: var(--serif); font-size: clamp(64px, 7vw, 104px); font-weight: 300; line-height: .92; letter-spacing: -.05em; }
+.about-page h1 em, .not-found h1 em { color: var(--moss); }
+.about-page-approach { padding: 120px 0; color: white; background: var(--forest); }
+.about-page-approach-grid, .about-page-next-step-grid, .gift-cards-details-grid, .gift-cards-contact-grid { display: grid; grid-template-columns: .65fr 1.35fr; gap: 80px; }
+.about-page-approach h2, .about-page-next-step h2, .contact-page-options h2, .gift-cards-details h2, .gift-cards-contact h2 { margin: 0 0 30px; font-family: var(--serif); font-size: clamp(50px, 5.6vw, 80px); font-weight: 300; line-height: .96; letter-spacing: -.04em; }
+.about-page-approach h2 em, .contact-page h1 em, .gift-cards-contact h2 em { color: var(--sage); }
+.about-page-approach p:not(.eyebrow) { color: rgba(255,255,255,.72); line-height: 1.75; }
+.about-page-next-step { padding: 110px 0; background: var(--sage); }
+.about-page-next-step-grid { grid-template-columns: 1.1fr .9fr; align-items: center; }
+.about-page-next-step-grid > div:last-child > p { line-height: 1.7; }
+.about-page-actions { display: flex; flex-wrap: wrap; gap: 28px; align-items: center; margin-top: 24px; }
+.contact-page-hero { padding: 115px 0; color: white; background: var(--forest); }
+.contact-page-hero-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 80px; align-items: end; }
+.contact-page-hero h1 { margin: 0; }
+.contact-page-hero-grid > p { max-width: 520px; margin: 0 0 8px; color: rgba(255,255,255,.72); font-size: 18px; line-height: 1.7; }
+.contact-page-options { padding: 115px 0 130px; }
+.contact-page-options-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 55px; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.contact-page-options-grid article { min-height: 310px; padding: 34px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.contact-page-options-grid article > svg { margin-bottom: 46px; color: var(--moss); }
+.contact-page-options-grid h3 { margin-bottom: 14px; font-family: var(--serif); font-size: 30px; }
+.contact-page-options-grid p { color: var(--muted); line-height: 1.65; }
+.contact-page-location { display: inline-block; margin-top: 14px; color: var(--moss); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.gift-cards-hero { position: relative; min-height: 690px; color: white; }
+.gift-cards-hero > img { width: 100%; height: 690px; object-fit: cover; }
+.gift-cards-hero-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(26,41,31,.75), rgba(26,41,31,.08) 74%); }
+.gift-cards-hero-copy { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; width: min(1240px, calc(100% - 80px)); margin: auto; }
+.gift-cards-hero h1 { max-width: 900px; }
+.gift-cards-hero h1 em { color: var(--sage); }
+.gift-cards-hero-copy > p:not(.eyebrow) { max-width: 520px; color: rgba(255,255,255,.78); font-size: 18px; }
+.gift-cards-hero .button { margin-top: 22px; }
+.gift-cards-details { padding: 120px 0; background: var(--cream); }
+.gift-cards-details-grid > div > p:last-child { max-width: 720px; color: var(--muted); line-height: 1.75; }
+.gift-cards-contact { padding: 110px 0; color: white; background: var(--moss); }
+.gift-cards-contact-grid { grid-template-columns: 1.1fr .9fr; align-items: center; }
+.gift-cards-contact-grid > div:last-child > p { color: rgba(255,255,255,.72); }
+.gift-cards-secondary-link { display: flex; align-items: center; gap: 12px; width: fit-content; margin-top: 24px; padding-bottom: 5px; border-bottom: 1px solid rgba(255,255,255,.55); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.not-found { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-height: 640px; padding-top: 90px; padding-bottom: 90px; }
+.not-found > p:not(.eyebrow) { max-width: 520px; color: var(--muted); font-size: 18px; }
+.not-found .button { margin-top: 22px; }
+
 @media (max-width: 900px) {
   .section-shell, .hero-content { width: calc(100% - 40px); }
   .site-header { min-height: 70px; padding: 0 20px; }
@@ -191,14 +267,21 @@
   .private-hero > img { max-height: 560px; }
   .private-intro-grid, .private-enquiry-grid { grid-template-columns: 1fr; gap: 30px; }
   .private-offerings-grid { grid-template-columns: repeat(2, 1fr); }
+  .retreats-intro-grid, .retreats-enquiry-grid { grid-template-columns: 1fr; gap: 30px; }
+  .retreats-feature { grid-template-columns: 1fr; }
+  .retreats-feature > img { max-height: 600px; }
+  .about-page-hero-grid, .about-page-approach-grid, .about-page-next-step-grid, .contact-page-hero-grid, .gift-cards-details-grid, .gift-cards-contact-grid { grid-template-columns: 1fr; gap: 35px; }
+  .about-page-portrait { width: min(600px, calc(100% - 35px)); }
+  .contact-page-options-grid { grid-template-columns: 1fr; }
+  .contact-page-options-grid article { min-height: 0; }
 }
 
 @media (max-width: 620px) {
-  .hero h1 { font-size: 64px; }
+  .hero h1 { font-size: 61px; }
   .hero > img { object-position: 63% center; }
   .welcome-grid h2, .section-title-row h2, .about-copy h2, .contact-section h2 { font-size: 47px; }
   .botanical-statement { min-height: 430px; }
-  .botanical-statement > p { font-size: 43px; }
+  .botanical-statement blockquote p { font-size: 38px; }
   .booking-banner { align-items: flex-start; flex-direction: column; padding: 42px 20px; }
   .story-grid { grid-template-columns: 1fr; gap: 55px; }
   .story-card img { aspect-ratio: 5/4; }
@@ -224,6 +307,18 @@
   .private-hero h1 { font-size: 64px; }
   .private-intro, .private-offerings, .private-enquiry { padding: 75px 0; }
   .private-offerings-grid { grid-template-columns: 1fr; }
+  .retreats-hero { min-height: 520px; }
+  .retreats-hero-copy { width: calc(100% - 40px); padding-bottom: 50px; }
+  .retreats-hero h1 { font-size: 66px; }
+  .retreats-intro, .retreats-enquiry { padding: 75px 0; }
+  .retreats-feature > div { padding: 70px 22px; }
+  .retreats-gallery { grid-template-columns: 1fr; padding-top: 70px; padding-bottom: 70px; }
+  .retreats-gallery img { aspect-ratio: 1.15; }
+  .retreats-gallery img:nth-child(2) { margin-top: 0; }
+  .about-page-hero, .about-page-approach, .about-page-next-step, .contact-page-hero, .contact-page-options, .gift-cards-details, .gift-cards-contact { padding: 75px 0; }
+  .about-page h1, .contact-page h1, .gift-cards-page h1, .not-found h1 { font-size: 58px; }
+  .gift-cards-hero, .gift-cards-hero > img { min-height: 600px; height: 600px; }
+  .gift-cards-hero-copy { width: calc(100% - 40px); }
 }
 
 @media (prefers-reduced-motion: reduce) {

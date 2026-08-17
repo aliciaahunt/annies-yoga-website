@@ -3,79 +3,53 @@ import {
   ArrowRight,
   CalendarDays,
   MapPin,
-  Menu,
   Phone,
-  X,
 } from 'lucide-react'
-import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import SiteFooter from '@/components/SiteFooter'
+import SiteHeader from '@/components/SiteHeader'
+import { siteUrl } from '@/lib/siteUrl'
 
 export default function App() {
-  const [menuOpen, setMenuOpen] = useState(false)
-
-  const closeMenu = () => setMenuOpen(false)
-
   return (
     <div className="site">
-      <header className="site-header">
-        <span className="brand">Annie's Yoga</span>
-        <button
-          className="menu-button"
-          type="button"
-          aria-expanded={menuOpen}
-          aria-controls="site-navigation"
-          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          {menuOpen ? <X /> : <Menu />}
-        </button>
-        <nav
-          className={`site-nav${menuOpen ? ' is-open' : ''}`}
-          id="site-navigation"
-          aria-label="Main navigation"
-        >
-          <a href="/schedule" onClick={closeMenu}>Classes</a>
-          <a href="#retreats" onClick={closeMenu}>Retreats</a>
-          <a href="#about" onClick={closeMenu}>About</a>
-          <a href="/private-classes" onClick={closeMenu}>Private classes</a>
-          <a href="#contact" onClick={closeMenu}>Contact</a>
-          <a className="nav-cta" href="/schedule" onClick={closeMenu}>
-            Book a class <ArrowDownRight size={16} />
-          </a>
-        </nav>
-      </header>
+      <SiteHeader />
 
       <main>
         <section className="hero" id="home">
-          <img src="/images/garden-yoga-pose.jpg" alt="Annie practising yoga in a sunlit garden" />
+          <img src={siteUrl('/images/garden-yoga-pose.jpg')} alt="Annie practising yoga in a sunlit garden" />
           <div className="hero-overlay" aria-hidden="true" />
           <div className="hero-content">
             <p className="eyebrow light">Yoga · Pilates · Retreats</p>
-            <h1>Move gently.<br /><em>Feel deeply.</em></h1>
+            <h1>Stronger in body.<br /><em>Calmer in mind.</em></h1>
             <p>Welcoming classes in Strabane and Castlederg, created to help you find more ease in body and mind.</p>
-            <a className="hero-book-button" href="/schedule">
+            <Link className="hero-book-button" to="/schedule">
               Book a class <ArrowRight size={18} />
-            </a>
+            </Link>
           </div>
         </section>
 
         <section className="about-section about-section-first" id="about">
           <div className="section-shell about-grid">
             <div className="about-image-wrap">
-              <img src="/images/annie-portrait.jpg" alt="Annie sitting on a yoga mat in a bright studio" />
+              <img src={siteUrl('/images/annie-portrait.jpg')} alt="Annie sitting on a yoga mat in a bright studio" />
             </div>
             <div className="about-copy">
               <p className="eyebrow">Meet your teacher</p>
               <h2>Hi, I'm <em>Annie.</em></h2>
               <p className="large-copy">I believe movement should feel supportive, never intimidating. My classes are clear, friendly and grounded in helping you feel better in your own body.</p>
               <p>From weekly yoga and Pilates to restorative sessions and sun-filled retreats, every offering is an invitation to slow down and reconnect.</p>
-              <a className="text-link" href="tel:+447716034570">Get in touch <ArrowRight size={17} /></a>
+              <Link className="text-link" to="/about">Meet Annie <ArrowRight size={17} /></Link>
             </div>
           </div>
         </section>
 
-        <section className="botanical-statement" aria-label="Annie's approach to yoga">
+        <section className="botanical-statement" aria-label="Yoga quotation by B.K.S. Iyengar">
           <BotanicalLeaves />
-          <p>Yoga isn't about perfect poses.<br />It's about how you <em>feel.</em></p>
+          <blockquote>
+            <p>“It is through the alignment of the body that I discovered the alignment of my mind, self, and intelligence.”</p>
+            <cite>B.K.S. Iyengar</cite>
+          </blockquote>
         </section>
 
         <section className="booking-banner">
@@ -83,7 +57,7 @@ export default function App() {
             <p className="eyebrow light">Find your practice</p>
             <h2>See the weekly schedule</h2>
           </div>
-          <a className="button button-light" href="/schedule">Book a class <ArrowRight size={18} /></a>
+          <Link className="button button-light" to="/schedule">Book a class <ArrowRight size={18} /></Link>
         </section>
 
         <section className="stories-section" id="retreats">
@@ -94,12 +68,12 @@ export default function App() {
             </div>
             <div className="story-grid">
               {stories.map((story) => (
-                <a className="story-card" href={story.href} key={story.title}>
+                <Link className="story-card" to={story.href} key={story.title}>
                   <img src={story.image} alt={story.alt} />
                   <span>{story.kicker}</span>
                   <h3>{story.title}</h3>
                   <ArrowDownRight aria-hidden="true" />
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -111,7 +85,7 @@ export default function App() {
             <div>
               <h2>Come as you are.<br />Leave feeling <em>lighter.</em></h2>
               <p className="large-copy">Annie's Yoga is a warm, down-to-earth space for movement, rest and reconnection. Whether you are brand new or have practised for years, there is room for you here.</p>
-              <a className="text-link" href="/schedule">Find your class <ArrowRight size={17} /></a>
+              <Link className="text-link" to="/schedule">Find your class <ArrowRight size={17} /></Link>
             </div>
           </div>
         </section>
@@ -125,20 +99,14 @@ export default function App() {
             <div><p className="eyebrow light">Start where you are</p><h2>Ready to make space <em>for yourself?</em></h2></div>
             <div className="contact-actions">
               <a href="tel:+447716034570"><Phone /><span><small>Call Annie</small>07716 034570</span></a>
-              <a href="/schedule"><CalendarDays /><span><small>Find a class</small>View the timetable</span></a>
+              <Link to="/schedule"><CalendarDays /><span><small>Find a class</small>View the timetable</span></Link>
               <p><MapPin /><span><small>Find us</small>Strabane & Castlederg</span></p>
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="site-footer">
-        <div className="footer-brand"><span>Annie's Yoga</span><p>Movement for real life.</p></div>
-        <div><h3>Explore</h3><a href="/schedule">Classes</a><a href="#retreats">Retreats</a><a href="#about">About Annie</a></div>
-        <div><h3>Useful</h3><a href="/private-classes">Private classes</a><a href="/schedule">Schedule</a><a href="#contact">Contact</a></div>
-        <div><h3>Visit</h3><p>Strabane & Castlederg<br />Northern Ireland</p><a href="tel:+447716034570">07716 034570</a></div>
-        <p className="copyright">© {new Date().getFullYear()} Annie's Yoga</p>
-      </footer>
+      <SiteFooter />
     </div>
   )
 }
@@ -153,14 +121,14 @@ function BotanicalLeaves() {
 }
 
 const stories = [
-  { kicker: 'Move together', title: 'Weekly classes', image: '/images/studio-yoga-class.jpg', alt: 'A yoga class practising together in a studio', href: '/schedule' },
-  { kicker: 'Step away', title: 'Retreats', image: '/images/retreat-garden.jpg', alt: 'A green and peaceful retreat garden', href: '#retreats' },
-  { kicker: 'Made for you', title: 'Private classes', image: '/images/studio-seated-yoga.jpg', alt: 'A seated yoga class moving gently together', href: '/private-classes' },
+  { kicker: 'Move together', title: 'Weekly classes', image: siteUrl('/images/studio-yoga-class.jpg'), alt: 'A yoga class practising together in a studio', href: '/schedule' },
+  { kicker: 'Step away', title: 'Retreats', image: siteUrl('/images/retreat-garden.jpg'), alt: 'A green and peaceful retreat garden', href: '/retreats' },
+  { kicker: 'Made for you', title: 'Private classes', image: siteUrl('/images/studio-seated-yoga.jpg'), alt: 'A seated yoga class moving gently together', href: '/private-classes' },
 ]
 
 const gallery = [
-  { src: '/images/garden-class-mats.jpg', alt: 'Yoga mats ready for an outdoor class' },
-  { src: '/images/class-group-smiling.jpg', alt: 'A smiling yoga class together' },
-  { src: '/images/retreat-lunch-spread.jpg', alt: 'A colourful lunch at a yoga retreat' },
-  { src: '/images/ireland-retreat-beach-panorama.jpg', alt: 'A wide beach beside the sea in Ireland' },
+  { src: siteUrl('/images/garden-class-mats.jpg'), alt: 'Yoga mats ready for an outdoor class' },
+  { src: siteUrl('/images/class-group-smiling.jpg'), alt: 'A smiling yoga class together' },
+  { src: siteUrl('/images/retreat-lunch-spread.jpg'), alt: 'A colourful lunch at a yoga retreat' },
+  { src: siteUrl('/images/ireland-retreat-beach-panorama.jpg'), alt: 'A wide beach beside the sea in Ireland' },
 ]

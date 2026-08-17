@@ -1,24 +1,24 @@
 import {
-  ArrowLeft,
   ArrowRight,
   CalendarDays,
   ChevronLeft,
   ChevronRight,
   Clock3,
   MapPin,
-  Menu,
   Phone,
   X,
 } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { weeklyClasses, type YogaClass } from './scheduleData'
+import SiteFooter from '@/components/SiteFooter'
+import SiteHeader from '@/components/SiteHeader'
+import { siteUrl } from '@/lib/siteUrl'
 
 type SelectedClass = YogaClass & { date: Date }
 
 const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 export default function SchedulePage() {
-  const [menuOpen, setMenuOpen] = useState(false)
   const [weekStart, setWeekStart] = useState(() => startOfWeek(new Date()))
   const [selectedClass, setSelectedClass] = useState<SelectedClass | null>(null)
   const dialogRef = useRef<HTMLDialogElement>(null)
@@ -36,31 +36,11 @@ export default function SchedulePage() {
 
   return (
     <div className="schedule-page">
-      <header className="site-header schedule-header">
-        <span className="brand">Annie's Yoga</span>
-        <button
-          className="menu-button"
-          type="button"
-          aria-expanded={menuOpen}
-          aria-controls="schedule-navigation"
-          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          {menuOpen ? <X /> : <Menu />}
-        </button>
-        <nav className={`site-nav${menuOpen ? ' is-open' : ''}`} id="schedule-navigation" aria-label="Main navigation">
-          <a className="active" href="/schedule">Classes</a>
-          <a href="/#retreats">Retreats</a>
-          <a href="/#about">About</a>
-          <a href="/private-classes">Private classes</a>
-          <a href="/#contact">Contact</a>
-          <a className="nav-cta" href="#weekly-schedule">Book a class <ArrowRight size={16} /></a>
-        </nav>
-      </header>
+      <SiteHeader />
 
       <main>
         <section className="schedule-hero">
-          <img src="/images/studio-yoga-class.jpg" alt="Annie's students practising yoga together in the studio" />
+          <img src={siteUrl('/images/studio-yoga-class.jpg')} alt="Annie's students practising yoga together in the studio" />
           <div className="schedule-hero-shade" aria-hidden="true" />
           <div><p className="eyebrow light">Move with Annie</p><h1>Book a <em>class</em></h1></div>
         </section>
@@ -123,10 +103,7 @@ export default function SchedulePage() {
         </section>
       </main>
 
-      <footer className="schedule-footer">
-        <a href="/"><ArrowLeft size={16} /> Back to Annie's Yoga</a>
-        <p>Strabane & Castlederg · 07716 034570</p>
-      </footer>
+      <SiteFooter />
 
       <dialog className="booking-dialog" ref={dialogRef} onClose={() => setSelectedClass(null)}>
         {selectedClass && (
