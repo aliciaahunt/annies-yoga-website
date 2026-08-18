@@ -27,6 +27,7 @@
 .hero-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(20,35,26,.61), rgba(20,35,26,.08) 72%), linear-gradient(0deg, rgba(17,28,21,.22), transparent 45%); }
 .hero-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; width: min(1240px, calc(100% - 80px)); margin: auto; }
 .hero h1 { max-width: 800px; margin: 14px 0 22px; font-family: var(--serif); font-size: clamp(69px, calc(8.2vw - 3px), 127px); font-weight: 300; line-height: .9; letter-spacing: -.055em; }
+.hero h1.home-title { font-size: clamp(23px, calc(2.733vw - 1px), 42.33px); }
 .hero h1 em { color: #dce2d3; }
 .hero-content > p:last-of-type { max-width: 530px; font-size: 18px; line-height: 1.7; }
 .eyebrow { margin-bottom: 16px; color: var(--moss); font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
