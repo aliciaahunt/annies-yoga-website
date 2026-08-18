@@ -54,7 +54,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <dt><Mail size={17} aria-hidden="true" /> Email</dt>
-                  <dd><a href="mailto:aliciahunt229@gmail.com">aliciahunt229@gmail.com</a></dd>
+                  <dd><a href="mailto:anniesyoga@yahoo.ie">anniesyoga@yahoo.ie</a></dd>
                 </div>
                 <div className="contact-follow-row">
                   <dt>Follow</dt>

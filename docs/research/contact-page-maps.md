@@ -2,7 +2,7 @@
 
 ## Scope and current constraint
 
-The site is a static React 19/Vite 8 application deployed to GitHub Pages. Its current contact page presents four equal bordered tiles for phone, email, timetable, and a combined “Strabane & Castlederg” location. The repository contains Annie's phone (`07716 034570`), email (`aliciahunt229@gmail.com`), and town names, but **no street address or named venue for either town**. It also currently repeats “retreats” in the hero sentence.
+The site is a static React 19/Vite 8 application deployed to GitHub Pages. Its current contact page presents four equal bordered tiles for phone, email, timetable, and a combined “Strabane & Castlederg” location. The repository contains Annie's phone (`07716 034570`), email (`anniesyoga@yahoo.ie`), and town names, but **no street address or named venue for either town**. It also currently repeats “retreats” in the hero sentence.
 
 That missing address is decisive: a professional map should never imply that a town-centre pin is the class venue. Exact venue names/addresses must be confirmed before publishing venue maps or directions.
 

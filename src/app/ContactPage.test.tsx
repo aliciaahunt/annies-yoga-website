@@ -14,9 +14,9 @@ describe('ContactPage', () => {
     const formHeading = screen.getByRole('heading', { name: 'Send an enquiry' })
     const locationsHeading = screen.getByRole('heading', { name: 'Find your class' })
 
-    expect(screen.getByRole('link', { name: 'aliciahunt229@gmail.com' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'anniesyoga@yahoo.ie' })).toHaveAttribute(
       'href',
-      'mailto:aliciahunt229@gmail.com',
+      'mailto:anniesyoga@yahoo.ie',
     )
     expect(screen.getByRole('form', { name: 'Send an enquiry' })).toBeInTheDocument()
     expect(formHeading.compareDocumentPosition(locationsHeading) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()

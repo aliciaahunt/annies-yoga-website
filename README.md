@@ -6,7 +6,7 @@ Website for Annie's Yoga, with sections for classes, retreats, photos, and conta
 
 The enquiry form submits through Web3Forms and uses its free hCaptcha integration. To enable it in production:
 
-1. Create and verify a Web3Forms access key for `aliciahunt229@gmail.com`.
+1. Create and verify a Web3Forms access key for `anniesyoga@yahoo.ie`.
 2. In the Web3Forms dashboard, enable hCaptcha for the form.
 3. In the GitHub repository, add an Actions secret named `WEB3FORMS_ACCESS_KEY` containing that key.
 4. Deploy the site and send a test enquiry. Check Annie's inbox and spam folder, then confirm that replying addresses the visitor's email.
