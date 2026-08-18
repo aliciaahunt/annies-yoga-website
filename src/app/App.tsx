@@ -21,7 +21,7 @@ export default function App() {
           <div className="hero-overlay" aria-hidden="true" />
           <div className="hero-content">
             <p className="eyebrow light">Yoga · Pilates · Retreats</p>
-            <h1>Stronger in body.<br /><em>Calmer in mind.</em></h1>
+            <h1>Aiyana's Yoga Room</h1>
             <p>Welcoming classes in Strabane and Castlederg, created to help you find more ease in body and mind.</p>
             <Link className="hero-book-button" to="/schedule">
               Book a class <ArrowRight size={18} />
