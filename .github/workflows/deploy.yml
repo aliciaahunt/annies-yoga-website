@@ -32,6 +32,8 @@ jobs:
         run: npm ci
       - name: Build website
         run: npm run build
+        env:
+          VITE_WEB3FORMS_ACCESS_KEY: ${{ secrets.WEB3FORMS_ACCESS_KEY }}
       - name: Add route entry points and single-page app fallback
         run: |
           for route in schedule private-classes retreats about contact; do

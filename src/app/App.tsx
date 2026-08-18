@@ -8,6 +8,7 @@ import {
 import { Link } from 'react-router-dom'
 import SiteFooter from '@/components/SiteFooter'
 import SiteHeader from '@/components/SiteHeader'
+import TeacherCredentials from '@/components/TeacherCredentials'
 import { siteUrl } from '@/lib/siteUrl'
 
 export default function App() {
@@ -21,7 +22,7 @@ export default function App() {
           <div className="hero-overlay" aria-hidden="true" />
           <div className="hero-content">
             <p className="eyebrow light">Yoga · Pilates · Retreats</p>
-            <h1 className="home-title">Stronger in body.<br /><em>Calmer in mind.</em></h1>
+            <h1 className="home-title">Annie's Yoga</h1>
             <p>Welcoming classes in Strabane and Castlederg, created to help you find more ease in body and mind.</p>
             <Link className="hero-book-button" to="/schedule">
               Book a class <ArrowRight size={18} />
@@ -37,9 +38,9 @@ export default function App() {
             <div className="about-copy">
               <p className="eyebrow">Meet your teacher</p>
               <h2>Hi, I'm <em>Annie.</em></h2>
-              <p className="large-copy">I believe movement should feel supportive, never intimidating. My classes are clear, friendly and grounded in helping you feel better in your own body.</p>
-              <p>From weekly yoga and Pilates to restorative sessions and sun-filled retreats, every offering is an invitation to slow down and reconnect.</p>
-              <Link className="text-link" to="/about">Meet Annie <ArrowRight size={17} /></Link>
+              <p className="large-copy">I've been teaching yoga for over 25 years and I love helping people feel stronger, more confident and more comfortable in their bodies.</p>
+              <p>My classes in Strabane and Castlederg are friendly, supportive and open to everyone—whether you're completely new to yoga or have been practising for years.</p>
+              <TeacherCredentials />
             </div>
           </div>
         </section>

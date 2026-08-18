@@ -1,6 +1,7 @@
 import { ArrowRight, Menu, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import { siteUrl } from '@/lib/siteUrl'
 
 const navigation = [
   { label: 'Retreats', to: '/retreats' },
@@ -45,7 +46,10 @@ export default function SiteHeader() {
 
   return (
     <header className="site-header">
-      <Link className="brand" to="/" aria-label="Annie's Yoga home" onClick={closeMenus}>Annie's Yoga</Link>
+      <Link className="brand" to="/" aria-label="Annie's Yoga home" onClick={closeMenus}>
+        <img src={siteUrl('/logo.svg')} alt="" aria-hidden="true" />
+        <span>Annie's Yoga</span>
+      </Link>
       <button
         className="menu-button"
         type="button"

@@ -14,7 +14,7 @@ const pageDescriptions: Record<string, string> = {
   '/': "Welcoming yoga and Pilates classes, private sessions and retreats with Annie in Strabane and Castlederg, Northern Ireland.",
   '/schedule': "View Annie's weekly yoga and Pilates class timetable in Strabane and Castlederg.",
   '/retreats': "Explore restorative yoga and Pilates retreats with Annie.",
-  '/about': "Meet Annie and discover her welcoming, down-to-earth approach to yoga and Pilates.",
+  '/about': "Meet Annie, a Level 2 Iyengar Yoga teacher with over 25 years of teaching experience, and discover her welcoming approach to movement.",
   '/private-classes': "Explore one-to-one and private group yoga sessions shaped around your needs.",
   '/contact': "Contact Annie about yoga and Pilates classes, private sessions and retreats.",
 }
