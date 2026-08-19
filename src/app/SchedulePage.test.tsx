@@ -37,6 +37,27 @@ describe('SchedulePage reservations', () => {
     expect(titleRule).toMatch(/line-height:\s*1\.1[5-9]/)
   })
 
+  it('keeps class pricing focused on the Yoga and Pilates options', () => {
+    render(<SchedulePage />, { wrapper: MemoryRouter })
+
+    const pricing = screen.getByRole('region', { name: 'Class pricing' })
+    expect(within(pricing).getByRole('heading', { name: 'Yoga' })).toBeInTheDocument()
+    expect(within(pricing).getByRole('heading', { name: 'Pilates' })).toBeInTheDocument()
+    expect(within(pricing).queryByText('Come along when it suits you, or settle into a regular six-week practice.')).not.toBeInTheDocument()
+    expect(within(pricing).queryByText('Space to move, breathe and reconnect.')).not.toBeInTheDocument()
+    expect(within(pricing).queryByText('Thoughtful movement for strength and control.')).not.toBeInTheDocument()
+    expect(within(pricing).queryByText('01')).not.toBeInTheDocument()
+    expect(within(pricing).queryByText('02')).not.toBeInTheDocument()
+  })
+
+  it('omits decorative branches and the class-selection help card', () => {
+    render(<SchedulePage />, { wrapper: MemoryRouter })
+
+    const pricing = screen.getByRole('region', { name: 'Class pricing' })
+    expect(pricing.querySelector('svg')).not.toBeInTheDocument()
+    expect(screen.queryByText('Need help choosing?')).not.toBeInTheDocument()
+  })
+
   it('shows all seven days on a proportional time grid with consistent class cards', () => {
     render(<SchedulePage />, { wrapper: MemoryRouter })
 
@@ -46,12 +67,11 @@ describe('SchedulePage reservations', () => {
     expect(within(yogaPricing).getByText('£12')).toBeInTheDocument()
     expect(within(yogaPricing).getByText('£60')).toBeInTheDocument()
     expect(within(yogaPricing).getByText('Single class')).toBeInTheDocument()
-    expect(within(yogaPricing).getByText('Six-week package')).toBeInTheDocument()
+    expect(within(yogaPricing).getByText('Six-week bundle')).toBeInTheDocument()
     expect(within(pilatesPricing).getByText('£10')).toBeInTheDocument()
     expect(within(pilatesPricing).getByText('£50')).toBeInTheDocument()
     expect(within(pilatesPricing).getByText('Single class')).toBeInTheDocument()
-    expect(within(pilatesPricing).getByText('Six-week package')).toBeInTheDocument()
-    expect(pricing).toHaveTextContent('Six classes over six consecutive weeks')
+    expect(within(pilatesPricing).getByText('Six-week bundle')).toBeInTheDocument()
     expect(pricing).toHaveTextContent('Paid upfront')
     expect(screen.getByLabelText('Morning, Sunday 16 August')).toHaveTextContent('No classes')
     expect(screen.getByLabelText('Morning, Saturday 22 August')).toHaveTextContent('9:00 am')
@@ -180,7 +200,8 @@ describe('SchedulePage reservations', () => {
     expect(screen.getByRole('textbox', { name: 'Name' })).toHaveValue('Alex Murphy')
     expect(screen.getByRole('textbox', { name: /Anything Annie should know/ })).toHaveValue('Please reserve a place near the front.')
     expect(screen.getByRole('link', { name: 'Email Annie' })).toHaveAttribute('href', 'mailto:anniesyoga@yahoo.ie')
-    expect(screen.getByRole('link', { name: 'Call Annie' })).toHaveAttribute('href', 'tel:+447716034570')
+    expect(screen.getByText('Call Annie', { exact: true })).toBeVisible()
+    expect(screen.queryByRole('link', { name: 'Call Annie' })).not.toBeInTheDocument()
   })
 
   it.each([

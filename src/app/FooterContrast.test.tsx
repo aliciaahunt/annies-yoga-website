@@ -5,9 +5,9 @@ import { resolve } from 'node:path'
 import { render } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
-import AboutPage from '@/app/AboutPage'
 import App from '@/app/App'
 import ContactPage from '@/app/ContactPage'
+import NotFoundPage from '@/app/NotFoundPage'
 import PrivateClassesPage from '@/app/PrivateClassesPage'
 import RetreatsPage from '@/app/RetreatsPage'
 import SchedulePage from '@/app/SchedulePage'
@@ -23,9 +23,9 @@ let productionStyles: HTMLStyleElement
 beforeAll(() => {
   const surfaceSelectors = [
     '.site-footer',
+    '.schedule-footer',
     '.contact-section',
     '.weekly-schedule',
-    '.private-enquiry',
     '.retreats-enquiry',
     '.about-page-next-step',
     '.contact-page-details',
@@ -58,25 +58,30 @@ const primaryPages = [
   ['Studio Classes', SchedulePage],
   ['Private Classes', PrivateClassesPage],
   ['Retreats', RetreatsPage],
-  ['About', AboutPage],
   ['Contact', ContactPage],
 ] as const
 
 describe('footer contrast', () => {
-  it('visually separates the footer from the final content section on every primary page', () => {
+  it('uses the weekly schedule banner colour on every primary page', () => {
     primaryPages.forEach(([pageName, Page]) => {
       const { container, unmount } = render(<Page />, { wrapper: MemoryRouter })
-      const finalSection = container.querySelector('main > section:last-child')
       const footer = container.querySelector('footer.site-footer')
 
-      expect(finalSection, `${pageName} should have a final content section`).not.toBeNull()
       expect(footer, `${pageName} should have a standard footer`).not.toBeNull()
-      expect.soft(
+      expect(
         getComputedStyle(footer!).backgroundColor,
-        `${pageName} footer should contrast with its final content section`,
-      ).not.toBe(getComputedStyle(finalSection!).backgroundColor)
+        `${pageName} footer should use the weekly schedule banner's #233329 background`,
+      ).toBe('rgb(35, 51, 41)')
 
       unmount()
     })
+  })
+
+  it('uses the same weekly schedule banner colour for the compact footer', () => {
+    const { container } = render(<NotFoundPage />, { wrapper: MemoryRouter })
+    const footer = container.querySelector('footer.schedule-footer')
+
+    expect(footer).not.toBeNull()
+    expect(getComputedStyle(footer!).backgroundColor).toBe('rgb(35, 51, 41)')
   })
 })

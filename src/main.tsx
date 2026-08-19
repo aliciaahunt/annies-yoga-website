@@ -6,7 +6,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import SchedulePage from '@/app/SchedulePage'
 import PrivateClassesPage from '@/app/PrivateClassesPage'
 import RetreatsPage from '@/app/RetreatsPage'
-import AboutPage from '@/app/AboutPage'
 import ContactPage from '@/app/ContactPage'
 import NotFoundPage from '@/app/NotFoundPage'
 import RouteEffects from '@/components/RouteEffects'
@@ -20,7 +19,6 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/schedule" element={<SchedulePage />} />
         <Route path="/private-classes" element={<PrivateClassesPage />} />
         <Route path="/retreats" element={<RetreatsPage />} />
-        <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

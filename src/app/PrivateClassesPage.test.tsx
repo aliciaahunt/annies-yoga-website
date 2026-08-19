@@ -29,7 +29,9 @@ describe('PrivateClassesPage', () => {
     )
     expect(screen.getByRole('heading', { name: 'Yoga that starts with you.' })).toBeInTheDocument()
     expect(screen.getByText('From £40')).toBeInTheDocument()
-    expect(screen.getAllByRole('button', { name: 'Send an enquiry' })).toHaveLength(2)
+    expect(screen.getAllByRole('button', { name: 'Send an enquiry' })).toHaveLength(1)
+    expect(screen.getByRole('button', { name: 'Send an enquiry' }).closest('section')).toHaveAccessibleName('Private classes introduction')
+    expect(screen.queryByRole('heading', { name: /Not sure what would suit you/i })).not.toBeInTheDocument()
     expect(screen.queryByText('Yoga in schools')).not.toBeInTheDocument()
     expect(screen.queryByText('Teacher training')).not.toBeInTheDocument()
   })
@@ -38,13 +40,14 @@ describe('PrivateClassesPage', () => {
     const user = userEvent.setup()
     render(<PrivateClassesPage />, { wrapper: MemoryRouter })
 
-    const trigger = screen.getAllByRole('button', { name: 'Send an enquiry' })[0]
+    const trigger = screen.getByRole('button', { name: 'Send an enquiry' })
     await user.click(trigger)
 
     const dialog = screen.getByRole('dialog', { name: 'Send Annie an enquiry.' })
     expect(dialog).toBeVisible()
     expect(within(dialog).getByText('Private classes', { selector: '.enquiry-type-summary strong' })).toBeInTheDocument()
-    expect(within(dialog).getByRole('link', { name: /07716 034570/ })).toHaveAttribute('href', 'tel:+447716034570')
+    expect(within(dialog).getByText('07716 034570', { exact: true })).toBeVisible()
+    expect(within(dialog).queryByRole('link', { name: /07716 034570/ })).not.toBeInTheDocument()
     expect(within(dialog).getByRole('link', { name: /anniesyoga@yahoo.ie/ })).toHaveAttribute('href', 'mailto:anniesyoga@yahoo.ie')
 
     await user.click(screen.getByRole('button', { name: 'Close enquiry' }))

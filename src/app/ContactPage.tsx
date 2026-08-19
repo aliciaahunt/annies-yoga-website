@@ -1,6 +1,7 @@
 import { ArrowRight, Mail, MapPin, Phone } from 'lucide-react'
 import { useState } from 'react'
 import EnquiryForm from '@/components/EnquiryForm'
+import PhoneLink from '@/components/PhoneLink'
 import SiteFooter from '@/components/SiteFooter'
 import SiteHeader from '@/components/SiteHeader'
 import SocialIcon from '@/components/SocialIcon'
@@ -31,7 +32,6 @@ export default function ContactPage() {
         <section className="contact-page-hero">
           <div className="section-shell contact-page-hero-grid">
             <div>
-              <p className="eyebrow light">Start where you are</p>
               <h1>Get in touch<br /><em>with Annie.</em></h1>
             </div>
             <p>
@@ -44,13 +44,12 @@ export default function ContactPage() {
         <section className="contact-page-details" aria-labelledby="contact-details-heading">
           <div className="section-shell contact-page-details-grid">
             <div className="contact-page-details-intro">
-              <p className="eyebrow">Let’s talk</p>
               <h2 id="contact-details-heading">Contact <em>Annie</em></h2>
               <p>Call, email or send a quick enquiry below.</p>
               <dl className="contact-details-list">
                 <div>
                   <dt><Phone size={17} aria-hidden="true" /> Phone</dt>
-                  <dd><a href="tel:+447716034570">07716 034570</a></dd>
+                  <dd><PhoneLink>07716 034570</PhoneLink></dd>
                 </div>
                 <div>
                   <dt><Mail size={17} aria-hidden="true" /> Email</dt>

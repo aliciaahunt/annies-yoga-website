@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { ArrowLeft, ArrowRight, Images, X } from 'lucide-react'
+import { ArrowLeft, ArrowRight, CalendarDays, Images, MapPin, X } from 'lucide-react'
+import FeatureCard from '@/components/FeatureCard'
 import { siteUrl } from '@/lib/siteUrl'
 
 export type RetreatJournal = {
@@ -8,7 +9,6 @@ export type RetreatJournal = {
   dates: string
   cover: string
   coverAlt: string
-  description: string
   photos: Array<{ src: string; alt: string }>
 }
 
@@ -59,17 +59,18 @@ export default function RetreatJournalGallery({ journals }: RetreatJournalGaller
     <>
       <div className="retreat-journal-cards">
         {journals.map((journal) => (
-          <button className="retreat-journal-card" key={journal.title} onClick={() => openGallery(journal)} type="button">
-            <span className="retreat-journal-card-image">
-              <img src={siteUrl(journal.cover)} alt={journal.coverAlt} loading="lazy" />
-              <span className="retreat-journal-card-action"><Images size={16} /> View journal</span>
-            </span>
-            <span className="retreat-journal-card-copy">
-              <span>{journal.dates} · {journal.location}</span>
-              <strong>{journal.title}</strong>
-              <span>{journal.description}</span>
-            </span>
-          </button>
+          <FeatureCard
+            action={{ icon: <Images size={17} aria-hidden="true" />, label: 'View journal' }}
+            details={[
+              { icon: <CalendarDays size={17} aria-hidden="true" />, text: journal.dates },
+              { icon: <MapPin size={17} aria-hidden="true" />, text: journal.location },
+            ]}
+            image={journal.cover}
+            imageAlt={journal.coverAlt}
+            key={journal.title}
+            onClick={() => openGallery(journal)}
+            title={journal.title}
+          />
         ))}
       </div>
 

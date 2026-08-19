@@ -3,20 +3,28 @@ import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 import { ArrowRight, Mail, Phone, X } from 'lucide-react'
 import EnquiryForm from '@/components/EnquiryForm'
+import PhoneLink from '@/components/PhoneLink'
 
 export type EnquiryDialogHandle = {
-  open: () => void
+  open: (context?: EnquiryDialogContext) => void
+}
+
+type EnquiryDialogContext = {
+  enquiryType: 'Private classes' | 'Retreats'
+  subject?: string
 }
 
 const EnquiryDialog = forwardRef<EnquiryDialogHandle>(function EnquiryDialog(_, forwardedRef) {
   const [isOpen, setIsOpen] = useState(false)
+  const [context, setContext] = useState<EnquiryDialogContext>({ enquiryType: 'Private classes' })
   const panelRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
   const openerRef = useRef<HTMLElement | null>(null)
 
   useImperativeHandle(forwardedRef, () => ({
-    open() {
+    open(nextContext = { enquiryType: 'Private classes' }) {
       openerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
+      setContext(nextContext)
       setIsOpen(true)
     },
   }))
@@ -66,10 +74,13 @@ const EnquiryDialog = forwardRef<EnquiryDialogHandle>(function EnquiryDialog(_, 
 
   if (!isOpen) return null
 
+  const isRetreat = context.enquiryType === 'Retreats'
+  const dialogLabel = isRetreat && context.subject ? `Enquire about ${context.subject}` : 'Send Annie an enquiry.'
+
   return createPortal(
     <div className="enquiry-dialog-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) closeDialog() }}>
       <div
-        aria-labelledby="private-enquiry-title"
+        aria-label={dialogLabel}
         aria-modal="true"
         className="enquiry-dialog"
         ref={panelRef}
@@ -78,19 +89,19 @@ const EnquiryDialog = forwardRef<EnquiryDialogHandle>(function EnquiryDialog(_, 
         <div className="enquiry-dialog-shell">
         <header>
           <div>
-            <p className="eyebrow">Private classes</p>
-            <h2 id="private-enquiry-title" ref={titleRef} tabIndex={-1}>Send Annie an <em>enquiry.</em></h2>
+            <p className="eyebrow">{isRetreat ? 'Retreat booking' : 'Private classes'}</p>
+            <h2 ref={titleRef} tabIndex={-1}>{isRetreat ? <>Enquire about <em><span>{context.subject}</span>.</em></> : <>Send Annie an <em>enquiry.</em></>}</h2>
             <p>Tell Annie a little about what you’re looking for and she’ll get back to you as soon as she can.</p>
           </div>
           <button aria-label="Close enquiry" onClick={closeDialog} type="button"><X /></button>
         </header>
 
         <div className="enquiry-dialog-contact" aria-label="Contact Annie directly">
-          <a href="tel:+447716034570"><Phone size={17} /><span><small>Call Annie</small>07716 034570</span></a>
+          <PhoneLink><Phone size={17} /><span><small>Call Annie</small>07716 034570</span></PhoneLink>
           <a href="mailto:anniesyoga@yahoo.ie"><Mail size={17} /><span><small>Email Annie</small>anniesyoga@yahoo.ie</span></a>
         </div>
 
-        <EnquiryForm defaultEnquiryType="Private classes" lockEnquiryType />
+        <EnquiryForm key={`${context.enquiryType}-${context.subject ?? ''}`} defaultEnquiryType={context.enquiryType} lockEnquiryType />
 
         <footer>
           <p>Your details are used only to reply to your enquiry and are securely processed by Web3Forms.</p>

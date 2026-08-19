@@ -1,14 +1,9 @@
-import {
-  ArrowDownRight,
-  ArrowRight,
-  CalendarDays,
-  MapPin,
-  Phone,
-} from 'lucide-react'
+import { ArrowRight, MapPin } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import SiteFooter from '@/components/SiteFooter'
 import SiteHeader from '@/components/SiteHeader'
 import BotanicalLeaves from '@/components/BotanicalLeaves'
+import FeatureCard from '@/components/FeatureCard'
 import TeacherCredentials from '@/components/TeacherCredentials'
 import { siteUrl } from '@/lib/siteUrl'
 
@@ -37,7 +32,6 @@ export default function App() {
               <img src={siteUrl('/images/annie-portrait.jpg')} alt="Annie sitting on a yoga mat in a bright studio" />
             </div>
             <div className="about-copy">
-              <p className="eyebrow">Meet your teacher</p>
               <h2>Hi, I'm <em>Annie.</em></h2>
               <p className="large-copy">I've been teaching yoga for over 25 years and I love helping people feel stronger, more confident and more comfortable in their bodies.</p>
               <p>My classes in Strabane and Castlederg are friendly, supportive and open to everyone—whether you're completely new to yoga or have been practising for years.</p>
@@ -56,7 +50,6 @@ export default function App() {
 
         <section className="booking-banner">
           <div>
-            <p className="eyebrow light">Find your practice</p>
             <h2>See the weekly schedule</h2>
           </div>
           <Link className="button button-light" to="/schedule">Book a class <ArrowRight size={18} /></Link>
@@ -65,29 +58,23 @@ export default function App() {
         <section className="stories-section" id="retreats">
           <div className="section-shell">
             <div className="section-title-row">
-              <div><p className="eyebrow">Explore</p><h2>A practice for <em>every season</em></h2></div>
-              <p>Weekly movement, restorative moments and thoughtful escapes from the everyday.</p>
+              <div><h2>A practice for <em>every season</em></h2></div>
             </div>
-            <div className="story-grid">
+            <div className="retreat-journal-cards offering-cards">
               {stories.map((story) => (
-                <Link className="story-card" to={story.href} key={story.title}>
-                  <img src={story.image} alt={story.alt} style={{ objectPosition: story.imagePosition }} />
-                  <span>{story.kicker}</span>
-                  <h3>{story.title}</h3>
-                  <ArrowDownRight aria-hidden="true" />
-                </Link>
+                <FeatureCard
+                  action={{ icon: <ArrowRight size={17} aria-hidden="true" />, label: story.action }}
+                  details={[
+                    { icon: <MapPin size={17} aria-hidden="true" />, text: story.location },
+                  ]}
+                  image={story.image}
+                  imageAlt={story.alt}
+                  imagePosition={story.imagePosition}
+                  key={story.title}
+                  title={story.title}
+                  to={story.href}
+                />
               ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="welcome-section">
-          <div className="section-shell welcome-grid">
-            <p className="eyebrow">Your space to reset</p>
-            <div>
-              <h2>Come as you are.<br />Leave feeling <em>lighter.</em></h2>
-              <p className="large-copy">Annie's Yoga is a warm, down-to-earth space for movement, rest and reconnection. Whether you are brand new or have practised for years, there is room for you here.</p>
-              <Link className="text-link" to="/schedule">Find your class <ArrowRight size={17} /></Link>
             </div>
           </div>
         </section>
@@ -99,16 +86,6 @@ export default function App() {
           />
         </section>
 
-        <section className="contact-section" id="contact">
-          <div className="section-shell contact-grid">
-            <div><p className="eyebrow light">Start where you are</p><h2>Ready to make space <em>for yourself?</em></h2></div>
-            <div className="contact-actions">
-              <a href="tel:+447716034570"><Phone /><span><small>Call Annie</small>07716 034570</span></a>
-              <Link to="/schedule"><CalendarDays /><span><small>Find a class</small>View the timetable</span></Link>
-              <p><MapPin /><span><small>Find us</small>Strabane & Castlederg</span></p>
-            </div>
-          </div>
-        </section>
       </main>
 
       <SiteFooter />
@@ -117,7 +94,7 @@ export default function App() {
 }
 
 const stories = [
-  { kicker: 'Move together', title: 'Weekly classes', image: siteUrl('/images/weekly-class-triangle.jpg'), imagePosition: '78% center', alt: 'A close group of students practising triangle pose together in Annie’s studio', href: '/schedule' },
-  { kicker: 'Step away', title: 'Retreats', image: siteUrl('/images/retreat-garden.jpg'), imagePosition: 'center', alt: 'A green and peaceful retreat garden', href: '/retreats' },
-  { kicker: 'Made for you', title: 'Private classes', image: siteUrl('/images/private-class-guidance.jpg'), imagePosition: 'center', alt: 'Annie giving close individual guidance to a student in a supported backbend', href: '/private-classes' },
+  { title: 'Weekly classes', image: '/images/weekly-class-triangle.jpg', imagePosition: '78% center', alt: 'A close group of students practising triangle pose together in Annie’s studio', location: 'Strabane & Castlederg', action: 'View classes', href: '/schedule' },
+  { title: 'Retreats', image: '/images/retreats/santillan-july-2026/open-air-yoga-pavilion.jpg', imagePosition: 'center', alt: 'Annie seated while retreat guests rest together in the open-air yoga pavilion at Santillan', location: 'Ireland & abroad', action: 'Explore retreats', href: '/retreats' },
+  { title: 'Private classes', image: '/images/private-class-guidance.jpg', imagePosition: 'center', alt: 'Annie giving close individual guidance to a student in a supported backbend', location: 'Personalised support', action: 'Discover private classes', href: '/private-classes' },
 ]

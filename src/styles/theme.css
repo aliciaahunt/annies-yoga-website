@@ -13,6 +13,7 @@
   --ink: #1f2c24;
   --muted: #657066;
   --line: rgba(35, 51, 41, 0.18);
+  --page-gutter: 56px;
   --serif: 'Quicksand', 'Avenir Next', Avenir, sans-serif;
   --sans: 'DM Sans', Arial, sans-serif;
 }

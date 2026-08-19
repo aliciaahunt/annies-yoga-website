@@ -1,4 +1,5 @@
 import HCaptcha from '@hcaptcha/react-hcaptcha'
+import PhoneLink from '@/components/PhoneLink'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { CLASS_PRICE_PLANS } from '@/app/classPricing'
 import type { YogaClass } from '@/app/scheduleData'
@@ -136,7 +137,7 @@ export default function ClassReservationForm({ selectedClass }: ClassReservation
             {showFallback && (
               <nav className="reservation-fallback-links" aria-label="Contact Annie directly">
                 <a href="mailto:anniesyoga@yahoo.ie">Email Annie</a>
-                <a href="tel:+447716034570">Call Annie</a>
+                <PhoneLink>Call Annie</PhoneLink>
               </nav>
             )}
           </div>

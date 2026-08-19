@@ -15,7 +15,9 @@ test('studio and private class pages use the same desktop hero height', async ({
 
 test('an externally mounted captcha challenge appears above the private enquiry', async ({ page }) => {
   await page.goto('private-classes')
-  await page.getByRole('button', { name: 'Send an enquiry' }).first().click()
+  const enquiryButton = page.getByRole('button', { name: 'Send an enquiry' })
+  await expect(enquiryButton).toHaveCount(1)
+  await enquiryButton.click()
 
   const hitElementId = await page.evaluate(() => {
     const challenge = document.createElement('div')

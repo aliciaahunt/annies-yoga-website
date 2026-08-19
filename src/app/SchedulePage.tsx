@@ -5,11 +5,10 @@ import {
   ChevronRight,
   Clock3,
   MapPin,
-  Phone,
   X,
 } from 'lucide-react'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
-import { CLASS_PACKAGE_TERMS, CLASS_PRICE_PLANS, packagePricePerClass } from './classPricing'
+import { CLASS_PRICE_PLANS } from './classPricing'
 import { classesForDate, isChristmasClosure, type YogaClass } from './scheduleData'
 import ClassReservationForm from '@/components/ClassReservationForm'
 import PageHero from '@/components/PageHero'
@@ -51,7 +50,6 @@ export default function SchedulePage() {
       <main>
         <PageHero
           ariaLabel="Studio classes introduction"
-          eyebrow="Move with Annie"
           image={{
             src: '/images/studio-yoga-class.jpg',
             alt: "Annie's students practising yoga together in the studio",
@@ -72,18 +70,13 @@ export default function SchedulePage() {
 
             <section className="schedule-pricing" aria-label="Class pricing">
               <header className="schedule-pricing-heading">
-                <p className="eyebrow">Class pricing</p>
-                <h3>Find your <em>rhythm.</em></h3>
-                <p>Come along when it suits you, or settle into a regular six-week practice.</p>
+                <h3>Class Pricing</h3>
               </header>
               <div className="schedule-pricing-plans">
                 {Object.values(CLASS_PRICE_PLANS).map((plan) => (
                   <article className={`schedule-price-plan schedule-price-plan-${plan.activity}`} aria-label={`${plan.label} pricing`} key={plan.activity}>
-                    <PricingBotanical activity={plan.activity} />
                     <header>
-                      <span aria-hidden="true">0{plan.activity === 'yoga' ? '1' : '2'}</span>
                       <h4>{plan.label}</h4>
-                      <p>{plan.description}</p>
                     </header>
                     <dl>
                       <div className="schedule-price-choice">
@@ -92,18 +85,14 @@ export default function SchedulePage() {
                         <p>{plan.dropInDescription}</p>
                       </div>
                       <div className="schedule-price-choice is-package">
-                        <dt>Six-week package</dt>
+                        <dt>Six-week bundle</dt>
                         <dd><strong>£{plan.packagePrice}</strong><span>for six classes</span></dd>
-                        <p>{plan.packageDescription} · £{formatPrice(packagePricePerClass(plan))} per class</p>
+                        <p>{plan.packageDescription}</p>
                       </div>
                     </dl>
                   </article>
                 ))}
               </div>
-              <p className="schedule-price-terms">
-                <span>{CLASS_PACKAGE_TERMS.paymentTiming}</span>
-                Six classes over six consecutive weeks. Please speak directly to Annie to arrange your package.
-              </p>
             </section>
 
             <div className="week-controls" aria-label="Schedule week controls">
@@ -127,10 +116,6 @@ export default function SchedulePage() {
               />
             ) : <DesktopSchedule week={week} onChooseClass={chooseClass} />}
 
-            <aside className="schedule-help">
-              <div><Phone /><div><h3>Need help choosing?</h3><p>Call Annie and she'll help you find the right class.</p></div></div>
-              <a href="tel:+447716034570">07716 034570 <ArrowRight size={17} /></a>
-            </aside>
           </div>
         </section>
       </main>
@@ -163,23 +148,6 @@ export default function SchedulePage() {
       </dialog>
     </div>
   )
-}
-
-function PricingBotanical({ activity }: { activity: 'yoga' | 'pilates' }) {
-  const isYoga = activity === 'yoga'
-  return (
-    <svg className="schedule-price-botanical" viewBox="0 0 180 240" aria-hidden="true">
-      <path d={isYoga ? 'M12 234C42 189 51 124 42 35' : 'M168 234C139 186 128 124 139 28'} />
-      <path d={isYoga ? 'M43 170C72 152 88 129 94 101M45 126C20 107 11 84 12 61M42 82C66 68 78 49 81 27' : 'M137 174C108 156 93 132 87 104M136 126C160 107 169 84 168 60M139 79C116 65 104 47 101 25'} />
-      <ellipse cx={isYoga ? 96 : 85} cy="96" rx="11" ry="28" transform={`rotate(${isYoga ? 38 : -38} ${isYoga ? 96 : 85} 96)`} />
-      <ellipse cx={isYoga ? 11 : 169} cy="56" rx="10" ry="25" transform={`rotate(${isYoga ? -35 : 35} ${isYoga ? 11 : 169} 56)`} />
-      <ellipse cx={isYoga ? 82 : 99} cy="23" rx="9" ry="23" transform={`rotate(${isYoga ? 31 : -31} ${isYoga ? 82 : 99} 23)`} />
-    </svg>
-  )
-}
-
-function formatPrice(price: number) {
-  return Number.isInteger(price) ? String(price) : price.toFixed(2)
 }
 
 type ScheduleProps = {
