@@ -8,18 +8,28 @@ import {
   Phone,
   X,
 } from 'lucide-react'
-import { useRef, useState } from 'react'
-import { weeklyClasses, type YogaClass } from './scheduleData'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { CLASS_PACKAGE_TERMS, CLASS_PRICE_PLANS, packagePricePerClass } from './classPricing'
+import { classesForDate, isChristmasClosure, type YogaClass } from './scheduleData'
+import ClassReservationForm from '@/components/ClassReservationForm'
+import PageHero from '@/components/PageHero'
 import SiteFooter from '@/components/SiteFooter'
 import SiteHeader from '@/components/SiteHeader'
-import { siteUrl } from '@/lib/siteUrl'
 
 type SelectedClass = YogaClass & { date: Date }
 
 const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+const HOUR_HEIGHT = 84
+const MOBILE_BREAKPOINT = '(max-width: 700px)'
+const TIME_BANDS = [
+  { id: 'morning', label: 'Morning', startMinutes: 8 * 60 + 30, endMinutes: 12 * 60 + 45 },
+  { id: 'evening', label: 'Evening', startMinutes: 16 * 60, endMinutes: 21 * 60 + 15 },
+] as const
 
 export default function SchedulePage() {
   const [weekStart, setWeekStart] = useState(() => startOfWeek(new Date()))
+  const [selectedDayIndex, setSelectedDayIndex] = useState(() => new Date().getDay())
+  const isMobile = useMediaQuery(MOBILE_BREAKPOINT)
   const [selectedClass, setSelectedClass] = useState<SelectedClass | null>(null)
   const dialogRef = useRef<HTMLDialogElement>(null)
   const week = Array.from({ length: 7 }, (_, index) => addDays(weekStart, index))
@@ -39,11 +49,16 @@ export default function SchedulePage() {
       <SiteHeader />
 
       <main>
-        <section className="schedule-hero">
-          <img src={siteUrl('/images/studio-yoga-class.jpg')} alt="Annie's students practising yoga together in the studio" />
-          <div className="schedule-hero-shade" aria-hidden="true" />
-          <div><p className="eyebrow light">Move with Annie</p><h1>Book a <em>class</em></h1></div>
-        </section>
+        <PageHero
+          ariaLabel="Studio classes introduction"
+          eyebrow="Move with Annie"
+          image={{
+            src: '/images/studio-yoga-class.jpg',
+            alt: "Annie's students practising yoga together in the studio",
+            position: 'center 44%',
+          }}
+          title={<>Book a <em>class</em></>}
+        />
 
         <section className="weekly-schedule" id="weekly-schedule">
           <div className="schedule-shell">
@@ -52,8 +67,44 @@ export default function SchedulePage() {
                 <p className="eyebrow">Classes in Strabane & Castlederg</p>
                 <h2>Weekly Class Schedule</h2>
               </div>
-              <p>Choose a class below, then book your place directly with Annie. Classes are welcoming and clearly marked by level.</p>
+              <p>Choose a class below and send Annie a reservation request. Classes are welcoming and clearly marked by level.</p>
             </div>
+
+            <section className="schedule-pricing" aria-label="Class pricing">
+              <header className="schedule-pricing-heading">
+                <p className="eyebrow">Class pricing</p>
+                <h3>Find your <em>rhythm.</em></h3>
+                <p>Come along when it suits you, or settle into a regular six-week practice.</p>
+              </header>
+              <div className="schedule-pricing-plans">
+                {Object.values(CLASS_PRICE_PLANS).map((plan) => (
+                  <article className={`schedule-price-plan schedule-price-plan-${plan.activity}`} aria-label={`${plan.label} pricing`} key={plan.activity}>
+                    <PricingBotanical activity={plan.activity} />
+                    <header>
+                      <span aria-hidden="true">0{plan.activity === 'yoga' ? '1' : '2'}</span>
+                      <h4>{plan.label}</h4>
+                      <p>{plan.description}</p>
+                    </header>
+                    <dl>
+                      <div className="schedule-price-choice">
+                        <dt>Single class</dt>
+                        <dd><strong>£{plan.singleClassPrice}</strong><span>per class</span></dd>
+                        <p>{plan.dropInDescription}</p>
+                      </div>
+                      <div className="schedule-price-choice is-package">
+                        <dt>Six-week package</dt>
+                        <dd><strong>£{plan.packagePrice}</strong><span>for six classes</span></dd>
+                        <p>{plan.packageDescription} · £{formatPrice(packagePricePerClass(plan))} per class</p>
+                      </div>
+                    </dl>
+                  </article>
+                ))}
+              </div>
+              <p className="schedule-price-terms">
+                <span>{CLASS_PACKAGE_TERMS.paymentTiming}</span>
+                Six classes over six consecutive weeks. Please speak directly to Annie to arrange your package.
+              </p>
+            </section>
 
             <div className="week-controls" aria-label="Schedule week controls">
               <button type="button" onClick={() => setWeekStart(addDays(weekStart, -7))} aria-label="Previous week"><ChevronLeft /></button>
@@ -67,33 +118,14 @@ export default function SchedulePage() {
               )}
             </div>
 
-            <div className="calendar-grid">
-              {week.map((date) => {
-                const dayName = DAY_NAMES[date.getDay()]
-                const dayClasses = weeklyClasses.filter((item) => item.day === dayName)
-                return (
-                  <section className={`calendar-day${isSameDay(date, new Date()) ? ' is-today' : ''}`} key={date.toISOString()}>
-                    <header>
-                      <span>{dayName.slice(0, 3)}</span>
-                      <strong>{date.getDate()}</strong>
-                      <small>{date.toLocaleDateString('en-GB', { month: 'short' })}</small>
-                    </header>
-                    <div className="calendar-day-events">
-                      {dayClasses.length ? dayClasses.map((item) => (
-                        <article className="class-event" key={`${item.name}-${item.time}-${item.place}`}>
-                          <time>{item.time}</time>
-                          <h3>{item.name}</h3>
-                          <p>{item.level}</p>
-                          <p><MapPin size={14} />{item.place}</p>
-                          <p><Clock3 size={14} />{item.duration}</p>
-                          <button type="button" onClick={() => chooseClass(item, date)}>Book <ArrowRight size={14} /></button>
-                        </article>
-                      )) : <p className="no-classes">No classes</p>}
-                    </div>
-                  </section>
-                )
-              })}
-            </div>
+            {isMobile ? (
+              <MobileSchedule
+                week={week}
+                selectedDayIndex={selectedDayIndex}
+                onSelectDay={setSelectedDayIndex}
+                onChooseClass={chooseClass}
+              />
+            ) : <DesktopSchedule week={week} onChooseClass={chooseClass} />}
 
             <aside className="schedule-help">
               <div><Phone /><div><h3>Need help choosing?</h3><p>Call Annie and she'll help you find the right class.</p></div></div>
@@ -105,24 +137,216 @@ export default function SchedulePage() {
 
       <SiteFooter />
 
-      <dialog className="booking-dialog" ref={dialogRef} onClose={() => setSelectedClass(null)}>
+      <dialog
+        className="booking-dialog"
+        ref={dialogRef}
+        aria-labelledby="booking-dialog-title"
+        onClick={(event) => {
+          if (event.target === event.currentTarget) closeDialog()
+        }}
+        onClose={() => setSelectedClass(null)}
+      >
         {selectedClass && (
           <div>
             <button className="dialog-close" type="button" onClick={closeDialog} aria-label="Close booking dialog"><X /></button>
             <p className="eyebrow">Reserve your place</p>
-            <h2>{selectedClass.name}</h2>
+            <h2 id="booking-dialog-title">Reserve {selectedClass.name}</h2>
             <dl>
               <div><dt>Date</dt><dd>{selectedClass.date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })}</dd></div>
               <div><dt>Time</dt><dd>{selectedClass.time} · {selectedClass.duration}</dd></div>
               <div><dt>Location</dt><dd>{selectedClass.place}</dd></div>
               <div><dt>Level</dt><dd>{selectedClass.level}</dd></div>
             </dl>
-            <p>Booking is currently handled directly by Annie. Call now and mention the class and date above.</p>
-            <a className="button button-dark" href="tel:+447716034570"><Phone size={17} /> Call 07716 034570</a>
+            <ClassReservationForm selectedClass={selectedClass} />
           </div>
         )}
       </dialog>
     </div>
+  )
+}
+
+function PricingBotanical({ activity }: { activity: 'yoga' | 'pilates' }) {
+  const isYoga = activity === 'yoga'
+  return (
+    <svg className="schedule-price-botanical" viewBox="0 0 180 240" aria-hidden="true">
+      <path d={isYoga ? 'M12 234C42 189 51 124 42 35' : 'M168 234C139 186 128 124 139 28'} />
+      <path d={isYoga ? 'M43 170C72 152 88 129 94 101M45 126C20 107 11 84 12 61M42 82C66 68 78 49 81 27' : 'M137 174C108 156 93 132 87 104M136 126C160 107 169 84 168 60M139 79C116 65 104 47 101 25'} />
+      <ellipse cx={isYoga ? 96 : 85} cy="96" rx="11" ry="28" transform={`rotate(${isYoga ? 38 : -38} ${isYoga ? 96 : 85} 96)`} />
+      <ellipse cx={isYoga ? 11 : 169} cy="56" rx="10" ry="25" transform={`rotate(${isYoga ? -35 : 35} ${isYoga ? 11 : 169} 56)`} />
+      <ellipse cx={isYoga ? 82 : 99} cy="23" rx="9" ry="23" transform={`rotate(${isYoga ? 31 : -31} ${isYoga ? 82 : 99} 23)`} />
+    </svg>
+  )
+}
+
+function formatPrice(price: number) {
+  return Number.isInteger(price) ? String(price) : price.toFixed(2)
+}
+
+type ScheduleProps = {
+  week: Date[]
+  onChooseClass: (item: YogaClass, date: Date) => void
+}
+
+function DesktopSchedule({ week, onChooseClass }: ScheduleProps) {
+  return (
+    <div className="timetable-scroll" tabIndex={0} aria-label="Weekly class timetable. Scroll horizontally to see every day.">
+      <div className="timetable">
+        <div className="timetable-corner" aria-hidden="true"><Clock3 size={17} /><span>Time</span></div>
+        <div className="timetable-days">
+          {week.map((date) => <DayHeader date={date} key={date.toISOString()} />)}
+        </div>
+        <TimetableBand band={TIME_BANDS[0]} week={week} onChooseClass={onChooseClass} showEmptyState />
+        <div className="timetable-break-label" aria-hidden="true"><span>Break</span></div>
+        <div className="timetable-break">
+          <span aria-hidden="true" />
+          <p>Afternoon break <small>No classes scheduled 12:45–4:00 pm</small></p>
+          <span aria-hidden="true" />
+        </div>
+        <TimetableBand band={TIME_BANDS[1]} week={week} onChooseClass={onChooseClass} />
+      </div>
+    </div>
+  )
+}
+
+type TimeBand = (typeof TIME_BANDS)[number]
+
+type TimetableBandProps = ScheduleProps & {
+  band: TimeBand
+  showEmptyState?: boolean
+}
+
+function TimetableBand({ band, week, onChooseClass, showEmptyState = false }: TimetableBandProps) {
+  const canvasHeight = ((band.endMinutes - band.startMinutes) / 60) * HOUR_HEIGHT
+  const firstHour = Math.ceil(band.startMinutes / 60)
+  const lastHour = Math.floor(band.endMinutes / 60)
+  const markers = Array.from({ length: lastHour - firstHour + 1 }, (_, index) => firstHour + index)
+  const bandStyle = { '--time-band-height': `${canvasHeight}px` } as CSSProperties
+
+  return (
+    <>
+      <div className="time-axis" style={bandStyle} aria-hidden="true">
+        {markers.map((hour) => (
+          <span
+            className={hour * 60 === band.startMinutes ? 'is-band-start' : undefined}
+            key={hour}
+            style={{ top: `${((hour * 60 - band.startMinutes) / 60) * HOUR_HEIGHT}px` }}
+          >
+            {formatHour(hour)}
+          </span>
+        ))}
+      </div>
+      <div className="timetable-canvas" data-time-band={band.id} style={bandStyle}>
+        <div className="hour-lines" aria-hidden="true">
+          {markers.map((hour) => (
+            <span key={hour} style={{ top: `${((hour * 60 - band.startMinutes) / 60) * HOUR_HEIGHT}px` }} />
+          ))}
+        </div>
+        {week.map((date) => {
+          const allDayClasses = classesForDate(date)
+          const bandClasses = allDayClasses.filter(
+            (item) => item.startMinutes >= band.startMinutes && item.startMinutes < band.endMinutes,
+          )
+          return (
+            <section
+              className={`timetable-day${isSameDay(date, new Date()) ? ' is-today' : ''}`}
+              aria-label={`${band.label}, ${formatFullDate(date)}`}
+              key={date.toISOString()}
+            >
+              {bandClasses.map((item) => (
+                <ClassCard
+                  item={item}
+                  date={date}
+                  positionFromMinutes={band.startMinutes}
+                  onChooseClass={onChooseClass}
+                  key={`${item.name}-${item.time}-${item.place}`}
+                />
+              ))}
+              {showEmptyState && !allDayClasses.length && (
+                <p className="no-classes">{isChristmasClosure(date) ? 'Closed for Christmas' : 'No classes'}</p>
+              )}
+            </section>
+          )
+        })}
+      </div>
+    </>
+  )
+}
+
+type MobileScheduleProps = ScheduleProps & {
+  selectedDayIndex: number
+  onSelectDay: (index: number) => void
+}
+
+function MobileSchedule({ week, selectedDayIndex, onSelectDay, onChooseClass }: MobileScheduleProps) {
+  const date = week[selectedDayIndex]
+  const dayClasses = classesForDate(date)
+
+  return (
+    <div className="mobile-schedule">
+      <nav className="mobile-day-tabs" aria-label="Choose a day">
+        {week.map((day, index) => (
+          <button
+            className={`${index === selectedDayIndex ? 'is-active' : ''}${isSameDay(day, new Date()) ? ' is-today' : ''}`}
+            type="button"
+            aria-label={`Select ${formatFullDate(day)}`}
+            aria-pressed={index === selectedDayIndex}
+            onClick={() => onSelectDay(index)}
+            key={day.toISOString()}
+          >
+            <span>{DAY_NAMES[day.getDay()].slice(0, 3)}</span>
+            <strong>{day.getDate()}</strong>
+          </button>
+        ))}
+      </nav>
+      <section className="mobile-day-schedule" aria-label={formatFullDate(date)}>
+        <header><h3>{formatFullDate(date)}</h3><span>{dayClasses.length} {dayClasses.length === 1 ? 'class' : 'classes'}</span></header>
+        <div className="mobile-class-list">
+          {dayClasses.map((item) => (
+            <ClassCard item={item} date={date} onChooseClass={onChooseClass} key={`${item.name}-${item.time}-${item.place}`} />
+          ))}
+          {!dayClasses.length && <p className="mobile-no-classes">{isChristmasClosure(date) ? 'Closed for Christmas Day and Boxing Day.' : 'No classes scheduled.'}</p>}
+        </div>
+      </section>
+    </div>
+  )
+}
+
+function DayHeader({ date }: { date: Date }) {
+  return (
+    <div className={isSameDay(date, new Date()) ? 'is-today' : undefined}>
+      <span>{DAY_NAMES[date.getDay()].slice(0, 3)}</span>
+      <strong>{date.getDate()}</strong>
+      <small>{date.toLocaleDateString('en-GB', { month: 'short' })}</small>
+    </div>
+  )
+}
+
+type ClassCardProps = {
+  item: YogaClass
+  date: Date
+  positionFromMinutes?: number
+  onChooseClass: (item: YogaClass, date: Date) => void
+}
+
+function ClassCard({ item, date, positionFromMinutes, onChooseClass }: ClassCardProps) {
+  const positioned = positionFromMinutes !== undefined
+  const classType = item.name.toLowerCase().includes('pilates') ? 'pilates' : 'yoga'
+  const style = positioned
+    ? { '--event-top': `${((item.startMinutes - positionFromMinutes) / 60) * HOUR_HEIGHT}px` } as CSSProperties
+    : undefined
+
+  return (
+    <article className={`class-event class-event-${classType}${positioned ? ' is-positioned' : ''}`} style={style}>
+      <div className="class-event-topline"><time>{item.time}</time><span className="level-badge">{item.level}</span></div>
+      <h3>{item.name}</h3>
+      <div className="class-event-details">
+        <span><MapPin size={13} aria-hidden="true" />{item.place}</span>
+        <span><Clock3 size={13} aria-hidden="true" />{item.duration}</span>
+      </div>
+      <button type="button" onClick={() => onChooseClass(item, date)}>
+        Book <ArrowRight size={13} aria-hidden="true" />
+      </button>
+    </article>
   )
 }
 
@@ -147,4 +371,28 @@ function formatWeekRange(start: Date) {
   const startText = start.toLocaleDateString('en-GB', { day: 'numeric', month: start.getMonth() === end.getMonth() ? undefined : 'short' })
   const endText = end.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
   return `${startText} – ${endText}`
+}
+
+function formatHour(hour: number) {
+  if (hour === 12) return '12 pm'
+  return hour > 12 ? `${hour - 12} pm` : `${hour} am`
+}
+
+function formatFullDate(date: Date) {
+  return date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })
+}
+
+function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(() => typeof window.matchMedia === 'function' && window.matchMedia(query).matches)
+
+  useEffect(() => {
+    if (typeof window.matchMedia !== 'function') return
+    const mediaQuery = window.matchMedia(query)
+    const updateMatch = () => setMatches(mediaQuery.matches)
+    updateMatch()
+    mediaQuery.addEventListener('change', updateMatch)
+    return () => mediaQuery.removeEventListener('change', updateMatch)
+  }, [query])
+
+  return matches
 }

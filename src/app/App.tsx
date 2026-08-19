@@ -8,6 +8,7 @@ import {
 import { Link } from 'react-router-dom'
 import SiteFooter from '@/components/SiteFooter'
 import SiteHeader from '@/components/SiteHeader'
+import BotanicalLeaves from '@/components/BotanicalLeaves'
 import TeacherCredentials from '@/components/TeacherCredentials'
 import { siteUrl } from '@/lib/siteUrl'
 
@@ -70,7 +71,7 @@ export default function App() {
             <div className="story-grid">
               {stories.map((story) => (
                 <Link className="story-card" to={story.href} key={story.title}>
-                  <img src={story.image} alt={story.alt} />
+                  <img src={story.image} alt={story.alt} style={{ objectPosition: story.imagePosition }} />
                   <span>{story.kicker}</span>
                   <h3>{story.title}</h3>
                   <ArrowDownRight aria-hidden="true" />
@@ -91,8 +92,11 @@ export default function App() {
           </div>
         </section>
 
-        <section className="gallery-strip" aria-label="Life at Annie's Yoga">
-          {gallery.map((photo) => <img key={photo.src} src={photo.src} alt={photo.alt} />)}
+        <section className="closing-image-banner">
+          <img
+            src={siteUrl('/images/annie-yoga-with-dog.jpg')}
+            alt="Annie practising downward-facing dog with a puppy beside the Donegal coast"
+          />
         </section>
 
         <section className="contact-section" id="contact">
@@ -112,24 +116,8 @@ export default function App() {
   )
 }
 
-function BotanicalLeaves() {
-  return (
-    <svg className="botanical-leaves" viewBox="0 0 1200 520" aria-hidden="true">
-      <g className="leaf-branch branch-one"><path d="M92 520C104 369 171 211 326 51" /><path d="M158 360C105 330 75 285 64 231M194 292C248 264 279 221 287 169M123 428C76 405 51 370 39 331" /><ellipse cx="68" cy="227" rx="20" ry="56" transform="rotate(-38 68 227)" /><ellipse cx="290" cy="166" rx="20" ry="58" transform="rotate(40 290 166)" /><ellipse cx="38" cy="328" rx="18" ry="50" transform="rotate(-40 38 328)" /></g>
-      <g className="leaf-branch branch-two"><path d="M1120 520C1104 365 1038 216 886 55" /><path d="M1053 356C1104 326 1135 281 1145 227M1017 289C962 260 933 216 925 165M1088 427C1135 402 1161 367 1171 327" /><ellipse cx="1143" cy="224" rx="20" ry="56" transform="rotate(38 1143 224)" /><ellipse cx="922" cy="162" rx="20" ry="58" transform="rotate(-40 922 162)" /><ellipse cx="1172" cy="324" rx="18" ry="50" transform="rotate(40 1172 324)" /></g>
-    </svg>
-  )
-}
-
 const stories = [
-  { kicker: 'Move together', title: 'Weekly classes', image: siteUrl('/images/studio-yoga-class.jpg'), alt: 'A yoga class practising together in a studio', href: '/schedule' },
-  { kicker: 'Step away', title: 'Retreats', image: siteUrl('/images/retreat-garden.jpg'), alt: 'A green and peaceful retreat garden', href: '/retreats' },
-  { kicker: 'Made for you', title: 'Private classes', image: siteUrl('/images/studio-seated-yoga.jpg'), alt: 'A seated yoga class moving gently together', href: '/private-classes' },
-]
-
-const gallery = [
-  { src: siteUrl('/images/garden-class-mats.jpg'), alt: 'Yoga mats ready for an outdoor class' },
-  { src: siteUrl('/images/class-group-smiling.jpg'), alt: 'A smiling yoga class together' },
-  { src: siteUrl('/images/retreat-lunch-spread.jpg'), alt: 'A colourful lunch at a yoga retreat' },
-  { src: siteUrl('/images/ireland-retreat-beach-panorama.jpg'), alt: 'A wide beach beside the sea in Ireland' },
+  { kicker: 'Move together', title: 'Weekly classes', image: siteUrl('/images/weekly-class-triangle.jpg'), imagePosition: '78% center', alt: 'A close group of students practising triangle pose together in Annie’s studio', href: '/schedule' },
+  { kicker: 'Step away', title: 'Retreats', image: siteUrl('/images/retreat-garden.jpg'), imagePosition: 'center', alt: 'A green and peaceful retreat garden', href: '/retreats' },
+  { kicker: 'Made for you', title: 'Private classes', image: siteUrl('/images/private-class-guidance.jpg'), imagePosition: 'center', alt: 'Annie giving close individual guidance to a student in a supported backbend', href: '/private-classes' },
 ]

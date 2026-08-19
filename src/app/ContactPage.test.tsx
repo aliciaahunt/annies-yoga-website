@@ -14,10 +14,10 @@ describe('ContactPage', () => {
     const formHeading = screen.getByRole('heading', { name: 'Send an enquiry' })
     const locationsHeading = screen.getByRole('heading', { name: 'Find your class' })
 
-    expect(screen.getByRole('link', { name: 'anniesyoga@yahoo.ie' })).toHaveAttribute(
-      'href',
-      'mailto:anniesyoga@yahoo.ie',
-    )
+    expect(screen.getAllByRole('link', { name: 'anniesyoga@yahoo.ie' })).toHaveLength(2)
+    screen.getAllByRole('link', { name: 'anniesyoga@yahoo.ie' }).forEach((link) => {
+      expect(link).toHaveAttribute('href', 'mailto:anniesyoga@yahoo.ie')
+    })
     expect(screen.getByRole('form', { name: 'Send an enquiry' })).toBeInTheDocument()
     expect(formHeading.compareDocumentPosition(locationsHeading) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
   })

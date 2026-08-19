@@ -12,7 +12,12 @@ const enquiryTypes = [
   'Other',
 ]
 
-export default function EnquiryForm() {
+type EnquiryFormProps = {
+  defaultEnquiryType?: string
+  lockEnquiryType?: boolean
+}
+
+export default function EnquiryForm({ defaultEnquiryType, lockEnquiryType = false }: EnquiryFormProps) {
   const [captchaToken, setCaptchaToken] = useState('')
   const [error, setError] = useState('')
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle')
@@ -97,17 +102,31 @@ export default function EnquiryForm() {
         </div>
       </div>
 
-      <fieldset className="enquiry-type-fieldset">
-        <legend>What can Annie help with?</legend>
-        <div className="enquiry-type-options">
-          {enquiryTypes.map((type) => (
-            <label key={type}>
-              <input type="radio" name="enquiry_type" value={type} required />
-              <span>{type}</span>
-            </label>
-          ))}
+      {lockEnquiryType && defaultEnquiryType ? (
+        <div className="enquiry-type-summary">
+          <span>Enquiry about</span>
+          <strong>{defaultEnquiryType}</strong>
+          <input type="hidden" name="enquiry_type" value={defaultEnquiryType} />
         </div>
-      </fieldset>
+      ) : (
+        <fieldset className="enquiry-type-fieldset">
+          <legend>What can Annie help with?</legend>
+          <div className="enquiry-type-options">
+            {enquiryTypes.map((type) => (
+              <label key={type}>
+                <input
+                  type="radio"
+                  name="enquiry_type"
+                  value={type}
+                  defaultChecked={type === defaultEnquiryType}
+                  required
+                />
+                <span>{type}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      )}
 
       <div className="enquiry-form-field">
         <label htmlFor="enquiry-message">Message</label>

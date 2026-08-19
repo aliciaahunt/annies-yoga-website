@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="94.117 2.8725 340.255 340.255" role="img" aria-label="Lotus favicon">
   <!-- Centre petal: 2 single cubic curves -->
-  <path fill="#ADBAA3" d="
+  <path fill="#6E907D" d="
     M 264 58
     C 202.691 118.158 202.361 226.298 265 285
     C 326.633 225.191 326.999 116.347 264 58
     Z"/>
 
   <!-- Left rear petal: 4 single cubic curves -->
-  <path fill="#ADBAA3" d="
+  <path fill="#6E907D" d="
     M 171 77
     C 166.020 92.318 161.325 107.754 161 125
     C 175.861 130.588 189.719 138.597 203 148
@@ -16,7 +16,7 @@
     Z"/>
 
   <!-- Right rear petal: 4 single cubic curves -->
-  <path fill="#ADBAA3" d="
+  <path fill="#6E907D" d="
     M 354 75
     C 339.723 82.194 325.791 90.219 313 101
     C 318.320 116.258 324.323 131.233 326 148
@@ -25,7 +25,7 @@
     Z"/>
 
   <!-- Left side petal: 3 single cubic curves -->
-  <path fill="#ADBAA3" d="
+  <path fill="#6E907D" d="
     M 96 128
     C 94.117 210.661 164.546 284.474 246 288
     C 217.228 253.371 201.113 213.500 201 167
@@ -33,7 +33,7 @@
     Z"/>
 
   <!-- Right side petal: 3 single cubic curves -->
-  <path fill="#ADBAA3" d="
+  <path fill="#6E907D" d="
     M 328 167
     C 328.491 213.750 311.844 253.401 283 288
     C 365.081 284.930 434.372 210.018 434 128
