@@ -16,7 +16,7 @@ describe('retreats page ending', () => {
 })
 
 describe('upcoming retreat details', () => {
-  it('presents Dromantine as the only upcoming retreat with six concise bullet points', () => {
+  it('presents Dromantine as the only upcoming retreat with four concise bullet points', () => {
     render(<RetreatsPage />, { wrapper: MemoryRouter })
 
     const expectedDetails = {
@@ -24,9 +24,7 @@ describe('upcoming retreat details', () => {
         '10 hours of Iyengar yoga',
         'Two nights’ ensuite accommodation',
         'Breakfast, lunch and dinner included',
-        'Vegetarian meals, with dietary needs accommodated',
         '£395 per person',
-        'Travel to Dromantine not included',
       ],
     }
 
@@ -36,7 +34,7 @@ describe('upcoming retreat details', () => {
       if (!card) throw new Error(`${retreat} card was not found`)
 
       const list = within(card).getByRole('list')
-      expect(within(list).getAllByRole('listitem')).toHaveLength(6)
+      expect(within(list).getAllByRole('listitem')).toHaveLength(4)
       expect(within(list).getAllByRole('listitem').map((item) => item.textContent)).toEqual(details)
     }
 

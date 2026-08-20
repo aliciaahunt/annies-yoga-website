@@ -158,26 +158,26 @@ test('hovering the upcoming retreat enlarges the complete card as one unit', asy
   }
 })
 
-test('the upcoming retreat presents six concise details', async ({ page }) => {
+test('the upcoming retreat presents four concise details', async ({ page }) => {
   await page.goto('retreats')
 
   for (const heading of ['Dromantine Retreat Centre']) {
     const card = page.locator('.retreat-card').filter({ has: page.getByRole('heading', { name: heading }) })
     const details = card.getByRole('list').getByRole('listitem')
-    await expect(details).toHaveCount(6)
+    await expect(details).toHaveCount(4)
     await expect(details.first()).toContainText('Iyengar yoga')
     await expect(details.nth(1)).toContainText('accommodation')
-    await expect(details.nth(4)).toContainText('per person')
+    await expect(details.nth(3)).toContainText('per person')
   }
 })
 
-test('the upcoming retreat clearly shows booking status and travel exclusions', async ({ page }) => {
+test('the upcoming retreat clearly shows booking status and included meals', async ({ page }) => {
   await page.goto('retreats')
 
   const dromantine = page.locator('.retreat-card').filter({ has: page.getByRole('heading', { name: 'Dromantine Retreat Centre' }) })
   await expect(dromantine.getByText('Bookings open', { exact: true })).toBeVisible()
   await expect(dromantine.getByText('Breakfast, lunch and dinner included', { exact: true })).toBeVisible()
-  await expect(dromantine.getByText('Travel to Dromantine not included', { exact: true })).toBeVisible()
+  await expect(dromantine.getByText('Travel to Dromantine not included', { exact: true })).toHaveCount(0)
   await expect(page.getByRole('heading', { name: 'Locanda della Quercia Calante' })).toHaveCount(0)
 })
 

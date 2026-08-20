@@ -139,9 +139,7 @@ export default function RetreatsPage() {
                     <li>10 hours of Iyengar yoga</li>
                     <li>Two nights’ ensuite accommodation</li>
                     <li>Breakfast, lunch and dinner included</li>
-                    <li>Vegetarian meals, with dietary needs accommodated</li>
                     <li>£395 per person</li>
-                    <li>Travel to Dromantine not included</li>
                   </ul>
                 </div>
                 <button className="button button-dark" onClick={() => enquiryDialogRef.current?.open({ enquiryType: 'Retreats', subject: 'Dromantine Retreat Centre' })} type="button"><Mail size={17} /> Book with Annie</button>
