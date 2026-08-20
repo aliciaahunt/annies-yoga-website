@@ -24,7 +24,7 @@ test('footer presents a compact desktop contact information bar', async ({ page 
   await page.goto('')
   const content = footerContent(page)
 
-  await expect(content.contact).toHaveAttribute('href', '/annies-yoga-website/contact')
+  await expect(content.contact).toHaveAttribute('href', '/contact')
   await expect(content.email).toHaveAttribute('href', 'mailto:anniesyoga@yahoo.ie')
   await expect(content.footer.getByRole('link', { name: 'Facebook' })).toHaveAttribute('href', 'https://www.facebook.com/anniesyoga/')
   await expect(content.footer.getByRole('link', { name: 'Instagram' })).toHaveAttribute('href', 'https://www.instagram.com/anniedeery/')
