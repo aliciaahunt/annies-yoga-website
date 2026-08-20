@@ -37,5 +37,11 @@ export function classesForDate(date: Date) {
 }
 
 export function isChristmasClosure(date: Date) {
-  return date.getMonth() === 11 && (date.getDate() === 25 || date.getDate() === 26)
+  if (date.getMonth() !== 11) return false
+
+  const dayOfMonth = date.getDate()
+  const isChristmasDayOrBoxingDay = dayOfMonth === 25 || dayOfMonth === 26
+  const isExtended2026Closure = date.getFullYear() === 2026 && dayOfMonth >= 20 && dayOfMonth <= 24
+
+  return isChristmasDayOrBoxingDay || isExtended2026Closure
 }

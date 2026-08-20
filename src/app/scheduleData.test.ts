@@ -9,17 +9,29 @@ describe('weekly schedule data', () => {
   })
 
   it.each([
-    new Date(2025, 11, 25),
-    new Date(2025, 11, 26),
+    new Date(2026, 11, 20),
+    new Date(2026, 11, 21),
+    new Date(2026, 11, 22),
+    new Date(2026, 11, 23),
+    new Date(2026, 11, 24),
     new Date(2026, 11, 25),
     new Date(2026, 11, 26),
-  ])('removes recurring classes on the Christmas closure date %s', (date) => {
+  ])('removes all classes during the 20–26 December 2026 closure on %s', (date) => {
     expect(isChristmasClosure(date)).toBe(true)
     expect(classesForDate(date)).toEqual([])
   })
 
-  it('does not remove classes on surrounding dates', () => {
-    expect(isChristmasClosure(new Date(2026, 11, 24))).toBe(false)
-    expect(classesForDate(new Date(2026, 11, 24))).not.toHaveLength(0)
+  it('does not remove classes immediately outside the 2026 closure week', () => {
+    expect(isChristmasClosure(new Date(2026, 11, 19))).toBe(false)
+    expect(classesForDate(new Date(2026, 11, 19))).not.toHaveLength(0)
+    expect(isChristmasClosure(new Date(2026, 11, 27))).toBe(false)
   })
+
+  it.each([new Date(2025, 11, 25), new Date(2025, 11, 26)])(
+    'keeps the recurring Christmas Day and Boxing Day closure on %s',
+    (date) => {
+      expect(isChristmasClosure(date)).toBe(true)
+      expect(classesForDate(date)).toEqual([])
+    },
+  )
 })

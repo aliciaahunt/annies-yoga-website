@@ -272,7 +272,7 @@ function MobileSchedule({ week, selectedDayIndex, onSelectDay, onChooseClass }: 
           {dayClasses.map((item) => (
             <ClassCard item={item} date={date} onChooseClass={onChooseClass} key={`${item.name}-${item.time}-${item.place}`} />
           ))}
-          {!dayClasses.length && <p className="mobile-no-classes">{isChristmasClosure(date) ? 'Closed for Christmas Day and Boxing Day.' : 'No classes scheduled.'}</p>}
+          {!dayClasses.length && <p className="mobile-no-classes">{isChristmasClosure(date) ? 'Closed for Christmas.' : 'No classes scheduled.'}</p>}
         </div>
       </section>
     </div>
