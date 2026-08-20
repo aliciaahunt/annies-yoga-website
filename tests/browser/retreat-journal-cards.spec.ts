@@ -200,24 +200,13 @@ test('each upcoming retreat can start a retreat-specific booking enquiry', async
   }
 })
 
-test('each upcoming retreat opens its own multi-photo retreat gallery', async ({ page }) => {
+test('the upcoming retreat shows only its building and lake image', async ({ page }) => {
   await page.goto('retreats')
 
-  for (const retreat of ['Dromantine Retreat Centre']) {
-    const card = page.locator('.retreat-card').filter({ has: page.getByRole('heading', { name: retreat }) })
-    const viewPhotos = card.getByRole('button', { name: `View photos from ${retreat}` })
-
-    await expect(viewPhotos).toBeVisible()
-    await viewPhotos.click()
-
-    const viewer = page.getByRole('dialog', { name: `${retreat} photo gallery` })
-    await expect(viewer).toBeVisible()
-    await expect(viewer.getByText(/1 \/ [2-9]/)).toBeVisible()
-    await viewer.getByRole('button', { name: 'Next photograph' }).click()
-    await expect(viewer.getByText(/2 \/ [2-9]/)).toBeVisible()
-    await viewer.getByRole('button', { name: 'Close photo gallery' }).click()
-    await expect(viewPhotos).toBeFocused()
-  }
+  const card = page.locator('.retreat-card').filter({ has: page.getByRole('heading', { name: 'Dromantine Retreat Centre' }) })
+  await expect(card.getByRole('img', { name: 'Dromantine Retreat Centre overlooking its lake and autumn parkland' })).toBeVisible()
+  await expect(card.getByRole('button', { name: 'View photos from Dromantine Retreat Centre' })).toHaveCount(0)
+  await expect(card.getByText('View 4 photos', { exact: true })).toHaveCount(0)
 })
 
 test('upcoming retreats share a card colour and lifted cards use the same subtle shadow', async ({ page }) => {

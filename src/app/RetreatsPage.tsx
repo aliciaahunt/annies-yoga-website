@@ -1,7 +1,6 @@
 import { useRef } from 'react'
-import { CalendarDays, Images, Mail, MapPin } from 'lucide-react'
+import { CalendarDays, Mail, MapPin } from 'lucide-react'
 import EnquiryDialog, { type EnquiryDialogHandle } from '@/components/EnquiryDialog'
-import RetreatPhotoGallery, { type RetreatPhotoGalleryData, type RetreatPhotoGalleryHandle } from '@/components/RetreatPhotoGallery'
 import RetreatJournalGallery, { type RetreatJournal } from '@/components/RetreatJournalGallery'
 import SiteFooter from '@/components/SiteFooter'
 import SiteHeader from '@/components/SiteHeader'
@@ -10,19 +9,6 @@ import { siteUrl } from '@/lib/siteUrl'
 const retreatImagePath = '/images/retreats/santillan-july-2026'
 const novemberRetreatImagePath = '/images/retreats/santillan-november-2025'
 const irelandRetreatImagePath = '/images/retreats/ireland-retreats'
-
-const upcomingRetreatGalleries: Record<string, RetreatPhotoGalleryData> = {
-  dromantine: {
-    title: 'Dromantine Retreat Centre',
-    meta: 'A glimpse of retreat life with Annie · Ireland',
-    photos: [
-      { src: `${irelandRetreatImagePath}/ards-friary-bay.jpg`, alt: 'Annie and retreat guests practising together above a quiet Irish bay' },
-      { src: `${irelandRetreatImagePath}/chair-practice-wide.jpg`, alt: 'Retreat guests sharing a supported standing practice with chairs' },
-      { src: `${irelandRetreatImagePath}/retreat-community.jpg`, alt: 'Annie with a community of retreat guests after practice' },
-      { src: `${irelandRetreatImagePath}/coastal-walk.jpg`, alt: 'Retreat guests enjoying time together outdoors' },
-    ],
-  },
-}
 
 const retreatJournals: RetreatJournal[] = [
   {
@@ -85,7 +71,6 @@ const retreatJournals: RetreatJournal[] = [
 
 export default function RetreatsPage() {
   const enquiryDialogRef = useRef<EnquiryDialogHandle>(null)
-  const photoGalleryRef = useRef<RetreatPhotoGalleryHandle>(null)
 
   return (
     <div className="retreats-page">
@@ -93,7 +78,6 @@ export default function RetreatsPage() {
 
       <main>
         <EnquiryDialog ref={enquiryDialogRef} />
-        <RetreatPhotoGallery ref={photoGalleryRef} />
         <section className="retreats-hero">
           <img
             src={siteUrl(`${retreatImagePath}/open-air-yoga-pavilion.jpg`)}
@@ -124,10 +108,9 @@ export default function RetreatsPage() {
 
             <div className="retreat-cards">
               <article className="retreat-card lift-card">
-                <button aria-label="View photos from Dromantine Retreat Centre" className="retreat-card-image" onClick={() => photoGalleryRef.current?.open(upcomingRetreatGalleries.dromantine)} type="button">
+                <div className="retreat-card-image">
                   <img src={siteUrl('/images/retreats/upcoming/dromantine-retreat-centre.png')} alt="Dromantine Retreat Centre overlooking its lake and autumn parkland" loading="lazy" />
-                  <span><Images size={16} aria-hidden="true" /> View 4 photos</span>
-                </button>
+                </div>
                 <div className="retreat-card-topline"><span>Bookings open</span></div>
                 <div className="retreat-card-body">
                   <h3>Dromantine Retreat <span>Centre</span></h3>
