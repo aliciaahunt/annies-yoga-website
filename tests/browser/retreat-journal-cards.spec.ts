@@ -131,10 +131,10 @@ test('hovering a retreat journal enlarges the complete card as one unit', async 
   await expect(image).toHaveCSS('transform', 'none')
 })
 
-test('hovering either upcoming retreat enlarges the complete card as one unit', async ({ page }) => {
+test('hovering the upcoming retreat enlarges the complete card as one unit', async ({ page }) => {
   await page.goto('retreats')
 
-  for (const heading of ['Dromantine Retreat Centre', 'Locanda della Quercia Calante']) {
+  for (const heading of ['Dromantine Retreat Centre']) {
     const card = page.locator('.retreat-card').filter({ has: page.getByRole('heading', { name: heading }) })
     const image = card.locator('.retreat-card-image > img')
     const cardBeforeHover = await card.boundingBox()
@@ -158,10 +158,10 @@ test('hovering either upcoming retreat enlarges the complete card as one unit', 
   }
 })
 
-test('both upcoming retreats present six concise details', async ({ page }) => {
+test('the upcoming retreat presents six concise details', async ({ page }) => {
   await page.goto('retreats')
 
-  for (const heading of ['Dromantine Retreat Centre', 'Locanda della Quercia Calante']) {
+  for (const heading of ['Dromantine Retreat Centre']) {
     const card = page.locator('.retreat-card').filter({ has: page.getByRole('heading', { name: heading }) })
     const details = card.getByRole('list').getByRole('listitem')
     await expect(details).toHaveCount(6)
@@ -171,25 +171,20 @@ test('both upcoming retreats present six concise details', async ({ page }) => {
   }
 })
 
-test('upcoming retreats clearly show booking status and travel exclusions', async ({ page }) => {
+test('the upcoming retreat clearly shows booking status and travel exclusions', async ({ page }) => {
   await page.goto('retreats')
 
   const dromantine = page.locator('.retreat-card').filter({ has: page.getByRole('heading', { name: 'Dromantine Retreat Centre' }) })
-  const italy = page.locator('.retreat-card').filter({ has: page.getByRole('heading', { name: 'Locanda della Quercia Calante' }) })
-
-  for (const card of [dromantine, italy]) {
-    await expect(card.getByText('Bookings open', { exact: true })).toBeVisible()
-    await expect(card.getByText('Breakfast, lunch and dinner included', { exact: true })).toBeVisible()
-  }
-
+  await expect(dromantine.getByText('Bookings open', { exact: true })).toBeVisible()
+  await expect(dromantine.getByText('Breakfast, lunch and dinner included', { exact: true })).toBeVisible()
   await expect(dromantine.getByText('Travel to Dromantine not included', { exact: true })).toBeVisible()
-  await expect(italy.getByText('Flights and airport transfers not included', { exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Locanda della Quercia Calante' })).toHaveCount(0)
 })
 
 test('each upcoming retreat can start a retreat-specific booking enquiry', async ({ page }) => {
   await page.goto('retreats')
 
-  for (const retreat of ['Dromantine Retreat Centre', 'Locanda della Quercia Calante']) {
+  for (const retreat of ['Dromantine Retreat Centre']) {
     const card = page.locator('.retreat-card').filter({ has: page.getByRole('heading', { name: retreat }) })
     const bookButton = card.getByRole('button', { name: 'Book with Annie' })
 
@@ -208,7 +203,7 @@ test('each upcoming retreat can start a retreat-specific booking enquiry', async
 test('each upcoming retreat opens its own multi-photo retreat gallery', async ({ page }) => {
   await page.goto('retreats')
 
-  for (const retreat of ['Dromantine Retreat Centre', 'Locanda della Quercia Calante']) {
+  for (const retreat of ['Dromantine Retreat Centre']) {
     const card = page.locator('.retreat-card').filter({ has: page.getByRole('heading', { name: retreat }) })
     const viewPhotos = card.getByRole('button', { name: `View photos from ${retreat}` })
 

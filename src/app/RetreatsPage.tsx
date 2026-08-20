@@ -22,16 +22,6 @@ const upcomingRetreatGalleries: Record<string, RetreatPhotoGalleryData> = {
       { src: `${irelandRetreatImagePath}/coastal-walk.jpg`, alt: 'Retreat guests enjoying time together outdoors' },
     ],
   },
-  locanda: {
-    title: 'Locanda della Quercia Calante',
-    meta: 'Representative moments from previous retreats with Annie',
-    photos: [
-      { src: '/images/retreat-garden.jpg', alt: 'A peaceful green garden during a retreat with Annie' },
-      { src: '/images/retreat-studio-ready.jpg', alt: 'A light-filled yoga studio prepared for retreat practice' },
-      { src: '/images/retreat-class.jpg', alt: 'Guests sharing a guided yoga practice on retreat' },
-      { src: '/images/retreat-buffet.jpg', alt: 'A colourful buffet prepared for retreat guests' },
-    ],
-  },
 }
 
 const retreatJournals: RetreatJournal[] = [
@@ -157,29 +147,6 @@ export default function RetreatsPage() {
                 <button className="button button-dark" onClick={() => enquiryDialogRef.current?.open({ enquiryType: 'Retreats', subject: 'Dromantine Retreat Centre' })} type="button"><Mail size={17} /> Book with Annie</button>
               </article>
 
-              <article className="retreat-card lift-card">
-                <button aria-label="View photos from Locanda della Quercia Calante" className="retreat-card-image" onClick={() => photoGalleryRef.current?.open(upcomingRetreatGalleries.locanda)} type="button">
-                  <img src={siteUrl('/images/retreats/upcoming/locanda-yoga-studio.jpg')} alt="The yoga studio at Locanda della Quercia Calante prepared with mats and bolsters" loading="lazy" />
-                  <span><Images size={16} aria-hidden="true" /> View 4 photos</span>
-                </button>
-                <div className="retreat-card-topline"><span>Bookings open</span></div>
-                <div className="retreat-card-body">
-                  <h3>Locanda della Quercia Calante</h3>
-                  <div className="retreat-card-meta">
-                    <p className="retreat-card-date"><CalendarDays size={17} aria-hidden="true" /><time dateTime="2027-07-17">17–23 July 2027</time></p>
-                    <p className="retreat-card-location"><MapPin size={17} aria-hidden="true" /> Umbria, Italy</p>
-                  </div>
-                  <ul className="retreat-card-details">
-                    <li>12 hours of Iyengar yoga</li>
-                    <li>Six nights’ ensuite accommodation</li>
-                    <li>Breakfast, lunch and dinner included</li>
-                    <li>Seasonal vegetarian meals, with vegan options</li>
-                    <li>£1,295 per person</li>
-                    <li>Flights and airport transfers not included</li>
-                  </ul>
-                </div>
-                <button className="button button-dark" onClick={() => enquiryDialogRef.current?.open({ enquiryType: 'Retreats', subject: 'Locanda della Quercia Calante' })} type="button"><Mail size={17} /> Book with Annie</button>
-              </article>
             </div>
           </div>
         </section>

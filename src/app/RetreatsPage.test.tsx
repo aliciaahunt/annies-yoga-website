@@ -16,7 +16,7 @@ describe('retreats page ending', () => {
 })
 
 describe('upcoming retreat details', () => {
-  it('presents each retreat as six concise bullet points', () => {
+  it('presents Dromantine as the only upcoming retreat with six concise bullet points', () => {
     render(<RetreatsPage />, { wrapper: MemoryRouter })
 
     const expectedDetails = {
@@ -27,14 +27,6 @@ describe('upcoming retreat details', () => {
         'Vegetarian meals, with dietary needs accommodated',
         '£395 per person',
         'Travel to Dromantine not included',
-      ],
-      'Locanda della Quercia Calante': [
-        '12 hours of Iyengar yoga',
-        'Six nights’ ensuite accommodation',
-        'Breakfast, lunch and dinner included',
-        'Seasonal vegetarian meals, with vegan options',
-        '£1,295 per person',
-        'Flights and airport transfers not included',
       ],
     }
 
@@ -50,5 +42,6 @@ describe('upcoming retreat details', () => {
 
     expect(screen.queryByRole('heading', { name: 'Included' })).not.toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: 'Not included' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'Locanda della Quercia Calante' })).not.toBeInTheDocument()
   })
 })
