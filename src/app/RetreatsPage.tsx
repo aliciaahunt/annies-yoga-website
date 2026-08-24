@@ -112,7 +112,6 @@ export default function RetreatsPage() {
             <header className="retreats-section-heading">
               <div>
                 <h2 id="retreat-journals-heading">Past <em>Retreats</em></h2>
-                <p>A small glimpse into the practice, places and people that shape each retreat.</p>
               </div>
             </header>
             <RetreatJournalGallery journals={retreatJournals} />

@@ -155,6 +155,26 @@ test('the upcoming-retreat message fills the content width on desktop', async ({
   await expect(message).toHaveCSS('cursor', 'auto')
 })
 
+test('upcoming and past retreat headings use the same compact content gap', async ({ page }) => {
+  await page.goto('retreats')
+
+  const gaps = await page.evaluate(() => {
+    const upcomingHeading = document.querySelector('.retreats-upcoming .retreats-section-heading')!
+    const upcomingContent = document.querySelector('.retreats-empty-state')!
+    const pastHeading = document.querySelector('.retreat-journals .retreats-section-heading')!
+    const pastContent = document.querySelector('.retreat-journal-cards')!
+
+    return {
+      upcoming: upcomingContent.getBoundingClientRect().top - upcomingHeading.getBoundingClientRect().bottom,
+      past: pastContent.getBoundingClientRect().top - pastHeading.getBoundingClientRect().bottom,
+    }
+  })
+
+  expect(gaps.upcoming).toBe(24)
+  expect(gaps.past).toBe(gaps.upcoming)
+  await expect(page.getByText('A small glimpse into the practice, places and people that shape each retreat.')).toHaveCount(0)
+})
+
 test('the upcoming-retreat message remains readable without overflow on mobile', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('retreats')

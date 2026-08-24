@@ -12,6 +12,7 @@ describe('retreats page ending', () => {
     render(<RetreatsPage />, { wrapper: MemoryRouter })
 
     expect(screen.queryByRole('heading', { name: /Come away/i })).not.toBeInTheDocument()
+    expect(screen.queryByText('A small glimpse into the practice, places and people that shape each retreat.')).not.toBeInTheDocument()
   })
 })
 

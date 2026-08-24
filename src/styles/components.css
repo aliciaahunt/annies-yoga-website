@@ -266,8 +266,8 @@
 .retreat-rhythm p { margin: 0; color: rgba(255,255,255,.8); font-size: 13px; letter-spacing: .01em; line-height: 1.5; }
 .retreat-rhythm p span { margin: 0 11px; color: var(--sage); }
 .retreats-upcoming { padding: 58px 0 68px; background: #f7f4ed; }
-.retreats-section-heading { display: grid; grid-template-columns: 1fr; align-items: start; margin-bottom: 36px; }
-.retreats-section-heading h2 { margin-bottom: 15px; }
+.retreats-section-heading { display: grid; grid-template-columns: 1fr; align-items: start; margin-bottom: 24px; }
+.retreats-section-heading h2 { margin-bottom: 0; }
 .retreats-section-heading > div > p { max-width: 610px; margin: 0; color: var(--muted); line-height: 1.7; }
 .retreats-empty-state { position: relative; overflow: hidden; padding: clamp(42px, 6vw, 76px); background: linear-gradient(135deg, #fdfbf6 0%, #f4f1e7 100%); border-top: 3px solid var(--moss); box-shadow: 0 4px 14px rgba(45,57,48,.1); }
 .retreats-empty-state::after { position: absolute; right: clamp(28px, 6vw, 84px); bottom: -70px; width: 180px; height: 180px; background: radial-gradient(circle, rgba(174,186,163,.32) 0 2px, transparent 3px); background-size: 18px 18px; border-radius: 50%; content: ''; opacity: .65; transform: rotate(-12deg); }
@@ -576,7 +576,7 @@
   .retreats-hero-copy { padding-bottom: 40px; }
   .retreats-hero h1 { font-size: 64px; }
   .retreats-upcoming, .retreat-journals, .retreats-enquiry { padding: 60px 0; }
-  .retreats-section-heading { gap: 8px; margin-bottom: 30px; }
+  .retreats-section-heading { gap: 8px; margin-bottom: 22px; }
   .retreats-section-heading h2 { font-size: 46px; }
   .retreats-empty-state { padding: 36px 26px 40px; }
   .retreats-empty-state::after { right: -55px; bottom: -78px; }
