@@ -96,7 +96,6 @@ export default function RetreatsPage() {
             <header className="retreats-section-heading">
               <div>
                 <h2 id="upcoming-retreats-heading">Upcoming <em>retreats.</em></h2>
-                <p>Annie is thoughtfully planning her next retreat.</p>
               </div>
             </header>
 
