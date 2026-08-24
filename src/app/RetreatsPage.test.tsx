@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
 import RetreatsPage from '@/app/RetreatsPage'
@@ -15,31 +15,13 @@ describe('retreats page ending', () => {
   })
 })
 
-describe('upcoming retreat details', () => {
-  it('presents Dromantine as the only upcoming retreat with four concise bullet points', () => {
+describe('upcoming retreats', () => {
+  it('presents a clear temporary message without an outdated retreat or booking action', () => {
     render(<RetreatsPage />, { wrapper: MemoryRouter })
 
-    const expectedDetails = {
-      'Dromantine Retreat Centre': [
-        '10 hours of Iyengar yoga',
-        'Two nights’ ensuite accommodation',
-        'Breakfast, lunch and dinner included',
-        '£395 per person',
-      ],
-    }
-
-    for (const [retreat, details] of Object.entries(expectedDetails)) {
-      const card = screen.getByRole('heading', { name: retreat }).closest('article')
-      expect(card).not.toBeNull()
-      if (!card) throw new Error(`${retreat} card was not found`)
-
-      const list = within(card).getByRole('list')
-      expect(within(list).getAllByRole('listitem')).toHaveLength(4)
-      expect(within(list).getAllByRole('listitem').map((item) => item.textContent)).toEqual(details)
-    }
-
-    expect(screen.queryByRole('heading', { name: 'Included' })).not.toBeInTheDocument()
-    expect(screen.queryByRole('heading', { name: 'Not included' })).not.toBeInTheDocument()
-    expect(screen.queryByRole('heading', { name: 'Locanda della Quercia Calante' })).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'New retreats are on the way.' })).toBeInTheDocument()
+    expect(screen.getByText('Details will be shared here as soon as the next dates are confirmed.')).toBeInTheDocument()
+    expect(screen.queryByText(/Dromantine/i)).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Book with Annie' })).not.toBeInTheDocument()
   })
 })

@@ -1,6 +1,3 @@
-import { useRef } from 'react'
-import { CalendarDays, Mail, MapPin } from 'lucide-react'
-import EnquiryDialog, { type EnquiryDialogHandle } from '@/components/EnquiryDialog'
 import RetreatJournalGallery, { type RetreatJournal } from '@/components/RetreatJournalGallery'
 import SiteFooter from '@/components/SiteFooter'
 import SiteHeader from '@/components/SiteHeader'
@@ -70,14 +67,11 @@ const retreatJournals: RetreatJournal[] = [
 ]
 
 export default function RetreatsPage() {
-  const enquiryDialogRef = useRef<EnquiryDialogHandle>(null)
-
   return (
     <div className="retreats-page">
       <SiteHeader />
 
       <main>
-        <EnquiryDialog ref={enquiryDialogRef} />
         <section className="retreats-hero">
           <img
             src={siteUrl(`${retreatImagePath}/open-air-yoga-pavilion.jpg`)}
@@ -102,32 +96,14 @@ export default function RetreatsPage() {
             <header className="retreats-section-heading">
               <div>
                 <h2 id="upcoming-retreats-heading">Upcoming <em>retreats.</em></h2>
-                <p>Choose a restorative weekend close to home or a longer practice-led escape abroad.</p>
+                <p>Annie is thoughtfully planning her next retreat.</p>
               </div>
             </header>
 
-            <div className="retreat-cards">
-              <article className="retreat-card lift-card">
-                <div className="retreat-card-image">
-                  <img src={siteUrl('/images/retreats/upcoming/dromantine-retreat-centre.png')} alt="Dromantine Retreat Centre overlooking its lake and autumn parkland" loading="lazy" />
-                </div>
-                <div className="retreat-card-topline"><span>Bookings open</span></div>
-                <div className="retreat-card-body">
-                  <h3>Dromantine Retreat <span>Centre</span></h3>
-                  <div className="retreat-card-meta">
-                    <p className="retreat-card-date"><CalendarDays size={17} aria-hidden="true" /><time dateTime="2026-08-21">21–23 August 2026</time></p>
-                    <p className="retreat-card-location"><MapPin size={17} aria-hidden="true" /> Newry, Northern Ireland</p>
-                  </div>
-                  <ul className="retreat-card-details">
-                    <li>10 hours of Iyengar yoga</li>
-                    <li>Two nights’ ensuite accommodation</li>
-                    <li>Breakfast, lunch and dinner included</li>
-                    <li>£395 per person</li>
-                  </ul>
-                </div>
-                <button className="button button-dark" onClick={() => enquiryDialogRef.current?.open({ enquiryType: 'Retreats', subject: 'Dromantine Retreat Centre' })} type="button"><Mail size={17} /> Book with Annie</button>
-              </article>
-
+            <div className="retreats-empty-state">
+              <p className="retreats-empty-state-eyebrow">Planning ahead</p>
+              <h3>New retreats are on the way.</h3>
+              <p>Details will be shared here as soon as the next dates are confirmed.</p>
             </div>
           </div>
         </section>
