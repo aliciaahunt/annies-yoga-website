@@ -8,6 +8,7 @@ import {
   X,
 } from 'lucide-react'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { createPortal } from 'react-dom'
 import { CLASS_PRICE_PLANS } from './classPricing'
 import { autumnWorkshop, classesForDate, isSchedulePaused, type YogaClass } from './scheduleData'
 import ClassReservationForm from '@/components/ClassReservationForm'
@@ -30,18 +31,58 @@ export default function SchedulePage() {
   const [selectedDayIndex, setSelectedDayIndex] = useState(() => new Date().getDay())
   const isMobile = useMediaQuery(MOBILE_BREAKPOINT)
   const [selectedClass, setSelectedClass] = useState<SelectedClass | null>(null)
-  const dialogRef = useRef<HTMLDialogElement>(null)
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const dialogTitleRef = useRef<HTMLHeadingElement>(null)
+  const openerRef = useRef<HTMLElement | null>(null)
   const week = Array.from({ length: 7 }, (_, index) => addDays(weekStart, index))
 
   const chooseClass = (item: YogaClass, date: Date) => {
+    openerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
     setSelectedClass({ ...item, date })
-    dialogRef.current?.showModal()
   }
 
-  const closeDialog = () => {
-    dialogRef.current?.close()
-    setSelectedClass(null)
-  }
+  const closeDialog = () => setSelectedClass(null)
+
+  useEffect(() => {
+    if (!selectedClass) return
+
+    const appRoot = document.getElementById('root')
+    const previousOverflow = document.body.style.overflow
+    if (appRoot) appRoot.inert = true
+    document.body.style.overflow = 'hidden'
+    dialogTitleRef.current?.focus()
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        closeDialog()
+        return
+      }
+      if (event.key !== 'Tab') return
+
+      const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      )
+      if (!focusable?.length) return
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      if (appRoot) appRoot.inert = false
+      document.body.style.overflow = previousOverflow
+      openerRef.current?.focus()
+    }
+  }, [selectedClass])
 
   return (
     <div className="schedule-page">
@@ -68,6 +109,23 @@ export default function SchedulePage() {
               <p>Choose a class below and send Annie a reservation request. Classes are welcoming and clearly marked by level.</p>
             </div>
 
+            <aside className="workshop-notice" aria-labelledby="autumn-workshop-title">
+              <div className="workshop-notice-copy">
+                <p className="eyebrow">Featured workshop</p>
+                <h3 id="autumn-workshop-title">{autumnWorkshop.name}</h3>
+                <p>{autumnWorkshop.description}</p>
+              </div>
+              <div className="workshop-notice-details" aria-label="Workshop details">
+                <span><CalendarDays size={14} aria-hidden="true" />24 October 2026</span>
+                <span><Clock3 size={14} aria-hidden="true" />{autumnWorkshop.time}</span>
+                <span><MapPin size={14} aria-hidden="true" />{autumnWorkshop.place}</span>
+                <strong>£{autumnWorkshop.price}</strong>
+              </div>
+              <button className="button button-dark" type="button" onClick={() => chooseClass(autumnWorkshop, new Date(2026, 9, 24))}>
+                Request a place <ArrowRight size={16} aria-hidden="true" />
+              </button>
+            </aside>
+
             <section className="schedule-pricing" aria-label="Class pricing">
               <header className="schedule-pricing-heading">
                 <h3>Class Pricing</h3>
@@ -93,23 +151,6 @@ export default function SchedulePage() {
                   </article>
                 ))}
               </div>
-            </section>
-
-            <section className="workshop-feature" aria-labelledby="autumn-workshop-title">
-              <div>
-                <p className="eyebrow">Saturday 24 October 2026</p>
-                <h3 id="autumn-workshop-title">All-day Yoga Workshop</h3>
-                <p>A day of yoga with a relaxed lunch break. Bring your own lunch; drinks and light refreshments will be provided.</p>
-              </div>
-              <dl>
-                <div><dt>Morning yoga</dt><dd>10:00 am–1:00 pm</dd></div>
-                <div><dt>Lunch break</dt><dd>1:00–2:00 pm</dd></div>
-                <div><dt>Afternoon yoga</dt><dd>2:00–4:00 pm</dd></div>
-                <div><dt>Cost</dt><dd>£60 including refreshments</dd></div>
-              </dl>
-              <button className="button button-light" type="button" onClick={() => chooseClass(autumnWorkshop, new Date(2026, 9, 24))}>
-                Request a place <ArrowRight size={16} aria-hidden="true" />
-              </button>
             </section>
 
             <div className="week-controls" aria-label="Schedule week controls">
@@ -139,20 +180,12 @@ export default function SchedulePage() {
 
       <SiteFooter />
 
-      <dialog
-        className="booking-dialog"
-        ref={dialogRef}
-        aria-labelledby="booking-dialog-title"
-        onClick={(event) => {
-          if (event.target === event.currentTarget) closeDialog()
-        }}
-        onClose={() => setSelectedClass(null)}
-      >
-        {selectedClass && (
-          <div>
+      {selectedClass && createPortal(
+        <div className="booking-dialog-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) closeDialog() }}>
+          <div className="booking-dialog" ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="booking-dialog-title">
             <button className="dialog-close" type="button" onClick={closeDialog} aria-label="Close booking dialog"><X /></button>
             <p className="eyebrow">Reserve your place</p>
-            <h2 id="booking-dialog-title">Reserve {selectedClass.name}</h2>
+            <h2 id="booking-dialog-title" ref={dialogTitleRef} tabIndex={-1}>Reserve {selectedClass.name}</h2>
             <dl>
               <div><dt>Date</dt><dd>{selectedClass.date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })}</dd></div>
               <div><dt>Time</dt><dd>{selectedClass.time} · {selectedClass.duration}</dd></div>
@@ -161,8 +194,9 @@ export default function SchedulePage() {
             </dl>
             <ClassReservationForm selectedClass={selectedClass} />
           </div>
-        )}
-      </dialog>
+        </div>,
+        document.body,
+      )}
     </div>
   )
 }
@@ -208,7 +242,7 @@ function TimetableBand({ band, week, onChooseClass, showEmptyState = false, show
   const markers = Array.from({ length: lastHour - firstHour + 1 }, (_, index) => firstHour + index)
   const bandStyle = { '--time-band-height': `${canvasHeight}px` } as CSSProperties
   const workshopDayIndex = showWorkshop
-    ? week.findIndex((date) => classesForDate(date).some((item) => item.isWorkshop))
+    ? week.findIndex((date) => classesForDate(date).some((item) => item.kind === 'workshop'))
     : -1
 
   return (
@@ -233,7 +267,7 @@ function TimetableBand({ band, week, onChooseClass, showEmptyState = false, show
         {week.map((date) => {
           const allDayClasses = classesForDate(date)
           const bandClasses = allDayClasses.filter(
-            (item) => !item.isWorkshop && item.startMinutes >= band.startMinutes && item.startMinutes < band.endMinutes,
+            (item) => item.kind !== 'workshop' && item.startMinutes >= band.startMinutes && item.startMinutes < band.endMinutes,
           )
           return (
             <section
@@ -287,8 +321,8 @@ function WorkshopScheduleBlock({ date, dayIndex, onChooseClass }: {
           <span>£{autumnWorkshop.price}</span>
         </div>
         <h3>{autumnWorkshop.name}</h3>
-        <p>Yoga 10–1 <span aria-hidden="true">·</span> Lunch 1–2 <span aria-hidden="true">·</span> Yoga 2–4</p>
-        <small>Drinks and light refreshments included. Bring your own lunch.</small>
+        <p>{autumnWorkshop.level}</p>
+        <small>{autumnWorkshop.sessions.map((session) => `${session.label} ${session.time}`).join(' · ')}</small>
         <button type="button" onClick={() => onChooseClass(autumnWorkshop, date)}>
           Request a place <ArrowRight size={13} aria-hidden="true" />
         </button>

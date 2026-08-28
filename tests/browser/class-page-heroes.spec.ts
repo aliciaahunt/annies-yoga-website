@@ -36,3 +36,26 @@ test('an externally mounted captcha challenge appears above the private enquiry'
 
   expect(hitElementId).toBe('simulated-hcaptcha-challenge')
 })
+
+test('an externally mounted captcha challenge appears above a class reservation', async ({ page }) => {
+  await page.clock.setFixedTime(new Date(2026, 7, 28, 12))
+  await page.goto('schedule')
+  await page.getByRole('button', { name: 'Book' }).first().click()
+
+  const hitElementId = await page.evaluate(() => {
+    const challenge = document.createElement('div')
+    challenge.id = 'simulated-reservation-hcaptcha-challenge'
+    Object.assign(challenge.style, {
+      position: 'fixed',
+      inset: '200px auto auto 400px',
+      width: '520px',
+      height: '400px',
+      zIndex: '2147483647',
+    })
+    document.body.append(challenge)
+
+    return document.elementFromPoint(660, 400)?.id
+  })
+
+  expect(hitElementId).toBe('simulated-reservation-hcaptcha-challenge')
+})

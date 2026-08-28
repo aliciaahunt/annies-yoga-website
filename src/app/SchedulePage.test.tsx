@@ -97,7 +97,7 @@ describe('SchedulePage reservations', () => {
     vi.setSystemTime(new Date(2026, 9, 18, 12))
     render(<SchedulePage />, { wrapper: MemoryRouter })
 
-    const workshopBlock = screen.getAllByRole('heading', { name: 'Yoga Workshop' })
+    const workshopBlock = screen.getAllByRole('heading', { name: 'Iyengar Yoga with Aisling Guirke' })
       .map((heading) => heading.closest('article'))
       .find((article) => article?.classList.contains('workshop-schedule-block'))
 
@@ -108,7 +108,20 @@ describe('SchedulePage reservations', () => {
       '--workshop-offset': '126px',
     })
     expect(workshopBlock).toHaveTextContent('10:00 am–4:00 pm')
-    expect(workshopBlock).toHaveTextContent('Yoga 10–1 · Lunch 1–2 · Yoga 2–4')
+    expect(workshopBlock).toHaveTextContent('Level 3 – General Yoga')
+    expect(workshopBlock).toHaveTextContent('Morning yoga 10:00 am–1:00 pm · Lunch break 1:00–2:00 pm · Afternoon yoga 2:00–4:00 pm')
+  })
+
+  it('presents the workshop as a compact notice before class pricing', () => {
+    render(<SchedulePage />, { wrapper: MemoryRouter })
+
+    const notice = screen.getByRole('complementary', { name: 'Iyengar Yoga with Aisling Guirke' })
+    const pricing = screen.getByRole('region', { name: 'Class pricing' })
+    expect(notice.compareDocumentPosition(pricing) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(notice).toHaveTextContent('Level 3 general Iyengar Yoga workshop')
+    expect(notice).toHaveTextContent('24 October 2026')
+    expect(notice).toHaveTextContent('£60')
+    expect(within(notice).getByRole('button', { name: 'Request a place' })).toBeInTheDocument()
   })
 
   it('uses a focused day chooser on small screens', async () => {
@@ -270,9 +283,10 @@ describe('SchedulePage reservations', () => {
     render(<SchedulePage />, { wrapper: MemoryRouter })
 
     await user.click(screen.getAllByRole('button', { name: 'Book' })[0])
-    const dialog = screen.getByRole('dialog', { name: 'Reserve Yoga' })
+    screen.getByRole('dialog', { name: 'Reserve Yoga' })
+    const backdrop = document.querySelector('.booking-dialog-backdrop') as HTMLElement
 
-    await user.click(dialog)
+    await user.click(backdrop)
 
     expect(screen.queryByRole('dialog', { name: 'Reserve Yoga' })).not.toBeInTheDocument()
   })

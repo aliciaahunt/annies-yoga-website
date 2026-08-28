@@ -31,7 +31,17 @@ describe('weekly schedule data', () => {
 
   it('replaces the Saturday class with the workshop on 24 October', () => {
     expect(classesForDate(new Date(2026, 9, 24))).toEqual([
-      expect.objectContaining({ name: 'Yoga Workshop', time: '10:00 am–4:00 pm', price: 60 }),
+      expect.objectContaining({
+        kind: 'workshop',
+        name: 'Iyengar Yoga with Aisling Guirke',
+        level: 'Level 3 – General Yoga',
+        time: '10:00 am–4:00 pm',
+        price: 60,
+      }),
     ])
+  })
+
+  it('cancels the Pilates class on Friday 20 November', () => {
+    expect(classesForDate(new Date(2026, 10, 20))).toEqual([])
   })
 })
