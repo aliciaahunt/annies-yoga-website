@@ -173,8 +173,6 @@ type ScheduleProps = {
 }
 
 function DesktopSchedule({ week, onChooseClass }: ScheduleProps) {
-  const workshopDayIndex = week.findIndex((date) => classesForDate(date).some((item) => item.isWorkshop))
-
   return (
     <div className="timetable-scroll" tabIndex={0} aria-label="Weekly class timetable. Scroll horizontally to see every day.">
       <div className="timetable">
@@ -182,7 +180,7 @@ function DesktopSchedule({ week, onChooseClass }: ScheduleProps) {
         <div className="timetable-days">
           {week.map((date) => <DayHeader date={date} key={date.toISOString()} />)}
         </div>
-        <TimetableBand band={TIME_BANDS[0]} week={week} onChooseClass={onChooseClass} showEmptyState />
+        <TimetableBand band={TIME_BANDS[0]} week={week} onChooseClass={onChooseClass} showEmptyState showWorkshop />
         <div className="timetable-break-label" aria-hidden="true"><span>Break</span></div>
         <div className="timetable-break">
           <span aria-hidden="true" />
@@ -190,13 +188,6 @@ function DesktopSchedule({ week, onChooseClass }: ScheduleProps) {
           <span aria-hidden="true" />
         </div>
         <TimetableBand band={TIME_BANDS[1]} week={week} onChooseClass={onChooseClass} />
-        {workshopDayIndex >= 0 && (
-          <WorkshopScheduleBlock
-            date={week[workshopDayIndex]}
-            dayIndex={workshopDayIndex}
-            onChooseClass={onChooseClass}
-          />
-        )}
       </div>
     </div>
   )
@@ -207,14 +198,18 @@ type TimeBand = (typeof TIME_BANDS)[number]
 type TimetableBandProps = ScheduleProps & {
   band: TimeBand
   showEmptyState?: boolean
+  showWorkshop?: boolean
 }
 
-function TimetableBand({ band, week, onChooseClass, showEmptyState = false }: TimetableBandProps) {
+function TimetableBand({ band, week, onChooseClass, showEmptyState = false, showWorkshop = false }: TimetableBandProps) {
   const canvasHeight = ((band.endMinutes - band.startMinutes) / 60) * HOUR_HEIGHT
   const firstHour = Math.ceil(band.startMinutes / 60)
   const lastHour = Math.floor(band.endMinutes / 60)
   const markers = Array.from({ length: lastHour - firstHour + 1 }, (_, index) => firstHour + index)
   const bandStyle = { '--time-band-height': `${canvasHeight}px` } as CSSProperties
+  const workshopDayIndex = showWorkshop
+    ? week.findIndex((date) => classesForDate(date).some((item) => item.isWorkshop))
+    : -1
 
   return (
     <>
@@ -261,6 +256,13 @@ function TimetableBand({ band, week, onChooseClass, showEmptyState = false }: Ti
             </section>
           )
         })}
+        {workshopDayIndex >= 0 && (
+          <WorkshopScheduleBlock
+            date={week[workshopDayIndex]}
+            dayIndex={workshopDayIndex}
+            onChooseClass={onChooseClass}
+          />
+        )}
       </div>
     </>
   )
