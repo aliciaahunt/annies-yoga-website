@@ -93,6 +93,24 @@ describe('SchedulePage reservations', () => {
     expect(regularYogaCard).toHaveClass('class-event-yoga')
   })
 
+  it('shows the October workshop as a tall block spanning the daytime schedule', () => {
+    vi.setSystemTime(new Date(2026, 9, 18, 12))
+    render(<SchedulePage />, { wrapper: MemoryRouter })
+
+    const workshopBlock = screen.getAllByRole('heading', { name: 'Yoga Workshop' })
+      .map((heading) => heading.closest('article'))
+      .find((article) => article?.classList.contains('workshop-schedule-block'))
+
+    expect(workshopBlock).toBeInTheDocument()
+    expect(workshopBlock?.parentElement).toHaveClass('workshop-schedule-overlay')
+    expect(workshopBlock?.parentElement).toHaveStyle({
+      '--workshop-column': '7',
+      '--workshop-offset': '126px',
+    })
+    expect(workshopBlock).toHaveTextContent('10:00 am–4:00 pm')
+    expect(workshopBlock).toHaveTextContent('Yoga 10–1 · Lunch 1–2 · Yoga 2–4')
+  })
+
   it('uses a focused day chooser on small screens', async () => {
     vi.stubGlobal('matchMedia', vi.fn().mockReturnValue({
       matches: true,

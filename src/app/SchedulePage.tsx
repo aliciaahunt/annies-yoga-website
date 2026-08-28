@@ -173,6 +173,8 @@ type ScheduleProps = {
 }
 
 function DesktopSchedule({ week, onChooseClass }: ScheduleProps) {
+  const workshopDayIndex = week.findIndex((date) => classesForDate(date).some((item) => item.isWorkshop))
+
   return (
     <div className="timetable-scroll" tabIndex={0} aria-label="Weekly class timetable. Scroll horizontally to see every day.">
       <div className="timetable">
@@ -188,6 +190,13 @@ function DesktopSchedule({ week, onChooseClass }: ScheduleProps) {
           <span aria-hidden="true" />
         </div>
         <TimetableBand band={TIME_BANDS[1]} week={week} onChooseClass={onChooseClass} />
+        {workshopDayIndex >= 0 && (
+          <WorkshopScheduleBlock
+            date={week[workshopDayIndex]}
+            dayIndex={workshopDayIndex}
+            onChooseClass={onChooseClass}
+          />
+        )}
       </div>
     </div>
   )
@@ -229,7 +238,7 @@ function TimetableBand({ band, week, onChooseClass, showEmptyState = false }: Ti
         {week.map((date) => {
           const allDayClasses = classesForDate(date)
           const bandClasses = allDayClasses.filter(
-            (item) => item.startMinutes >= band.startMinutes && item.startMinutes < band.endMinutes,
+            (item) => !item.isWorkshop && item.startMinutes >= band.startMinutes && item.startMinutes < band.endMinutes,
           )
           return (
             <section
@@ -254,6 +263,35 @@ function TimetableBand({ band, week, onChooseClass, showEmptyState = false }: Ti
         })}
       </div>
     </>
+  )
+}
+
+function WorkshopScheduleBlock({ date, dayIndex, onChooseClass }: {
+  date: Date
+  dayIndex: number
+  onChooseClass: (item: YogaClass, date: Date) => void
+}) {
+  const morningOffset = ((autumnWorkshop.startMinutes - TIME_BANDS[0].startMinutes) / 60) * HOUR_HEIGHT
+  const style = {
+    '--workshop-column': dayIndex + 1,
+    '--workshop-offset': `${morningOffset}px`,
+  } as CSSProperties
+
+  return (
+    <div className="workshop-schedule-overlay" style={style}>
+      <article className="workshop-schedule-block">
+        <div>
+          <time>{autumnWorkshop.time}</time>
+          <span>£{autumnWorkshop.price}</span>
+        </div>
+        <h3>{autumnWorkshop.name}</h3>
+        <p>Yoga 10–1 <span aria-hidden="true">·</span> Lunch 1–2 <span aria-hidden="true">·</span> Yoga 2–4</p>
+        <small>Drinks and light refreshments included. Bring your own lunch.</small>
+        <button type="button" onClick={() => onChooseClass(autumnWorkshop, date)}>
+          Request a place <ArrowRight size={13} aria-hidden="true" />
+        </button>
+      </article>
+    </div>
   )
 }
 
