@@ -9,7 +9,7 @@ import {
 } from 'lucide-react'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { CLASS_PRICE_PLANS } from './classPricing'
-import { classesForDate, isChristmasClosure, type YogaClass } from './scheduleData'
+import { autumnWorkshop, classesForDate, isSchedulePaused, type YogaClass } from './scheduleData'
 import ClassReservationForm from '@/components/ClassReservationForm'
 import PageHero from '@/components/PageHero'
 import SiteFooter from '@/components/SiteFooter'
@@ -93,6 +93,23 @@ export default function SchedulePage() {
                   </article>
                 ))}
               </div>
+            </section>
+
+            <section className="workshop-feature" aria-labelledby="autumn-workshop-title">
+              <div>
+                <p className="eyebrow">Saturday 24 October 2026</p>
+                <h3 id="autumn-workshop-title">All-day Yoga Workshop</h3>
+                <p>A day of yoga with a relaxed lunch break. Bring your own lunch; drinks and light refreshments will be provided.</p>
+              </div>
+              <dl>
+                <div><dt>Morning yoga</dt><dd>10:00 am–1:00 pm</dd></div>
+                <div><dt>Lunch break</dt><dd>1:00–2:00 pm</dd></div>
+                <div><dt>Afternoon yoga</dt><dd>2:00–4:00 pm</dd></div>
+                <div><dt>Cost</dt><dd>£60 including refreshments</dd></div>
+              </dl>
+              <button className="button button-light" type="button" onClick={() => chooseClass(autumnWorkshop, new Date(2026, 9, 24))}>
+                Request a place <ArrowRight size={16} aria-hidden="true" />
+              </button>
             </section>
 
             <div className="week-controls" aria-label="Schedule week controls">
@@ -230,7 +247,7 @@ function TimetableBand({ band, week, onChooseClass, showEmptyState = false }: Ti
                 />
               ))}
               {showEmptyState && !allDayClasses.length && (
-                <p className="no-classes">{isChristmasClosure(date) ? 'Closed for Christmas' : 'No classes'}</p>
+                <p className="no-classes">{isSchedulePaused(date) ? 'Schedule paused' : 'No classes'}</p>
               )}
             </section>
           )
@@ -272,7 +289,7 @@ function MobileSchedule({ week, selectedDayIndex, onSelectDay, onChooseClass }: 
           {dayClasses.map((item) => (
             <ClassCard item={item} date={date} onChooseClass={onChooseClass} key={`${item.name}-${item.time}-${item.place}`} />
           ))}
-          {!dayClasses.length && <p className="mobile-no-classes">{isChristmasClosure(date) ? 'Closed for Christmas.' : 'No classes scheduled.'}</p>}
+          {!dayClasses.length && <p className="mobile-no-classes">{isSchedulePaused(date) ? 'No classes scheduled from 20 December.' : 'No classes scheduled.'}</p>}
         </div>
       </section>
     </div>

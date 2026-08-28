@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { classesForDate, isChristmasClosure } from '@/app/scheduleData'
+import { classesForDate, isSchedulePaused } from '@/app/scheduleData'
 
 describe('weekly schedule data', () => {
   it('returns each day in chronological order', () => {
@@ -8,30 +8,30 @@ describe('weekly schedule data', () => {
     expect(monday.map((item) => item.startMinutes)).toEqual([660, 1080, 1170])
   })
 
-  it.each([
-    new Date(2026, 11, 20),
-    new Date(2026, 11, 21),
-    new Date(2026, 11, 22),
-    new Date(2026, 11, 23),
-    new Date(2026, 11, 24),
-    new Date(2026, 11, 25),
-    new Date(2026, 11, 26),
-  ])('removes all classes during the 20–26 December 2026 closure on %s', (date) => {
-    expect(isChristmasClosure(date)).toBe(true)
+  it.each([new Date(2026, 11, 20), new Date(2026, 11, 26), new Date(2027, 0, 4)])(
+    'removes all classes from 20 December 2026 onwards on %s', (date) => {
+    expect(isSchedulePaused(date)).toBe(true)
     expect(classesForDate(date)).toEqual([])
   })
 
-  it('does not remove classes immediately outside the 2026 closure week', () => {
-    expect(isChristmasClosure(new Date(2026, 11, 19))).toBe(false)
+  it('keeps classes before the schedule cutoff', () => {
+    expect(isSchedulePaused(new Date(2026, 11, 19))).toBe(false)
     expect(classesForDate(new Date(2026, 11, 19))).not.toHaveLength(0)
-    expect(isChristmasClosure(new Date(2026, 11, 27))).toBe(false)
   })
 
-  it.each([new Date(2025, 11, 25), new Date(2025, 11, 26)])(
-    'keeps the recurring Christmas Day and Boxing Day closure on %s',
-    (date) => {
-      expect(isChristmasClosure(date)).toBe(true)
-      expect(classesForDate(date)).toEqual([])
-    },
+  it('moves Tuesday restorative yoga to 4 pm', () => {
+    expect(classesForDate(new Date(2026, 8, 15)).find((item) => item.name === 'Restorative Yoga'))
+      .toMatchObject({ time: '4:00 pm', startMinutes: 960 })
+  })
+
+  it.each([new Date(2026, 8, 12), new Date(2026, 8, 19), new Date(2026, 10, 21)])(
+    'removes the regular Saturday class on %s',
+    (date) => expect(classesForDate(date)).toEqual([]),
   )
+
+  it('replaces the Saturday class with the workshop on 24 October', () => {
+    expect(classesForDate(new Date(2026, 9, 24))).toEqual([
+      expect.objectContaining({ name: 'Yoga Workshop', time: '10:00 am–4:00 pm', price: 60 }),
+    ])
+  })
 })

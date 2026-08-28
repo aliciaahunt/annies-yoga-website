@@ -86,7 +86,7 @@ describe('SchedulePage reservations', () => {
       .find((article) => article?.classList.contains('class-event'))
     expect(restorativeCard).toHaveClass('class-event', 'is-positioned')
     expect(regularYogaCard).toHaveClass('class-event', 'is-positioned')
-    expect(restorativeCard).toHaveStyle({ '--event-top': '42px' })
+    expect(restorativeCard).toHaveStyle({ '--event-top': '0px' })
     expect(restorativeCard).toHaveTextContent('Beginners')
     expect(restorativeCard?.closest('[data-time-band]')).toHaveAttribute('data-time-band', 'evening')
     expect(pilatesCard).toHaveClass('class-event-pilates')

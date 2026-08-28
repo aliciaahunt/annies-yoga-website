@@ -91,10 +91,12 @@ export default function ClassReservationForm({ selectedClass }: ClassReservation
 
   return (
     <form className="reservation-form" aria-label={`Request a place in ${selectedClass.name}`} onSubmit={handleSubmit}>
-      <aside className="reservation-pricing" aria-label="Class pricing">
-        <strong>{pricePlan.label} pricing</strong>
-        <span>£{pricePlan.singleClassPrice} per class</span>
-        <span>£{pricePlan.packagePrice} six-week package</span>
+      <aside className="reservation-pricing" aria-label={selectedClass.isWorkshop ? 'Workshop pricing' : 'Class pricing'}>
+        {selectedClass.isWorkshop ? (
+          <><strong>Workshop price</strong><span>£{selectedClass.price} including refreshments</span></>
+        ) : (
+          <><strong>{pricePlan.label} pricing</strong><span>£{pricePlan.singleClassPrice} per class</span><span>£{pricePlan.packagePrice} six-week package</span></>
+        )}
       </aside>
       <div className="enquiry-form-personal">
         <div className="enquiry-form-field">
@@ -106,13 +108,15 @@ export default function ClassReservationForm({ selectedClass }: ClassReservation
           <input id="reservation-email" name="email" type="email" autoComplete="email" maxLength={254} required />
         </div>
       </div>
-      <aside className="reservation-offer-guidance" id="reservation-offer-guidance">
-        <strong>Using a six-week package?</strong>
-        <p>In your message, tell Annie if you’d like to arrange the £{pricePlan.packagePrice} six-week package or if this booking is one of your existing six classes.</p>
-      </aside>
+      {!selectedClass.isWorkshop && (
+        <aside className="reservation-offer-guidance" id="reservation-offer-guidance">
+          <strong>Using a six-week package?</strong>
+          <p>In your message, tell Annie if you’d like to arrange the £{pricePlan.packagePrice} six-week package or if this booking is one of your existing six classes.</p>
+        </aside>
+      )}
       <div className="enquiry-form-field">
         <label htmlFor="reservation-message">Anything Annie should know?</label>
-        <textarea id="reservation-message" name="message" rows={4} maxLength={3000} aria-describedby="reservation-offer-guidance" required />
+        <textarea id="reservation-message" name="message" rows={4} maxLength={3000} aria-describedby={selectedClass.isWorkshop ? undefined : 'reservation-offer-guidance'} required />
       </div>
       <div className="reservation-form-actions">
         <HCaptcha

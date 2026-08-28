@@ -8,6 +8,8 @@ export type YogaClass = {
   place: string
   duration: string
   durationMinutes: number
+  price?: number
+  isWorkshop?: boolean
 }
 
 export const weeklyClasses: YogaClass[] = [
@@ -15,7 +17,7 @@ export const weeklyClasses: YogaClass[] = [
   { activity: 'pilates', day: 'Monday', name: 'Pilates', time: '6:00 pm', startMinutes: 18 * 60, level: 'Beginners', place: 'Strabane', duration: '60 min', durationMinutes: 60 },
   { activity: 'yoga', day: 'Monday', name: 'Yoga', time: '7:30 pm', startMinutes: 19 * 60 + 30, level: 'All levels welcome', place: 'Castlederg', duration: '90 min', durationMinutes: 90 },
   { activity: 'yoga', day: 'Tuesday', name: 'Yoga', time: '10:00 am', startMinutes: 10 * 60, level: 'Beginners', place: 'Strabane', duration: '90 min', durationMinutes: 90 },
-  { activity: 'yoga', day: 'Tuesday', name: 'Restorative Yoga', time: '4:30 pm', startMinutes: 16 * 60 + 30, level: 'Beginners', place: 'Strabane', duration: '90 min', durationMinutes: 90 },
+  { activity: 'yoga', day: 'Tuesday', name: 'Restorative Yoga', time: '4:00 pm', startMinutes: 16 * 60, level: 'Beginners', place: 'Strabane', duration: '90 min', durationMinutes: 90 },
   { activity: 'yoga', day: 'Tuesday', name: 'Yoga', time: '6:00 pm', startMinutes: 18 * 60, level: 'Mixed ability', place: 'Strabane', duration: '90 min', durationMinutes: 90 },
   { activity: 'pilates', day: 'Wednesday', name: 'Pilates', time: '6:15 pm', startMinutes: 18 * 60 + 15, level: 'Beginners', place: 'Strabane', duration: '60 min', durationMinutes: 60 },
   { activity: 'pilates', day: 'Wednesday', name: 'Pilates', time: '7:30 pm', startMinutes: 19 * 60 + 30, level: 'Mixed ability', place: 'Strabane', duration: '60 min', durationMinutes: 60 },
@@ -27,21 +29,33 @@ export const weeklyClasses: YogaClass[] = [
   { activity: 'yoga', day: 'Saturday', name: 'Yoga', time: '9:00 am', startMinutes: 9 * 60, level: 'Beginners welcome', place: 'Strabane', duration: '90 min', durationMinutes: 90 },
 ]
 
+export const autumnWorkshop: YogaClass = {
+  activity: 'yoga', day: 'Saturday', name: 'Yoga Workshop', time: '10:00 am–4:00 pm',
+  startMinutes: 10 * 60, level: 'All levels welcome', place: 'Strabane', duration: 'All day',
+  durationMinutes: 6 * 60, price: 60, isWorkshop: true,
+}
+
+const SATURDAY_CLASS_EXCEPTIONS = new Set(['2026-09-12', '2026-09-19', '2026-10-24', '2026-11-21'])
+
 export function classesForDate(date: Date) {
-  if (isChristmasClosure(date)) return []
+  if (isSchedulePaused(date)) return []
+
+  const dateKey = formatDateKey(date)
+  if (dateKey === '2026-10-24') return [autumnWorkshop]
 
   const dayName = date.toLocaleDateString('en-GB', { weekday: 'long' })
   return weeklyClasses
-    .filter((item) => item.day === dayName)
+    .filter((item) => item.day === dayName && !SATURDAY_CLASS_EXCEPTIONS.has(dateKey))
     .toSorted((first, second) => first.startMinutes - second.startMinutes)
 }
 
-export function isChristmasClosure(date: Date) {
-  if (date.getMonth() !== 11) return false
+export function isSchedulePaused(date: Date) {
+  return date >= new Date(2026, 11, 20)
+}
 
-  const dayOfMonth = date.getDate()
-  const isChristmasDayOrBoxingDay = dayOfMonth === 25 || dayOfMonth === 26
-  const isExtended2026Closure = date.getFullYear() === 2026 && dayOfMonth >= 20 && dayOfMonth <= 24
-
-  return isChristmasDayOrBoxingDay || isExtended2026Closure
+function formatDateKey(date: Date) {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
 }

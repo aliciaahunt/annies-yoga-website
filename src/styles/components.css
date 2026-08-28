@@ -147,6 +147,15 @@
 .schedule-price-choice dd strong { color: var(--ink); font-family: var(--serif); font-size: 30px; font-weight: 500; line-height: .9; }
 .schedule-price-choice dd span { color: var(--muted); font-size: 10px; }
 .schedule-price-choice > p { margin: 0; color: var(--muted); font-size: 10px; line-height: 1.45; }
+.workshop-feature { display: grid; grid-template-columns: minmax(240px, .9fr) minmax(360px, 1.1fr) auto; align-items: center; gap: clamp(22px,3vw,44px); margin: 0 0 34px; padding: clamp(24px,3vw,38px); color: white; background: var(--forest); }
+.workshop-feature .eyebrow { color: rgba(255,255,255,.72); }
+.workshop-feature h3 { margin: 7px 0 10px; font-family: var(--serif); font-size: clamp(32px,3.4vw,48px); font-weight: 400; line-height: 1; }
+.workshop-feature p { max-width: 500px; margin: 0; color: rgba(255,255,255,.76); font-size: 13px; line-height: 1.6; }
+.workshop-feature dl { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px 20px; margin: 0; }
+.workshop-feature dl div { padding-top: 9px; border-top: 1px solid rgba(255,255,255,.2); }
+.workshop-feature dt { color: rgba(255,255,255,.62); font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.workshop-feature dd { margin: 5px 0 0; font-size: 13px; }
+.workshop-feature .button { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
 .week-controls { display: flex; align-items: center; min-height: 64px; margin-bottom: 22px; border-block: 1px solid var(--line); }
 .week-controls button { display: grid; width: 46px; height: 46px; place-items: center; color: var(--ink); background: transparent; cursor: pointer; }
 .week-controls button:hover { background: var(--cream); }
@@ -452,6 +461,8 @@
 .not-found .button { margin-top: 22px; }
 
 @media (max-width: 900px) {
+  .workshop-feature { grid-template-columns: 1fr 1fr; }
+  .workshop-feature .button { width: max-content; }
   .section-shell, .hero-content { width: calc(100% - 40px); }
   .site-header { min-height: 70px; }
   .site-header-inner { width: calc(100% - 40px); min-height: 70px; }
@@ -522,6 +533,9 @@
 }
 
 @media (max-width: 620px) {
+  .workshop-feature { grid-template-columns: 1fr; }
+  .workshop-feature dl { grid-template-columns: 1fr; }
+  .workshop-feature .button { width: 100%; justify-content: center; }
   :root { --page-gutter: 42px; }
   .section-shell, .hero-content, .site-header-inner, .page-hero-content, .schedule-shell, .retreats-hero-copy, .retreat-rhythm-inner { width: calc(100% - var(--page-gutter) - var(--page-gutter)); }
   .site-nav { padding-inline: var(--page-gutter); }
