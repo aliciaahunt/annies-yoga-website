@@ -1,3 +1,7 @@
+import { useRef } from 'react'
+import { CalendarDays, Images, Mail, MapPin } from 'lucide-react'
+import EnquiryDialog, { type EnquiryDialogHandle } from '@/components/EnquiryDialog'
+import RetreatPhotoGallery, { type RetreatPhotoGalleryData, type RetreatPhotoGalleryHandle } from '@/components/RetreatPhotoGallery'
 import RetreatJournalGallery, { type RetreatJournal } from '@/components/RetreatJournalGallery'
 import SiteFooter from '@/components/SiteFooter'
 import SiteHeader from '@/components/SiteHeader'
@@ -6,6 +10,19 @@ import { siteUrl } from '@/lib/siteUrl'
 const retreatImagePath = '/images/retreats/santillan-july-2026'
 const novemberRetreatImagePath = '/images/retreats/santillan-november-2025'
 const irelandRetreatImagePath = '/images/retreats/ireland-retreats'
+const blueHavenImagePath = '/images/retreats/upcoming/blue-haven'
+
+const blueHavenGallery: RetreatPhotoGalleryData = {
+  title: 'The Blue Haven',
+  meta: 'A coastal weekend retreat in South Donegal',
+  photos: [
+    { src: `${blueHavenImagePath}/donegal-bay-view.png`, alt: 'A sweeping view over the beach and Donegal Bay near The Blue Haven' },
+    { src: `${blueHavenImagePath}/donegal-coast.jpg`, alt: 'The Atlantic Ocean viewed from the green Donegal coast near The Blue Haven' },
+    { src: `${blueHavenImagePath}/blue-haven-cottages.jpg`, alt: 'An aerial view of the thatched Blue Haven cottages beside the Donegal coast' },
+    { src: `${blueHavenImagePath}/sea-view-bedroom.jpg`, alt: 'A bright bedroom prepared for guests at The Blue Haven' },
+    { src: `${blueHavenImagePath}/sea-view-dining-room.png`, alt: 'The sea-view dining room at The Blue Haven' },
+  ],
+}
 
 const retreatJournals: RetreatJournal[] = [
   {
@@ -67,11 +84,16 @@ const retreatJournals: RetreatJournal[] = [
 ]
 
 export default function RetreatsPage() {
+  const enquiryDialogRef = useRef<EnquiryDialogHandle>(null)
+  const photoGalleryRef = useRef<RetreatPhotoGalleryHandle>(null)
+
   return (
     <div className="retreats-page">
       <SiteHeader />
 
       <main>
+        <EnquiryDialog ref={enquiryDialogRef} />
+        <RetreatPhotoGallery ref={photoGalleryRef} />
         <section className="retreats-hero">
           <img
             src={siteUrl(`${retreatImagePath}/open-air-yoga-pavilion.jpg`)}
@@ -99,10 +121,28 @@ export default function RetreatsPage() {
               </div>
             </header>
 
-            <div className="retreats-empty-state">
-              <p className="retreats-empty-state-eyebrow">Planning ahead</p>
-              <h3>New retreats are on the way.</h3>
-              <p>Details will be shared here as soon as the next dates are confirmed.</p>
+            <div className="retreat-cards">
+              <article className="retreat-card lift-card">
+                <button aria-label="View photos from The Blue Haven" className="retreat-card-image" onClick={() => photoGalleryRef.current?.open(blueHavenGallery)} type="button">
+                  <img src={siteUrl(`${blueHavenImagePath}/donegal-bay-view.png`)} alt="A sweeping view over the beach and Donegal Bay near The Blue Haven" loading="lazy" />
+                  <span><Images size={16} aria-hidden="true" /> View 5 photos</span>
+                </button>
+                <div className="retreat-card-topline"><span>Bookings open</span></div>
+                <div className="retreat-card-body">
+                  <h3>The Blue Haven</h3>
+                  <div className="retreat-card-meta">
+                    <p className="retreat-card-date"><CalendarDays size={17} aria-hidden="true" /><time dateTime="2025-10-23/2025-10-25">October 23–25, 2025</time></p>
+                    <p className="retreat-card-location"><MapPin size={17} aria-hidden="true" /> Kilcar, Co. Donegal</p>
+                  </div>
+                  <ul className="retreat-card-details">
+                    <li>10 hours of Iyengar yoga included</li>
+                    <li>Friday scones, all Saturday meals, and Sunday breakfast and lunch included</li>
+                    <li>Shared accommodation: €395 per person</li>
+                    <li>Single accommodation: €480 per person</li>
+                  </ul>
+                </div>
+                <button className="button button-dark" onClick={() => enquiryDialogRef.current?.open({ enquiryType: 'Retreats', subject: 'The Blue Haven weekend retreat' })} type="button"><Mail size={17} /> Book with Annie</button>
+              </article>
             </div>
           </div>
         </section>

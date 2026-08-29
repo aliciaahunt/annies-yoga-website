@@ -1,11 +1,18 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeAll, describe, expect, it, vi } from 'vitest'
 import RetreatsPage from '@/app/RetreatsPage'
 
 vi.mock('@hcaptcha/react-hcaptcha', () => ({
   default: () => <div aria-label="Spam check" />,
 }))
+
+beforeAll(() => {
+  HTMLDialogElement.prototype.showModal = vi.fn(function openDialog(this: HTMLDialogElement) {
+    this.setAttribute('open', '')
+  })
+})
 
 describe('retreats page ending', () => {
   it('ends with the footer instead of repeating retreat contact details', () => {
@@ -17,12 +24,34 @@ describe('retreats page ending', () => {
 })
 
 describe('upcoming retreats', () => {
-  it('presents a clear temporary message without an outdated retreat or booking action', () => {
+  it('presents the Blue Haven weekend retreat and accommodation prices', () => {
     render(<RetreatsPage />, { wrapper: MemoryRouter })
 
-    expect(screen.getByRole('heading', { name: 'New retreats are on the way.' })).toBeInTheDocument()
-    expect(screen.getByText('Details will be shared here as soon as the next dates are confirmed.')).toBeInTheDocument()
-    expect(screen.queryByText(/Dromantine/i)).not.toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'Book with Annie' })).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'The Blue Haven' })).toBeInTheDocument()
+    expect(screen.getByText('October 23–25, 2025')).toBeInTheDocument()
+    expect(screen.getByText('10 hours of Iyengar yoga included')).toBeInTheDocument()
+    expect(screen.getByText('Friday scones, all Saturday meals, and Sunday breakfast and lunch included')).toBeInTheDocument()
+    expect(screen.getByText('Shared accommodation: €395 per person')).toBeInTheDocument()
+    expect(screen.getByText('Single accommodation: €480 per person')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'View photos from The Blue Haven' })).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'A sweeping view over the beach and Donegal Bay near The Blue Haven' })).toHaveAttribute(
+      'src',
+      expect.stringContaining('/images/retreats/upcoming/blue-haven/donegal-bay-view.png'),
+    )
+    expect(screen.getByText('View 5 photos')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Book with Annie' })).toBeInTheDocument()
+  })
+
+  it('shows the high-resolution sea-view dining room photograph in the Blue Haven gallery', async () => {
+    const user = userEvent.setup()
+    render(<RetreatsPage />, { wrapper: MemoryRouter })
+
+    await user.click(screen.getByRole('button', { name: 'View photos from The Blue Haven' }))
+    await user.click(screen.getByRole('button', { name: 'View photograph 5' }))
+
+    expect(screen.getByRole('img', { name: 'The sea-view dining room at The Blue Haven' })).toHaveAttribute(
+      'src',
+      expect.stringContaining('/images/retreats/upcoming/blue-haven/sea-view-dining-room.png'),
+    )
   })
 })
