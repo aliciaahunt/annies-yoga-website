@@ -17,7 +17,7 @@ export default function App() {
           <img src={siteUrl('/images/garden-yoga-pose.jpg')} alt="Annie practising yoga in a sunlit garden" />
           <div className="hero-overlay" aria-hidden="true" />
           <div className="hero-content">
-            <p className="eyebrow light">Yoga · Pilates · Retreats</p>
+            <p className="eyebrow light">Yoga · Pilates · Workshops · Retreats</p>
             <h1 className="home-title">Annie's Yoga</h1>
             <p>Welcoming classes in Strabane and Castlederg, created to help you find more ease in body and mind.</p>
             <Link className="hero-book-button" to="/schedule">
@@ -95,6 +95,7 @@ export default function App() {
 
 const stories = [
   { title: 'Weekly classes', image: '/images/weekly-class-triangle.jpg', imagePosition: '78% center', alt: 'A close group of students practising triangle pose together in Annie’s studio', location: 'Strabane & Castlederg', action: 'View classes', href: '/schedule' },
+  { title: 'Workshops', image: '/images/wall-yoga-class.jpg', imagePosition: 'center 48%', alt: 'An Iyengar yoga class turning toward the studio wall', location: 'Full-day practice in Strabane', action: 'Explore workshops', href: '/workshops' },
   { title: 'Retreats', image: '/images/retreats/santillan-july-2026/open-air-yoga-pavilion.jpg', imagePosition: 'center', alt: 'Annie seated while retreat guests rest together in the open-air yoga pavilion at Santillan', location: 'Ireland & abroad', action: 'Explore retreats', href: '/retreats' },
   { title: 'Private classes', image: '/images/private-class-guidance.jpg', imagePosition: 'center', alt: 'Annie giving close individual guidance to a student in a supported backbend', location: 'Personalised support', action: 'Discover private classes', href: '/private-classes' },
 ]

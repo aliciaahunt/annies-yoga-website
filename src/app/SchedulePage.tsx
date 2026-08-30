@@ -5,18 +5,15 @@ import {
   ChevronRight,
   Clock3,
   MapPin,
-  X,
 } from 'lucide-react'
-import { useEffect, useRef, useState, type CSSProperties } from 'react'
-import { createPortal } from 'react-dom'
+import { useEffect, useState, type CSSProperties } from 'react'
+import { Link } from 'react-router-dom'
 import { CLASS_PRICE_PLANS } from './classPricing'
 import { autumnWorkshop, classesForDate, isSchedulePaused, type YogaClass } from './scheduleData'
-import ClassReservationForm from '@/components/ClassReservationForm'
+import ClassReservationDialog, { type SelectedClass } from '@/components/ClassReservationDialog'
 import PageHero from '@/components/PageHero'
 import SiteFooter from '@/components/SiteFooter'
 import SiteHeader from '@/components/SiteHeader'
-
-type SelectedClass = YogaClass & { date: Date }
 
 const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 const HOUR_HEIGHT = 84
@@ -31,58 +28,11 @@ export default function SchedulePage() {
   const [selectedDayIndex, setSelectedDayIndex] = useState(() => new Date().getDay())
   const isMobile = useMediaQuery(MOBILE_BREAKPOINT)
   const [selectedClass, setSelectedClass] = useState<SelectedClass | null>(null)
-  const dialogRef = useRef<HTMLDivElement>(null)
-  const dialogTitleRef = useRef<HTMLHeadingElement>(null)
-  const openerRef = useRef<HTMLElement | null>(null)
   const week = Array.from({ length: 7 }, (_, index) => addDays(weekStart, index))
 
   const chooseClass = (item: YogaClass, date: Date) => {
-    openerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
     setSelectedClass({ ...item, date })
   }
-
-  const closeDialog = () => setSelectedClass(null)
-
-  useEffect(() => {
-    if (!selectedClass) return
-
-    const appRoot = document.getElementById('root')
-    const previousOverflow = document.body.style.overflow
-    if (appRoot) appRoot.inert = true
-    document.body.style.overflow = 'hidden'
-    dialogTitleRef.current?.focus()
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        event.preventDefault()
-        closeDialog()
-        return
-      }
-      if (event.key !== 'Tab') return
-
-      const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
-        'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
-      )
-      if (!focusable?.length) return
-      const first = focusable[0]
-      const last = focusable[focusable.length - 1]
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault()
-        last.focus()
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault()
-        first.focus()
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown)
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-      if (appRoot) appRoot.inert = false
-      document.body.style.overflow = previousOverflow
-      openerRef.current?.focus()
-    }
-  }, [selectedClass])
 
   return (
     <div className="schedule-page">
@@ -116,14 +66,14 @@ export default function SchedulePage() {
                 <p>{autumnWorkshop.description}</p>
               </div>
               <div className="workshop-notice-details" aria-label="Workshop details">
-                <span><CalendarDays size={14} aria-hidden="true" />24 October 2026</span>
+                <span><CalendarDays size={14} aria-hidden="true" />{autumnWorkshop.displayDate.replace(/^Saturday /, '')}</span>
                 <span><Clock3 size={14} aria-hidden="true" />{autumnWorkshop.time}</span>
                 <span><MapPin size={14} aria-hidden="true" />{autumnWorkshop.place}</span>
                 <strong>£{autumnWorkshop.price}</strong>
               </div>
-              <button className="button button-dark" type="button" onClick={() => chooseClass(autumnWorkshop, new Date(2026, 9, 24))}>
-                Request a place <ArrowRight size={16} aria-hidden="true" />
-              </button>
+              <Link className="button button-dark" to="/workshops">
+                View workshop <ArrowRight size={16} aria-hidden="true" />
+              </Link>
             </aside>
 
             <section className="schedule-pricing" aria-label="Class pricing">
@@ -180,23 +130,7 @@ export default function SchedulePage() {
 
       <SiteFooter />
 
-      {selectedClass && createPortal(
-        <div className="booking-dialog-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) closeDialog() }}>
-          <div className="booking-dialog" ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="booking-dialog-title">
-            <button className="dialog-close" type="button" onClick={closeDialog} aria-label="Close booking dialog"><X /></button>
-            <p className="eyebrow">Reserve your place</p>
-            <h2 id="booking-dialog-title" ref={dialogTitleRef} tabIndex={-1}>Reserve {selectedClass.name}</h2>
-            <dl>
-              <div><dt>Date</dt><dd>{selectedClass.date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })}</dd></div>
-              <div><dt>Time</dt><dd>{selectedClass.time} · {selectedClass.duration}</dd></div>
-              <div><dt>Location</dt><dd>{selectedClass.place}</dd></div>
-              <div><dt>Level</dt><dd>{selectedClass.level}</dd></div>
-            </dl>
-            <ClassReservationForm selectedClass={selectedClass} />
-          </div>
-        </div>,
-        document.body,
-      )}
+      {selectedClass && <ClassReservationDialog selectedClass={selectedClass} onClose={() => setSelectedClass(null)} />}
     </div>
   )
 }

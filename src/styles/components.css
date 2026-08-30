@@ -264,6 +264,22 @@
 .private-offerings-grid p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.55; }
 .private-guidance-image { display: block; width: min(100%, 390px); height: auto; max-height: 610px; align-self: end; justify-self: center; object-fit: contain; filter: saturate(.8); }
 
+/* Workshops page */
+.workshops-page { min-height: 100vh; background: var(--paper); }
+.workshops-hero > img { object-position: center 48%; }
+.workshop-cards { grid-template-columns: 1fr; }
+.workshop-card { cursor: default; }
+.workshop-card h3 { min-height: 0; }
+.workshop-card-featured { width: min(100%, 760px); margin-inline: auto; padding: 0; }
+.workshop-card-featured .retreat-card-image { width: 100%; height: auto; aspect-ratio: 4/3; margin: 0; }
+.workshop-card-featured .retreat-card-image img { object-position: center 48%; }
+.workshop-card-content { display: flex; min-width: 0; flex: 1; flex-direction: column; padding: clamp(28px, 3.5vw, 42px); }
+.workshop-teacher-qualification { margin: 0 0 14px; color: var(--moss-deep); font-size: 10px; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+.workshop-teacher-introduction { max-width: 620px; margin: 0 0 25px; color: var(--muted); font-size: 15px; line-height: 1.7; }
+.workshop-card-featured .retreat-card-meta { margin-bottom: 22px; }
+.workshop-card-featured .retreat-card-details { margin-bottom: 30px; }
+.workshop-card-featured .button { align-self: flex-start; margin-top: auto; cursor: pointer; }
+
 /* Retreats page */
 .retreats-page { min-height: 100vh; background: var(--paper); }
 .retreats-hero { position: relative; height: min(40vw, 520px); min-height: 350px; overflow: hidden; color: white; background: var(--forest); }
@@ -318,7 +334,7 @@
 .lift-card { box-shadow: 0 4px 14px rgba(45,57,48,.14); transition: transform .35s cubic-bezier(.2,.65,.25,1), box-shadow .35s ease; }
 .lift-card:is(:hover, :focus-visible, :focus-within) { box-shadow: 0 8px 22px rgba(45,57,48,.19); transform: scale(1.03); }
 .retreat-journals { padding: 82px 0 90px; background: var(--cream); }
-.retreat-journal-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.retreat-journal-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
 .retreat-journal-card { display: grid; padding: 0; overflow: hidden; color: var(--ink); background: var(--paper); border: 0; cursor: pointer; font: inherit; text-align: left; }
 .retreat-journal-card-image { position: relative; display: block; overflow: hidden; aspect-ratio: 1.35; background: #ddd9cf; }
 .retreat-journal-card-image > img { width: 100%; height: 100%; object-fit: cover; }
@@ -507,6 +523,7 @@
   .retreats-section-heading, .retreats-enquiry-grid { grid-template-columns: 1fr; gap: 30px; }
   .retreats-hero-copy { width: calc(100% - 56px); }
   .retreat-cards { grid-template-columns: 1fr; }
+  .workshop-cards { grid-template-columns: 1fr; }
   .retreat-rhythm-inner { gap: 28px; }
   .retreat-journal-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .retreat-journal-card-image { aspect-ratio: 1.2; }
@@ -548,6 +565,9 @@
   .section-shell, .hero-content, .site-header-inner, .page-hero-content, .schedule-shell, .retreats-hero-copy, .retreat-rhythm-inner { width: calc(100% - var(--page-gutter) - var(--page-gutter)); }
   .site-nav { padding-inline: var(--page-gutter); }
   .retreat-cards, .retreat-journal-cards { width: auto; margin-inline: 0; gap: var(--page-gutter); }
+  .workshop-card-content { padding: 28px 20px 24px; }
+  .workshop-card-featured .retreat-card-image { aspect-ratio: 4/3; }
+  .workshop-card-featured .button { width: 100%; justify-content: center; }
   .hero h1 { font-size: 61px; }
   .hero > img { object-position: 63% center; }
   .section-title-row h2, .about-copy h2, .contact-section h2 { font-size: 47px; }

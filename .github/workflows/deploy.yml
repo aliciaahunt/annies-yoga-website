@@ -36,7 +36,7 @@ jobs:
           VITE_WEB3FORMS_ACCESS_KEY: ${{ secrets.WEB3FORMS_ACCESS_KEY }}
       - name: Add route entry points and single-page app fallback
         run: |
-          for route in schedule private-classes retreats about contact; do
+          for route in schedule private-classes workshops retreats about contact; do
             mkdir -p "dist/$route"
             cp dist/index.html "dist/$route/index.html"
           done

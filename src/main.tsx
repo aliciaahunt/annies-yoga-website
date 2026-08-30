@@ -8,6 +8,7 @@ import PrivateClassesPage from '@/app/PrivateClassesPage'
 import RetreatsPage from '@/app/RetreatsPage'
 import ContactPage from '@/app/ContactPage'
 import NotFoundPage from '@/app/NotFoundPage'
+import WorkshopsPage from '@/app/WorkshopsPage'
 import RouteEffects from '@/components/RouteEffects'
 
 createRoot(document.getElementById('root')!).render(
@@ -19,6 +20,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/schedule" element={<SchedulePage />} />
         <Route path="/private-classes" element={<PrivateClassesPage />} />
         <Route path="/retreats" element={<RetreatsPage />} />
+        <Route path="/workshops" element={<WorkshopsPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

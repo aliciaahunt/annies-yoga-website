@@ -11,6 +11,7 @@ import NotFoundPage from '@/app/NotFoundPage'
 import PrivateClassesPage from '@/app/PrivateClassesPage'
 import RetreatsPage from '@/app/RetreatsPage'
 import SchedulePage from '@/app/SchedulePage'
+import WorkshopsPage from '@/app/WorkshopsPage'
 
 const componentStyles = readFileSync(resolve(process.cwd(), 'src/styles/components.css'), 'utf8')
 
@@ -57,6 +58,7 @@ const primaryPages = [
   ['Home', App],
   ['Studio Classes', SchedulePage],
   ['Private Classes', PrivateClassesPage],
+  ['Workshops', WorkshopsPage],
   ['Retreats', RetreatsPage],
   ['Contact', ContactPage],
 ] as const

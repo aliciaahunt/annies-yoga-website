@@ -34,7 +34,7 @@ describe('weekly schedule data', () => {
       expect.objectContaining({
         kind: 'workshop',
         name: 'Iyengar Yoga with Aisling Guirke',
-        level: 'Level 3 – General Yoga',
+        level: 'All abilities welcome',
         time: '10:00 am–4:00 pm',
         price: 60,
       }),

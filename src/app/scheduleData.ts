@@ -12,8 +12,14 @@ type BaseYogaClass = {
 
 export type Workshop = BaseYogaClass & {
   kind: 'workshop'
+  slug: string
+  eventDate: string
+  displayDate: string
+  address: readonly string[]
   price: number
   description: string
+  teacherIntroduction: string
+  teacherQualification: string
   sessions: readonly { label: string; time: string }[]
 }
 
@@ -36,17 +42,7 @@ export const weeklyClasses: YogaClass[] = [
   { kind: 'class', activity: 'yoga', day: 'Saturday', name: 'Yoga', time: '9:00 am', startMinutes: 9 * 60, level: 'Beginners welcome', place: 'Strabane', duration: '90 min', durationMinutes: 90 },
 ]
 
-export const autumnWorkshop: Workshop = {
-  kind: 'workshop', activity: 'yoga', day: 'Saturday', name: 'Iyengar Yoga with Aisling Guirke', time: '10:00 am–4:00 pm',
-  startMinutes: 10 * 60, level: 'Level 3 – General Yoga', place: 'Strabane', duration: 'All day',
-  durationMinutes: 6 * 60, price: 60,
-  description: 'Join Aisling for a Level 3 general Iyengar Yoga workshop, with morning and afternoon practice sessions. Drinks and light refreshments are included; please bring your own lunch.',
-  sessions: [
-    { label: 'Morning yoga', time: '10:00 am–1:00 pm' },
-    { label: 'Lunch break', time: '1:00–2:00 pm' },
-    { label: 'Afternoon yoga', time: '2:00–4:00 pm' },
-  ],
-}
+export { autumnWorkshop } from './workshopsData'
 
 const SATURDAY_CLASS_EXCEPTIONS = new Set(['2026-09-12', '2026-09-19', '2026-10-24', '2026-11-21'])
 const CLASS_CANCELLATIONS = new Set(['2026-11-20'])
@@ -55,7 +51,7 @@ export function classesForDate(date: Date) {
   if (isSchedulePaused(date)) return []
 
   const dateKey = formatDateKey(date)
-  if (dateKey === '2026-10-24') return [autumnWorkshop]
+  if (dateKey === autumnWorkshop.eventDate) return [autumnWorkshop]
   if (CLASS_CANCELLATIONS.has(dateKey)) return []
 
   const dayName = date.toLocaleDateString('en-GB', { weekday: 'long' })
@@ -74,3 +70,4 @@ function formatDateKey(date: Date) {
   const day = String(date.getDate()).padStart(2, '0')
   return `${year}-${month}-${day}`
 }
+import { autumnWorkshop } from './workshopsData'

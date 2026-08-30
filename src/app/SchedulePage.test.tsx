@@ -108,7 +108,7 @@ describe('SchedulePage reservations', () => {
       '--workshop-offset': '126px',
     })
     expect(workshopBlock).toHaveTextContent('10:00 am–4:00 pm')
-    expect(workshopBlock).toHaveTextContent('Level 3 – General Yoga')
+    expect(workshopBlock).toHaveTextContent('All abilities welcome')
     expect(workshopBlock).toHaveTextContent('Morning yoga 10:00 am–1:00 pm · Lunch break 1:00–2:00 pm · Afternoon yoga 2:00–4:00 pm')
   })
 
@@ -118,10 +118,10 @@ describe('SchedulePage reservations', () => {
     const notice = screen.getByRole('complementary', { name: 'Iyengar Yoga with Aisling Guirke' })
     const pricing = screen.getByRole('region', { name: 'Class pricing' })
     expect(notice.compareDocumentPosition(pricing) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
-    expect(notice).toHaveTextContent('Level 3 general Iyengar Yoga workshop')
+    expect(notice).toHaveTextContent('guided for people of all abilities')
     expect(notice).toHaveTextContent('24 October 2026')
     expect(notice).toHaveTextContent('£60')
-    expect(within(notice).getByRole('button', { name: 'Request a place' })).toBeInTheDocument()
+    expect(within(notice).getByRole('link', { name: 'View workshop' })).toHaveAttribute('href', '/workshops')
   })
 
   it('uses a focused day chooser on small screens', async () => {

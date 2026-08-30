@@ -4,6 +4,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import { siteUrl } from '@/lib/siteUrl'
 
 const navigation = [
+  { label: 'Workshops', to: '/workshops' },
   { label: 'Retreats', to: '/retreats' },
   { label: 'Contact', to: '/contact' },
 ]

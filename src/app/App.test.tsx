@@ -10,11 +10,12 @@ describe('homepage offerings', () => {
     expect(screen.queryByRole('heading', { name: /Ready to make space for yourself/i })).not.toBeInTheDocument()
   })
 
-  it('presents three complete linked cards using the retreat-journal presentation', () => {
+  it('presents four complete linked cards using the retreat-journal presentation', () => {
     render(<App />, { wrapper: MemoryRouter })
 
     const offerings = [
       { name: 'Weekly classes', href: '/schedule' },
+      { name: 'Workshops', href: '/workshops' },
       { name: 'Retreats', href: '/retreats' },
       { name: 'Private classes', href: '/private-classes' },
     ]

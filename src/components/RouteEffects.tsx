@@ -5,6 +5,7 @@ const pageTitles: Record<string, string> = {
   '/': "Annie's Yoga | Yoga, Pilates & Retreats",
   '/schedule': "Classes | Annie's Yoga",
   '/retreats': "Retreats | Annie's Yoga",
+  '/workshops': "Yoga Workshops | Annie's Yoga",
   '/private-classes': "Private Classes | Annie's Yoga",
   '/contact': "Contact | Annie's Yoga",
 }
@@ -13,6 +14,7 @@ const pageDescriptions: Record<string, string> = {
   '/': "Welcoming yoga and Pilates classes, private sessions and retreats with Annie in Strabane and Castlederg, Northern Ireland.",
   '/schedule': "View Annie's weekly yoga and Pilates class timetable in Strabane and Castlederg.",
   '/retreats': "Explore restorative yoga and Pilates retreats with Annie.",
+  '/workshops': "Explore upcoming Iyengar yoga workshops with Annie and guest teachers in Strabane.",
   '/private-classes': "Explore one-to-one and private group yoga sessions shaped around your needs.",
   '/contact': "Contact Annie about yoga and Pilates classes, private sessions and retreats.",
 }
