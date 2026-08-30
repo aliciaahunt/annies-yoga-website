@@ -5,16 +5,17 @@ import { readFileSync } from 'node:fs'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import SchedulePage from '@/app/SchedulePage'
 
-vi.mock('@hcaptcha/react-hcaptcha', () => ({
-  default: ({ onVerify }: { onVerify: (token: string) => void }) => (
-    <button type="button" onClick={() => onVerify('verified-captcha-token')}>Complete captcha</button>
+vi.mock('@/components/TurnstileCheck', () => ({
+  default: ({ onTokenChange }: { onTokenChange: (token: string) => void }) => (
+    <button type="button" onClick={() => onTokenChange('verified-turnstile-token')}>Complete spam check</button>
   ),
 }))
 
 describe('SchedulePage reservations', () => {
   beforeEach(() => {
     vi.restoreAllMocks()
-    vi.stubEnv('VITE_WEB3FORMS_ACCESS_KEY', 'form-access-key')
+    vi.stubEnv('VITE_TURNSTILE_SITE_KEY', 'turnstile-site-key')
+    vi.stubEnv('VITE_FORMS_ENDPOINT', 'https://forms.example.test/submit')
     vi.setSystemTime(new Date(2026, 7, 16, 12))
     HTMLDialogElement.prototype.showModal = vi.fn(function openDialog(this: HTMLDialogElement) {
       this.setAttribute('open', '')
@@ -120,7 +121,7 @@ describe('SchedulePage reservations', () => {
     expect(notice.compareDocumentPosition(pricing) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
     expect(notice).toHaveTextContent('guided for people of all abilities')
     expect(notice).toHaveTextContent('24 October 2026')
-    expect(notice).toHaveTextContent('£60')
+    expect(notice).toHaveTextContent('£65')
     expect(within(notice).getByRole('link', { name: 'View workshop' })).toHaveAttribute('href', '/workshops')
   })
 
@@ -189,16 +190,15 @@ describe('SchedulePage reservations', () => {
     await user.type(screen.getByRole('textbox', { name: 'Name' }), 'Alex Murphy')
     await user.type(screen.getByRole('textbox', { name: 'Email' }), 'alex@example.com')
     await user.type(screen.getByRole('textbox', { name: /Anything Annie should know/ }), 'I have a wrist injury.')
-    await user.click(screen.getByRole('button', { name: 'Complete captcha' }))
+    await user.click(screen.getByRole('button', { name: 'Complete spam check' }))
     await user.click(screen.getByRole('button', { name: 'Request reservation' }))
 
     expect(await screen.findByText('Thanks, Alex. Your reservation request has been sent to Annie.')).toBeInTheDocument()
     expect(screen.getByText('Your place is not confirmed until Annie replies.')).toBeInTheDocument()
-    expect(fetchMock).toHaveBeenCalledWith('https://api.web3forms.com/submit', expect.objectContaining({ method: 'POST' }))
+    expect(fetchMock).toHaveBeenCalledWith('https://forms.example.test/submit', expect.objectContaining({ method: 'POST' }))
 
     const requestBody = fetchMock.mock.calls[0][1]?.body as FormData
     expect(Object.fromEntries(requestBody.entries())).toEqual({
-      access_key: 'form-access-key',
       class_date: 'Monday 17 August 2026',
       class_duration: '90 min',
       class_level: 'All levels welcome',
@@ -206,16 +206,15 @@ describe('SchedulePage reservations', () => {
       class_name: 'Yoga',
       class_time: '11:00 am',
       email: 'alex@example.com',
-      from_name: "Annie's Yoga website",
-      'h-captcha-response': 'verified-captcha-token',
+      form_kind: 'reservation',
       message: 'I have a wrist injury.',
       name: 'Alex Murphy',
-      subject: 'New class reservation request: Yoga — Monday 17 August 2026',
+      turnstile_token: 'verified-turnstile-token',
     })
   })
 
   it('preserves the request and offers direct contact when online reservations are unavailable', async () => {
-    vi.stubEnv('VITE_WEB3FORMS_ACCESS_KEY', '')
+    vi.stubEnv('VITE_FORMS_ENDPOINT', '')
     const user = userEvent.setup()
     render(<SchedulePage />, { wrapper: MemoryRouter })
 
@@ -223,7 +222,7 @@ describe('SchedulePage reservations', () => {
     await user.type(screen.getByRole('textbox', { name: 'Name' }), 'Alex Murphy')
     await user.type(screen.getByRole('textbox', { name: 'Email' }), 'alex@example.com')
     await user.type(screen.getByRole('textbox', { name: /Anything Annie should know/ }), 'Please reserve a place near the front.')
-    await user.click(screen.getByRole('button', { name: 'Complete captcha' }))
+    await user.click(screen.getByRole('button', { name: 'Complete spam check' }))
     await user.click(screen.getByRole('button', { name: 'Request reservation' }))
 
     const alert = screen.getByRole('alert')
@@ -253,7 +252,7 @@ describe('SchedulePage reservations', () => {
     await user.type(screen.getByRole('textbox', { name: 'Name' }), 'Alex Murphy')
     await user.type(screen.getByRole('textbox', { name: 'Email' }), 'alex@example.com')
     await user.type(screen.getByRole('textbox', { name: /Anything Annie should know/ }), 'I am new to yoga.')
-    await user.click(screen.getByRole('button', { name: 'Complete captcha' }))
+    await user.click(screen.getByRole('button', { name: 'Complete spam check' }))
     await user.click(screen.getByRole('button', { name: 'Request reservation' }))
 
     const alert = await screen.findByRole('alert')
