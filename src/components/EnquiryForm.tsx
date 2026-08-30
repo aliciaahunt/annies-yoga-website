@@ -1,6 +1,7 @@
+import HCaptcha from '@hcaptcha/react-hcaptcha'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
-import TurnstileCheck from '@/components/TurnstileCheck'
-import { formsAreConfigured, submitProtectedForm } from '@/lib/forms'
+
+const WEB3FORMS_HCAPTCHA_SITE_KEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2'
 
 const enquiryTypes = [
   'Private classes',
@@ -30,25 +31,40 @@ export default function EnquiryForm({ defaultEnquiryType, lockEnquiryType = fals
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    if (!formsAreConfigured()) {
-      setError('The enquiry form is not available right now. Please email or call Annie instead.')
+    if (!captchaToken) {
+      setError('Please complete the spam check before sending.')
       return
     }
 
-    if (!captchaToken) {
-      setError('Please complete the spam check before sending.')
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY
+    if (!accessKey) {
+      setError('The enquiry form is not available right now. Please email or call Annie instead.')
       return
     }
 
     const form = event.currentTarget
     const formData = new FormData(form)
     const name = String(formData.get('name'))
+    const enquiryType = String(formData.get('enquiry_type'))
+
+    formData.set('access_key', accessKey)
+    formData.set('subject', `New ${enquiryType} enquiry from Annie's Yoga website`)
+    formData.set('from_name', "Annie's Yoga website")
+    formData.set('h-captcha-response', captchaToken)
 
     setError('')
     setStatus('submitting')
 
     try {
-      await submitProtectedForm('enquiry', formData, captchaToken)
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+      })
+      const result = await response.json() as { success?: boolean }
+
+      if (!response.ok || result.success !== true) {
+        throw new Error('Web3Forms rejected the enquiry')
+      }
 
       setVisitorName(name.trim().split(/\s+/)[0] || 'there')
       setStatus('success')
@@ -118,12 +134,15 @@ export default function EnquiryForm({ defaultEnquiryType, lockEnquiryType = fals
       </div>
 
       <div className="enquiry-form-actions">
-        <TurnstileCheck
-          action="enquiry"
-          onTokenChange={(token) => {
+        <HCaptcha
+          sitekey={WEB3FORMS_HCAPTCHA_SITE_KEY}
+          reCaptchaCompat={false}
+          onVerify={(token) => {
             setCaptchaToken(token)
-            if (token) setError('')
+            setError('')
           }}
+          onExpire={() => setCaptchaToken('')}
+          onError={() => setCaptchaToken('')}
         />
         <button className="button button-dark" type="submit" disabled={status === 'submitting'}>
           {status === 'submitting' ? 'Sending…' : 'Send enquiry'}

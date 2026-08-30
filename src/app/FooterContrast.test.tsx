@@ -15,7 +15,7 @@ import WorkshopsPage from '@/app/WorkshopsPage'
 
 const componentStyles = readFileSync(resolve(process.cwd(), 'src/styles/components.css'), 'utf8')
 
-vi.mock('@/components/TurnstileCheck', () => ({
+vi.mock('@hcaptcha/react-hcaptcha', () => ({
   default: () => <div aria-label="Spam check" />,
 }))
 

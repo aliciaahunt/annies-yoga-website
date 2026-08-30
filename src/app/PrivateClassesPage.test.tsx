@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import PrivateClassesPage from '@/app/PrivateClassesPage'
 
-vi.mock('@/components/TurnstileCheck', () => ({
+vi.mock('@hcaptcha/react-hcaptcha', () => ({
   default: () => <div aria-label="Spam check" />,
 }))
 

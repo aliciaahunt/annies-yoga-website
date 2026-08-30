@@ -13,7 +13,7 @@ test('studio and private class pages use the same desktop hero height', async ({
   expect(privateHeight).toBe(studioHeight)
 })
 
-test('an externally mounted Turnstile interaction appears above the private enquiry', async ({ page }) => {
+test('an externally mounted captcha challenge appears above the private enquiry', async ({ page }) => {
   await page.goto('private-classes')
   const enquiryButton = page.getByRole('button', { name: 'Send an enquiry' })
   await expect(enquiryButton).toHaveCount(1)
@@ -21,7 +21,7 @@ test('an externally mounted Turnstile interaction appears above the private enqu
 
   const hitElementId = await page.evaluate(() => {
     const challenge = document.createElement('div')
-    challenge.id = 'simulated-turnstile-challenge'
+    challenge.id = 'simulated-hcaptcha-challenge'
     Object.assign(challenge.style, {
       position: 'fixed',
       inset: '200px auto auto 400px',
@@ -34,17 +34,17 @@ test('an externally mounted Turnstile interaction appears above the private enqu
     return document.elementFromPoint(660, 400)?.id
   })
 
-  expect(hitElementId).toBe('simulated-turnstile-challenge')
+  expect(hitElementId).toBe('simulated-hcaptcha-challenge')
 })
 
-test('an externally mounted Turnstile interaction appears above a class reservation', async ({ page }) => {
+test('an externally mounted captcha challenge appears above a class reservation', async ({ page }) => {
   await page.clock.setFixedTime(new Date(2026, 7, 28, 12))
   await page.goto('schedule')
   await page.getByRole('button', { name: 'Book' }).first().click()
 
   const hitElementId = await page.evaluate(() => {
     const challenge = document.createElement('div')
-    challenge.id = 'simulated-reservation-turnstile-challenge'
+    challenge.id = 'simulated-reservation-hcaptcha-challenge'
     Object.assign(challenge.style, {
       position: 'fixed',
       inset: '200px auto auto 400px',
@@ -57,5 +57,5 @@ test('an externally mounted Turnstile interaction appears above a class reservat
     return document.elementFromPoint(660, 400)?.id
   })
 
-  expect(hitElementId).toBe('simulated-reservation-turnstile-challenge')
+  expect(hitElementId).toBe('simulated-reservation-hcaptcha-challenge')
 })

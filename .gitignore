@@ -13,7 +13,6 @@ dist-ssr
 test-results
 playwright-report
 *.local
-*.tsbuildinfo
 
 # Editor directories and files
 .vscode/*

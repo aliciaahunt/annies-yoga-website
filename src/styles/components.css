@@ -424,7 +424,6 @@
 .enquiry-type-summary span { color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; }
 .enquiry-type-summary strong { color: var(--moss-deep); font-family: var(--serif); font-size: 20px; font-weight: 400; }
 .enquiry-form-actions { display: flex; align-items: stretch; gap: 10px; }
-.turnstile-check { min-width: 300px; flex: 1; }
 .enquiry-form-actions > .button { min-width: 150px; flex: 1; padding: 12px; cursor: pointer; }
 .enquiry-form-actions > .button:disabled { cursor: wait; opacity: .7; }
 .enquiry-form-status:empty { display: none; }

@@ -3,17 +3,16 @@ import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import EnquiryForm from '@/components/EnquiryForm'
 
-vi.mock('@/components/TurnstileCheck', () => ({
-  default: ({ onTokenChange }: { onTokenChange: (token: string) => void }) => (
-    <button type="button" onClick={() => onTokenChange('verified-turnstile-token')}>Complete spam check</button>
+vi.mock('@hcaptcha/react-hcaptcha', () => ({
+  default: ({ onVerify }: { onVerify: (token: string) => void }) => (
+    <button type="button" onClick={() => onVerify('verified-captcha-token')}>Complete captcha</button>
   ),
 }))
 
 describe('EnquiryForm', () => {
   beforeEach(() => {
     vi.restoreAllMocks()
-    vi.stubEnv('VITE_TURNSTILE_SITE_KEY', 'turnstile-site-key')
-    vi.stubEnv('VITE_FORMS_ENDPOINT', 'https://forms.example.test/submit')
+    vi.stubEnv('VITE_WEB3FORMS_ACCESS_KEY', 'form-access-key')
   })
 
   it('lets a visitor describe their enquiry with accessible fields and choices', () => {
@@ -64,20 +63,22 @@ describe('EnquiryForm', () => {
     await user.type(screen.getByRole('textbox', { name: 'Email' }), 'alex@example.com')
     await user.click(screen.getByRole('radio', { name: 'Retreats' }))
     await user.type(screen.getByRole('textbox', { name: 'Message' }), 'Could you tell me about the next retreat?')
-    await user.click(screen.getByRole('button', { name: 'Complete spam check' }))
+    await user.click(screen.getByRole('button', { name: 'Complete captcha' }))
     await user.click(screen.getByRole('button', { name: 'Send enquiry' }))
 
     expect(await screen.findByText('Thanks, Alex. Your enquiry has been sent to Annie.')).toBeInTheDocument()
-    expect(fetchMock).toHaveBeenCalledWith('https://forms.example.test/submit', expect.objectContaining({ method: 'POST' }))
+    expect(fetchMock).toHaveBeenCalledWith('https://api.web3forms.com/submit', expect.objectContaining({ method: 'POST' }))
 
     const requestBody = fetchMock.mock.calls[0][1]?.body as FormData
     expect(Object.fromEntries(requestBody.entries())).toEqual({
+      access_key: 'form-access-key',
       email: 'alex@example.com',
       enquiry_type: 'Retreats',
-      form_kind: 'enquiry',
+      from_name: "Annie's Yoga website",
+      'h-captcha-response': 'verified-captcha-token',
       message: 'Could you tell me about the next retreat?',
       name: 'Alex Murphy',
-      turnstile_token: 'verified-turnstile-token',
+      subject: "New Retreats enquiry from Annie's Yoga website",
     })
 
     await user.click(screen.getByRole('button', { name: 'Send another message' }))
@@ -99,7 +100,7 @@ describe('EnquiryForm', () => {
     await user.type(screen.getByRole('textbox', { name: 'Email' }), 'alex@example.com')
     await user.click(screen.getByRole('radio', { name: 'Studio classes' }))
     await user.type(screen.getByRole('textbox', { name: 'Message' }), 'Which class would suit a beginner?')
-    await user.click(screen.getByRole('button', { name: 'Complete spam check' }))
+    await user.click(screen.getByRole('button', { name: 'Complete captcha' }))
     await user.click(screen.getByRole('button', { name: 'Send enquiry' }))
 
     const alert = await screen.findByRole('alert')
@@ -126,7 +127,7 @@ describe('EnquiryForm', () => {
     await user.type(screen.getByRole('textbox', { name: 'Email' }), 'alex@example.com')
     await user.click(screen.getByRole('radio', { name: 'Other' }))
     await user.type(screen.getByRole('textbox', { name: 'Message' }), 'I have another question.')
-    await user.click(screen.getByRole('button', { name: 'Complete spam check' }))
+    await user.click(screen.getByRole('button', { name: 'Complete captcha' }))
     await user.click(screen.getByRole('button', { name: 'Send enquiry' }))
 
     expect(await screen.findByRole('alert')).toBeInTheDocument()
@@ -142,7 +143,7 @@ describe('EnquiryForm', () => {
     await user.type(screen.getByRole('textbox', { name: 'Email' }), 'alex@example.com')
     await user.click(screen.getByRole('radio', { name: 'Gift cards' }))
     await user.type(screen.getByRole('textbox', { name: 'Message' }), 'Do you offer gift cards?')
-    await user.click(screen.getByRole('button', { name: 'Complete spam check' }))
+    await user.click(screen.getByRole('button', { name: 'Complete captcha' }))
     await user.click(screen.getByRole('button', { name: 'Send enquiry' }))
 
     expect(screen.getByRole('button', { name: 'Sending…' })).toBeDisabled()
