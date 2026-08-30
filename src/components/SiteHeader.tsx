@@ -65,9 +65,6 @@ export default function SiteHeader() {
           <details
             className="classes-menu"
             ref={classesMenuRef}
-            onBlur={(event) => {
-              if (!event.currentTarget.contains(event.relatedTarget)) event.currentTarget.removeAttribute('open')
-            }}
           >
             <summary className={location.pathname === '/schedule' || location.pathname === '/private-classes' ? 'active' : undefined}>Classes</summary>
             <div className="classes-submenu">
