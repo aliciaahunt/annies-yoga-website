@@ -1,10 +1,9 @@
-import HCaptcha from '@hcaptcha/react-hcaptcha'
 import PhoneLink from '@/components/PhoneLink'
+import TurnstileCheck from '@/components/TurnstileCheck'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { CLASS_PRICE_PLANS } from '@/app/classPricing'
 import type { YogaClass } from '@/app/scheduleData'
-
-const WEB3FORMS_HCAPTCHA_SITE_KEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2'
+import { formsAreConfigured, submitProtectedForm } from '@/lib/forms'
 
 type ClassReservationFormProps = {
   selectedClass: YogaClass & { date: Date }
@@ -27,16 +26,15 @@ export default function ClassReservationForm({ selectedClass }: ClassReservation
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    if (!captchaToken) {
-      setError('Please complete the spam check before requesting your place.')
-      setShowFallback(false)
+    if (!formsAreConfigured()) {
+      setError('Online reservations are not available right now. Please email or call Annie instead.')
+      setShowFallback(true)
       return
     }
 
-    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY
-    if (!accessKey) {
-      setError('Online reservations are not available right now. Please email or call Annie instead.')
-      setShowFallback(true)
+    if (!captchaToken) {
+      setError('Please complete the spam check before requesting your place.')
+      setShowFallback(false)
       return
     }
 
@@ -44,10 +42,6 @@ export default function ClassReservationForm({ selectedClass }: ClassReservation
     const formData = new FormData(form)
     const name = String(formData.get('name'))
 
-    formData.set('access_key', accessKey)
-    formData.set('subject', `New class reservation request: ${selectedClass.name} — ${classDate}`)
-    formData.set('from_name', "Annie's Yoga website")
-    formData.set('h-captcha-response', captchaToken)
     formData.set('class_name', selectedClass.name)
     formData.set('class_date', classDate)
     formData.set('class_time', selectedClass.time)
@@ -60,13 +54,7 @@ export default function ClassReservationForm({ selectedClass }: ClassReservation
     setStatus('submitting')
 
     try {
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: formData,
-      })
-      const result = await response.json() as { success?: boolean }
-
-      if (!response.ok || result.success !== true) throw new Error('Web3Forms rejected the reservation')
+      await submitProtectedForm('reservation', formData, captchaToken)
 
       setVisitorName(name.trim().split(/\s+/)[0] || 'there')
       setStatus('success')
@@ -119,16 +107,15 @@ export default function ClassReservationForm({ selectedClass }: ClassReservation
         <textarea id="reservation-message" name="message" rows={4} maxLength={3000} aria-describedby={selectedClass.kind === 'workshop' ? undefined : 'reservation-offer-guidance'} required />
       </div>
       <div className="reservation-form-actions">
-        <HCaptcha
-          sitekey={WEB3FORMS_HCAPTCHA_SITE_KEY}
-          reCaptchaCompat={false}
-          onVerify={(token) => {
+        <TurnstileCheck
+          action="reservation"
+          onTokenChange={(token) => {
             setCaptchaToken(token)
-            setError('')
-            setShowFallback(false)
+            if (token) {
+              setError('')
+              setShowFallback(false)
+            }
           }}
-          onExpire={() => setCaptchaToken('')}
-          onError={() => setCaptchaToken('')}
         />
         <button className="button button-dark" type="submit" disabled={status === 'submitting'}>
           {status === 'submitting' ? 'Sending…' : 'Request reservation'}

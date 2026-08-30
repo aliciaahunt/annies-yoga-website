@@ -73,7 +73,7 @@ export default function ContactPage() {
               </div>
               <EnquiryForm />
               <p className="enquiry-privacy-note">
-                Your details are used only to reply to your enquiry and are securely processed by Web3Forms.
+                Your details are used only to reply to your enquiry and are protected by Cloudflare.
               </p>
             </div>
 

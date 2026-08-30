@@ -4,9 +4,9 @@ import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
 import WorkshopsPage from '@/app/WorkshopsPage'
 
-vi.mock('@hcaptcha/react-hcaptcha', () => ({
-  default: ({ onVerify }: { onVerify: (token: string) => void }) => (
-    <button type="button" onClick={() => onVerify('verified-token')}>Complete captcha</button>
+vi.mock('@/components/TurnstileCheck', () => ({
+  default: ({ onTokenChange }: { onTokenChange: (token: string) => void }) => (
+    <button type="button" onClick={() => onTokenChange('verified-token')}>Complete spam check</button>
   ),
 }))
 

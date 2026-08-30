@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
 import ContactPage from '@/app/ContactPage'
 
-vi.mock('@hcaptcha/react-hcaptcha', () => ({
+vi.mock('@/components/TurnstileCheck', () => ({
   default: () => <div aria-label="Spam check" />,
 }))
 

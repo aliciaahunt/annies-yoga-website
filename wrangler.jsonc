@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "annies-yoga-forms",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-08-30",
+  "workers_dev": true,
+  "preview_urls": false,
+  "vars": {
+    "ALLOWED_ORIGINS": "https://anniesyoga.uk,https://www.anniesyoga.uk",
+    "ALLOWED_TURNSTILE_HOSTNAMES": "anniesyoga.uk,www.anniesyoga.uk"
+  },
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "destination_address": "anniesyoga@yahoo.ie"
+    }
+  ]
+}

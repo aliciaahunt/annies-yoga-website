@@ -104,7 +104,7 @@ const EnquiryDialog = forwardRef<EnquiryDialogHandle>(function EnquiryDialog(_, 
         <EnquiryForm key={`${context.enquiryType}-${context.subject ?? ''}`} defaultEnquiryType={context.enquiryType} lockEnquiryType />
 
         <footer>
-          <p>Your details are used only to reply to your enquiry and are securely processed by Web3Forms.</p>
+          <p>Your details are used only to reply to your enquiry and are protected by Cloudflare.</p>
           <Link to="/contact" onClick={closeDialog}>View all contact details <ArrowRight size={15} /></Link>
         </footer>
         </div>
