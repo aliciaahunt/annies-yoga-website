@@ -139,6 +139,7 @@ export default function RetreatsPage() {
                     <li>Friday scones, all Saturday meals, and Sunday breakfast and lunch included</li>
                     <li>Shared accommodation: €395 per person</li>
                     <li>Single accommodation: €480 per person</li>
+                    <li>A €100 deposit is required at the time of booking. The remaining balance is due no later than 24 hours before the retreat begins.</li>
                   </ul>
                 </div>
                 <button className="button button-dark" onClick={() => enquiryDialogRef.current?.open({ enquiryType: 'Retreats', subject: 'The Blue Haven weekend retreat' })} type="button"><Mail size={17} /> Book with Annie</button>

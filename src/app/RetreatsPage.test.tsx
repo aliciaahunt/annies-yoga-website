@@ -33,6 +33,7 @@ describe('upcoming retreats', () => {
     expect(screen.getByText('Friday scones, all Saturday meals, and Sunday breakfast and lunch included')).toBeInTheDocument()
     expect(screen.getByText('Shared accommodation: €395 per person')).toBeInTheDocument()
     expect(screen.getByText('Single accommodation: €480 per person')).toBeInTheDocument()
+    expect(screen.getByText('A €100 deposit is required at the time of booking. The remaining balance is due no later than 24 hours before the retreat begins.')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'View photos from The Blue Haven' })).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'A sweeping view over the beach and Donegal Bay near The Blue Haven' })).toHaveAttribute(
       'src',

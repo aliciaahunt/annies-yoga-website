@@ -27,6 +27,7 @@ describe('WorkshopsPage', () => {
     expect(screen.getByText('Please bring your own lunch.')).toBeInTheDocument()
     expect(screen.getByText('Drinks and light refreshments included.')).toBeInTheDocument()
     expect(screen.getByText('Christ Church, 22 Bowling Grn, Strabane BT82 8BW')).toBeInTheDocument()
+    expect(screen.getByText('Payment is required at the time of booking. Please contact Annie to arrange your preferred payment method.')).toBeInTheDocument()
     expect(screen.getByRole('list')).toHaveTextContent('10:00 am–4:00 pm, with morning and afternoon practice')
     expect(screen.getByRole('button', { name: 'View details for Iyengar Yoga with Aisling Guirke' })).toBeInTheDocument()
     expect(container.querySelector('script[type="application/ld+json"]')).toHaveTextContent('EventScheduled')

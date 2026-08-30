@@ -100,6 +100,7 @@ export default function WorkshopsPage() {
                       <li>Drinks and light refreshments included.</li>
                       <li>Please bring your own lunch.</li>
                       <li>£{autumnWorkshop.price} per person</li>
+                      <li>Payment is required at the time of booking. Please contact Annie to arrange your preferred payment method.</li>
                     </ul>
                   </div>
                   <button className="button button-dark" type="button" onClick={requestPlace}>
