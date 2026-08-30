@@ -15,7 +15,7 @@ export const autumnWorkshop: Workshop = {
   address: ['Christ Church', '22 Bowling Grn', 'Strabane BT82 8BW'],
   duration: 'All day',
   durationMinutes: 6 * 60,
-  price: 60,
+  price: 65,
   description: 'Join Aisling and Annie for a full day of Iyengar Yoga, with morning and afternoon practice guided for people of all abilities. Drinks and light refreshments are included; please bring your own lunch.',
   teacherQualification: 'Aisling Guirke · Level 3 Iyengar Yoga teacher',
   teacherIntroduction: 'One of Ireland’s most senior Iyengar Yoga teachers, Aisling brings decades of experience and a warm, encouraging approach. Together, Aisling and Annie will guide the day with clarity and care, helping each student work thoughtfully at a level suited to their practice.',

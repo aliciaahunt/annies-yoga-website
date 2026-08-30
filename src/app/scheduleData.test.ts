@@ -36,7 +36,7 @@ describe('weekly schedule data', () => {
         name: 'Iyengar Yoga with Aisling Guirke',
         level: 'All abilities welcome',
         time: '10:00 am–4:00 pm',
-        price: 60,
+        price: 65,
       }),
     ])
   })

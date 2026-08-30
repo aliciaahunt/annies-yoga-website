@@ -42,7 +42,7 @@ describe('WorkshopsPage', () => {
     const dialog = screen.getByRole('dialog', { name: 'Reserve Iyengar Yoga with Aisling Guirke' })
     expect(dialog).toHaveTextContent('Saturday 24 October')
     expect(dialog).toHaveTextContent('All abilities welcome')
-    expect(within(dialog).getByLabelText('Workshop pricing')).toHaveTextContent('£60 including refreshments')
+    expect(within(dialog).getByLabelText('Workshop pricing')).toHaveTextContent('£65 including refreshments')
   })
 
   it('adds Workshops to the primary navigation', () => {
