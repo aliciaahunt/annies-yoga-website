@@ -1,7 +1,7 @@
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import WorkshopsPage from '@/app/WorkshopsPage'
 
 vi.mock('@/components/TurnstileCheck', () => ({
@@ -11,6 +11,11 @@ vi.mock('@/components/TurnstileCheck', () => ({
 }))
 
 describe('WorkshopsPage', () => {
+  beforeEach(() => {
+    vi.restoreAllMocks()
+    vi.stubEnv('VITE_TURNSTILE_SITE_KEY', 'turnstile-site-key')
+    vi.stubEnv('VITE_FORMS_ENDPOINT', 'https://forms.example.test/submit')
+  })
   it('presents the confirmed workshop in a retreat-style card', () => {
     const { container } = render(<WorkshopsPage />, { wrapper: MemoryRouter })
 
@@ -43,6 +48,25 @@ describe('WorkshopsPage', () => {
     expect(dialog).toHaveTextContent('Saturday 24 October')
     expect(dialog).toHaveTextContent('All abilities welcome')
     expect(within(dialog).getByLabelText('Workshop pricing')).toHaveTextContent('£65 including refreshments')
+  })
+
+  it('submits the booking as a workshop rather than an ordinary class', async () => {
+    const user = userEvent.setup()
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      Response.json({ success: true, reference: 'ABC12345' }),
+    )
+    render(<WorkshopsPage />, { wrapper: MemoryRouter })
+
+    await user.click(screen.getByRole('button', { name: 'Request a place' }))
+    await user.type(screen.getByRole('textbox', { name: 'Name' }), 'Alex Murphy')
+    await user.type(screen.getByRole('textbox', { name: 'Email' }), 'alex@example.com')
+    await user.type(screen.getByRole('textbox', { name: 'Anything Annie should know?' }), 'Please reserve a place.')
+    await user.click(screen.getByRole('button', { name: 'Complete spam check' }))
+    await user.click(screen.getByRole('button', { name: 'Request reservation' }))
+
+    await screen.findByText(/Reference ABC12345/)
+    const requestBody = fetchMock.mock.calls[0][1]?.body as FormData
+    expect(requestBody.get('event_kind')).toBe('workshop')
   })
 
   it('adds Workshops to the primary navigation', () => {

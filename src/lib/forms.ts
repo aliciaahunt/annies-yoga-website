@@ -12,6 +12,7 @@ export async function submitProtectedForm(kind: FormKind, fields: FormData, turn
   fields.set('turnstile_token', turnstileToken)
 
   const response = await fetch(endpoint, { method: 'POST', body: fields })
-  const result = await response.json().catch(() => null) as { success?: boolean } | null
+  const result = await response.json().catch(() => null) as { success?: boolean; reference?: string } | null
   if (!response.ok || result?.success !== true) throw new Error('Form submission was rejected')
+  return { reference: result.reference ?? '' }
 }

@@ -15,6 +15,7 @@ export default function ClassReservationForm({ selectedClass }: ClassReservation
   const [showFallback, setShowFallback] = useState(false)
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle')
   const [visitorName, setVisitorName] = useState('')
+  const [submissionReference, setSubmissionReference] = useState('')
   const errorRef = useRef<HTMLParagraphElement>(null)
   const classDate = formatReservationDate(selectedClass.date)
   const pricePlan = CLASS_PRICE_PLANS[selectedClass.activity]
@@ -48,15 +49,17 @@ export default function ClassReservationForm({ selectedClass }: ClassReservation
     formData.set('class_duration', selectedClass.duration)
     formData.set('class_location', selectedClass.place)
     formData.set('class_level', selectedClass.level)
+    formData.set('event_kind', selectedClass.kind === 'workshop' ? 'workshop' : 'class')
 
     setError('')
     setShowFallback(false)
     setStatus('submitting')
 
     try {
-      await submitProtectedForm('reservation', formData, captchaToken)
+      const result = await submitProtectedForm('reservation', formData, captchaToken)
 
       setVisitorName(name.trim().split(/\s+/)[0] || 'there')
+      setSubmissionReference(result.reference)
       setStatus('success')
       setCaptchaToken('')
       form.reset()
@@ -72,6 +75,7 @@ export default function ClassReservationForm({ selectedClass }: ClassReservation
       <div className="reservation-success" role="status">
         <h3>Request sent</h3>
         <p>Thanks, {visitorName}. Your reservation request has been sent to Annie.</p>
+        {submissionReference && <p>Reference {submissionReference}</p>}
         <strong>Your place is not confirmed until Annie replies.</strong>
       </div>
     )

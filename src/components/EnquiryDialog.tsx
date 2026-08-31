@@ -101,7 +101,12 @@ const EnquiryDialog = forwardRef<EnquiryDialogHandle>(function EnquiryDialog(_, 
           <a href="mailto:anniesyoga@yahoo.ie"><Mail size={17} /><span><small>Email Annie</small>anniesyoga@yahoo.ie</span></a>
         </div>
 
-        <EnquiryForm key={`${context.enquiryType}-${context.subject ?? ''}`} defaultEnquiryType={context.enquiryType} lockEnquiryType />
+        <EnquiryForm
+          key={`${context.enquiryType}-${context.subject ?? ''}`}
+          defaultEnquiryType={context.enquiryType}
+          enquirySubject={context.subject}
+          lockEnquiryType
+        />
 
         <footer>
           <p>Your details are used only to reply to your enquiry and are protected by Cloudflare.</p>

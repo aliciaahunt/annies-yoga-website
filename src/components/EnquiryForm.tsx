@@ -13,14 +13,16 @@ const enquiryTypes = [
 
 type EnquiryFormProps = {
   defaultEnquiryType?: string
+  enquirySubject?: string
   lockEnquiryType?: boolean
 }
 
-export default function EnquiryForm({ defaultEnquiryType, lockEnquiryType = false }: EnquiryFormProps) {
+export default function EnquiryForm({ defaultEnquiryType, enquirySubject, lockEnquiryType = false }: EnquiryFormProps) {
   const [captchaToken, setCaptchaToken] = useState('')
   const [error, setError] = useState('')
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle')
   const [visitorName, setVisitorName] = useState('')
+  const [submissionReference, setSubmissionReference] = useState('')
   const errorRef = useRef<HTMLParagraphElement>(null)
 
   useEffect(() => {
@@ -48,9 +50,10 @@ export default function EnquiryForm({ defaultEnquiryType, lockEnquiryType = fals
     setStatus('submitting')
 
     try {
-      await submitProtectedForm('enquiry', formData, captchaToken)
+      const result = await submitProtectedForm('enquiry', formData, captchaToken)
 
       setVisitorName(name.trim().split(/\s+/)[0] || 'there')
+      setSubmissionReference(result.reference)
       setStatus('success')
       setCaptchaToken('')
       form.reset()
@@ -65,6 +68,7 @@ export default function EnquiryForm({ defaultEnquiryType, lockEnquiryType = fals
       <div className="enquiry-form-success" role="status">
         <h3>Message sent</h3>
         <p>Thanks, {visitorName}. Your enquiry has been sent to Annie.</p>
+        {submissionReference && <p>Reference {submissionReference}</p>}
         <button className="button button-dark" type="button" onClick={() => setStatus('idle')}>
           Send another message
         </button>
@@ -111,6 +115,8 @@ export default function EnquiryForm({ defaultEnquiryType, lockEnquiryType = fals
           </div>
         </fieldset>
       )}
+
+      {enquirySubject && <input type="hidden" name="enquiry_subject" value={enquirySubject} />}
 
       <div className="enquiry-form-field">
         <label htmlFor="enquiry-message">Message</label>

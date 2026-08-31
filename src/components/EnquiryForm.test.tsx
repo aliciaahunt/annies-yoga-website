@@ -85,6 +85,30 @@ describe('EnquiryForm', () => {
     expect(screen.getByRole('textbox', { name: 'Message' })).toHaveValue('')
   })
 
+  it('includes the named retreat when the form is opened from a retreat booking', async () => {
+    const user = userEvent.setup()
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      Response.json({ success: true, reference: 'ABC12345' }),
+    )
+    render(
+      <EnquiryForm
+        defaultEnquiryType="Retreats"
+        enquirySubject="The Blue Haven weekend retreat"
+        lockEnquiryType
+      />,
+    )
+
+    await user.type(screen.getByRole('textbox', { name: 'Name' }), 'Alex Murphy')
+    await user.type(screen.getByRole('textbox', { name: 'Email' }), 'alex@example.com')
+    await user.type(screen.getByRole('textbox', { name: 'Message' }), 'Please tell me more.')
+    await user.click(screen.getByRole('button', { name: 'Complete spam check' }))
+    await user.click(screen.getByRole('button', { name: 'Send enquiry' }))
+
+    await screen.findByText(/Reference ABC12345/)
+    const requestBody = fetchMock.mock.calls[0][1]?.body as FormData
+    expect(requestBody.get('enquiry_subject')).toBe('The Blue Haven weekend retreat')
+  })
+
   it('keeps the visitor’s message and focuses useful feedback when sending fails', async () => {
     const user = userEvent.setup()
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(

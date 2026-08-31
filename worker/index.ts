@@ -67,6 +67,17 @@ export default {
     }
 
     const fields = validateFields(kind, submitted)
+    if (fields && kind === 'enquiry') {
+      const enquirySubject = optionalStringValue(submitted, 'enquiry_subject', 200)
+      if (enquirySubject) fields.enquiry_subject = enquirySubject
+    }
+    if (fields && kind === 'reservation') {
+      const eventKind = submitted.has('event_kind') ? stringValue(submitted, 'event_kind', 20) : 'class'
+      if (!eventKind || !['class', 'workshop'].includes(eventKind)) {
+        return json({ success: false, error: 'invalid_form' }, 400, corsHeaders)
+      }
+      fields.event_kind = eventKind
+    }
     const token = stringValue(submitted, 'turnstile_token', 2048)
     if (!fields || !token) return json({ success: false, error: 'invalid_form' }, 400, corsHeaders)
 
@@ -74,7 +85,9 @@ export default {
     verification.set('secret', env.TURNSTILE_SECRET)
     verification.set('response', token)
     verification.set('remoteip', request.headers.get('CF-Connecting-IP') ?? '')
-    verification.set('idempotency_key', crypto.randomUUID())
+    const submissionId = crypto.randomUUID()
+    const reference = submissionId.replaceAll('-', '').slice(0, 8).toUpperCase()
+    verification.set('idempotency_key', submissionId)
 
     let verificationResult: { success?: boolean; hostname?: string; action?: string }
     try {
@@ -99,14 +112,15 @@ export default {
         to: DESTINATION_EMAIL,
         from: { email: SENDER_EMAIL, name: "Annie's Yoga website" },
         replyTo: { email: fields.email, name: fields.name },
-        subject: subjectFor(kind, fields),
-        text: emailBodyFor(kind, fields),
+        subject: subjectFor(kind, fields, reference),
+        text: emailBodyFor(kind, fields, reference),
       })
     } catch {
       return json({ success: false, error: 'delivery_failed' }, 502, corsHeaders)
     }
 
-    return json({ success: true }, 200, corsHeaders)
+    console.info(JSON.stringify({ event: 'form_email_accepted', reference, kind, eventKind: fields.event_kind }))
+    return json({ success: true, reference }, 200, corsHeaders)
   },
 }
 
@@ -137,22 +151,37 @@ function stringValue(form: FormData, name: string, maxLength: number) {
   return normalized && normalized.length <= maxLength ? normalized : null
 }
 
-function subjectFor(kind: FormKind, fields: Record<string, string>) {
-  return kind === 'enquiry'
-    ? `New ${fields.enquiry_type} enquiry from Annie's Yoga website`
-    : `New class reservation request: ${fields.class_name} — ${fields.class_date}`
+function optionalStringValue(form: FormData, name: string, maxLength: number) {
+  const value = form.get(name)
+  if (value === null) return null
+  return stringValue(form, name, maxLength)
 }
 
-function emailBodyFor(kind: FormKind, fields: Record<string, string>) {
+function subjectFor(kind: FormKind, fields: Record<string, string>, reference: string) {
+  if (kind === 'enquiry' && fields.enquiry_type === 'Retreats' && fields.enquiry_subject) {
+    return `New retreat enquiry from ${fields.name}: ${fields.enquiry_subject} — Ref ${reference}`
+  }
+  if (kind === 'reservation' && fields.event_kind === 'workshop') {
+    return `New workshop booking from ${fields.name}: ${fields.class_name} — Ref ${reference}`
+  }
+  return kind === 'enquiry'
+    ? `New ${fields.enquiry_type} enquiry from ${fields.name} — Ref ${reference}`
+    : `New class reservation from ${fields.name}: ${fields.class_name} — Ref ${reference}`
+}
+
+function emailBodyFor(kind: FormKind, fields: Record<string, string>, reference: string) {
   const lines = [
+    `Reference: ${reference}`,
     `Name: ${fields.name}`,
     `Email: ${fields.email}`,
   ]
 
   if (kind === 'enquiry') {
     lines.push(`Enquiry type: ${fields.enquiry_type}`)
+    if (fields.enquiry_subject) lines.push(`Retreat: ${fields.enquiry_subject}`)
   } else {
     lines.push(
+      `Booking type: ${fields.event_kind === 'workshop' ? 'Workshop' : 'Class'}`,
       `Class: ${fields.class_name}`,
       `Date: ${fields.class_date}`,
       `Time: ${fields.class_time}`,

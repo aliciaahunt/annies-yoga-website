@@ -207,6 +207,7 @@ describe('SchedulePage reservations', () => {
       class_name: 'Yoga',
       class_time: '11:00 am',
       email: 'alex@example.com',
+      event_kind: 'class',
       form_kind: 'reservation',
       message: 'I have a wrist injury.',
       name: 'Alex Murphy',
