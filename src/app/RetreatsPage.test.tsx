@@ -28,7 +28,7 @@ describe('upcoming retreats', () => {
     render(<RetreatsPage />, { wrapper: MemoryRouter })
 
     expect(screen.getByRole('heading', { name: 'The Blue Haven' })).toBeInTheDocument()
-    expect(screen.getByText('October 23–25, 2025')).toBeInTheDocument()
+    expect(screen.getByText('20–22 November 2026')).toBeInTheDocument()
     expect(screen.getByText('10 hours of Iyengar yoga included')).toBeInTheDocument()
     expect(screen.getByText('Friday scones, all Saturday meals, and Sunday breakfast and lunch included')).toBeInTheDocument()
     expect(screen.getByText('Shared accommodation: €395 per person')).toBeInTheDocument()

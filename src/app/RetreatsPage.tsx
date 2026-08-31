@@ -131,7 +131,7 @@ export default function RetreatsPage() {
                 <div className="retreat-card-body">
                   <h3>The Blue Haven</h3>
                   <div className="retreat-card-meta">
-                    <p className="retreat-card-date"><CalendarDays size={17} aria-hidden="true" /><time dateTime="2025-10-23/2025-10-25">October 23–25, 2025</time></p>
+                    <p className="retreat-card-date"><CalendarDays size={17} aria-hidden="true" /><time dateTime="2026-11-20/2026-11-22">20–22 November 2026</time></p>
                     <p className="retreat-card-location"><MapPin size={17} aria-hidden="true" /> Kilcar, Co. Donegal</p>
                   </div>
                   <ul className="retreat-card-details">
