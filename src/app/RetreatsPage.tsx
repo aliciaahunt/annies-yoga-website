@@ -109,7 +109,7 @@ export default function RetreatsPage() {
         <section className="retreat-rhythm" aria-labelledby="retreat-rhythm-heading">
           <div className="section-shell retreat-rhythm-inner">
             <h2 id="retreat-rhythm-heading">A retreat with Annie</h2>
-            <p>Iyengar practice <span aria-hidden="true">·</span> restorative places <span aria-hidden="true">·</span> nourishing meals <span aria-hidden="true">·</span> space to pause</p>
+            <p>Iyengar practice <span aria-hidden="true">·</span> restorative poses <span aria-hidden="true">·</span> nourishing meals <span aria-hidden="true">·</span> space to pause</p>
           </div>
         </section>
 
