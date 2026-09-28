@@ -131,28 +131,19 @@ test('hovering a retreat journal enlarges the complete card as one unit', async 
   await expect(image).toHaveCSS('transform', 'none')
 })
 
-test('upcoming retreats show a clear temporary message without stale booking details', async ({ page }) => {
+test('upcoming retreats show both destinations and the Locanda photo gallery', async ({ page }) => {
   await page.goto('retreats')
 
-  await expect(page.getByRole('heading', { level: 3, name: 'New retreats are on the way.' })).toBeVisible()
-  await expect(page.getByText('Details will be shared here as soon as the next dates are confirmed.')).toBeVisible()
-  await expect(page.getByText(/Dromantine/i)).toHaveCount(0)
-  await expect(page.getByRole('button', { name: 'Book with Annie' })).toHaveCount(0)
-  await expect(page.locator('.retreat-card')).toHaveCount(0)
-})
-
-test('the upcoming-retreat message fills the content width on desktop', async ({ page }) => {
-  await page.goto('retreats')
-
-  const section = page.locator('.retreats-upcoming .section-shell')
-  const message = page.locator('.retreats-empty-state')
-  const sectionBox = await section.boundingBox()
-  const messageBox = await message.boundingBox()
-
-  expect(sectionBox).not.toBeNull()
-  expect(messageBox).not.toBeNull()
-  expect(messageBox!.width).toBeCloseTo(sectionBox!.width, 0)
-  await expect(message).toHaveCSS('cursor', 'auto')
+  await expect(page.locator('.retreat-card')).toHaveCount(2)
+  await expect(page.getByRole('heading', { name: 'Locanda, Italy' })).toBeVisible()
+  await expect(page.getByText('17–23 July 2027', { exact: true })).toBeVisible()
+  await page.getByRole('button', { name: 'View photos from Locanda' }).click()
+  const gallery = page.getByRole('dialog', { name: 'Locanda, Italy photo gallery' })
+  await expect(gallery).toBeVisible()
+  for (let index = 1; index <= 8; index++) {
+    await gallery.getByRole('button', { name: `View photograph ${index}`, exact: true }).click()
+    await expect.poll(() => gallery.locator('.retreat-gallery-stage > img').evaluate((image) => (image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0)
+  }
 })
 
 test('upcoming and past retreat headings use the same compact content gap', async ({ page }) => {
@@ -160,7 +151,7 @@ test('upcoming and past retreat headings use the same compact content gap', asyn
 
   const gaps = await page.evaluate(() => {
     const upcomingHeading = document.querySelector('.retreats-upcoming .retreats-section-heading')!
-    const upcomingContent = document.querySelector('.retreats-empty-state')!
+    const upcomingContent = document.querySelector('.retreat-cards')!
     const pastHeading = document.querySelector('.retreat-journals .retreats-section-heading')!
     const pastContent = document.querySelector('.retreat-journal-cards')!
 
@@ -175,12 +166,10 @@ test('upcoming and past retreat headings use the same compact content gap', asyn
   await expect(page.getByText('A small glimpse into the practice, places and people that shape each retreat.')).toHaveCount(0)
 })
 
-test('the upcoming-retreat message remains readable without overflow on mobile', async ({ page }) => {
+test('upcoming retreat cards remain readable without overflow on mobile', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('retreats')
 
-  const message = page.locator('.retreats-empty-state')
-  await expect(message).toBeVisible()
-  await expect(message.getByRole('heading', { name: 'New retreats are on the way.' })).toHaveCSS('font-size', '34px')
+  await expect(page.getByRole('heading', { name: 'Locanda, Italy' })).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390)
 })

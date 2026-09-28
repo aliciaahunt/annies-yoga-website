@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useLocation, useNavigationType } from 'react-router-dom'
 
 const pageTitles: Record<string, string> = {
+  '/retreats/italy': "Italy Yoga Retreat · 17–23 July 2027 | Annie's Yoga",
   '/': "Annie's Yoga | Yoga, Pilates & Retreats",
   '/schedule': "Classes | Annie's Yoga",
   '/retreats': "Retreats | Annie's Yoga",
@@ -11,6 +12,7 @@ const pageTitles: Record<string, string> = {
 }
 
 const pageDescriptions: Record<string, string> = {
+  '/retreats/italy': "Join Annie at Locanda, Italy, from 17–23 July 2027. Explore the setting, room options, meals and booking details for this summer yoga retreat.",
   '/': "Welcoming yoga and Pilates classes, private sessions and retreats with Annie in Strabane and Castlederg, Northern Ireland.",
   '/schedule': "View Annie's weekly yoga and Pilates class timetable in Strabane and Castlederg.",
   '/retreats': "Explore restorative yoga and Pilates retreats with Annie.",

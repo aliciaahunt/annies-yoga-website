@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+import { locandaGallery, locandaImagePath } from '@/app/locandaRetreatData'
 import { useRef } from 'react'
 import { CalendarDays, Images, Mail, MapPin } from 'lucide-react'
 import EnquiryDialog, { type EnquiryDialogHandle } from '@/components/EnquiryDialog'
@@ -143,6 +145,28 @@ export default function RetreatsPage() {
                   </ul>
                 </div>
                 <button className="button button-dark" onClick={() => enquiryDialogRef.current?.open({ enquiryType: 'Retreats', subject: 'The Blue Haven weekend retreat' })} type="button"><Mail size={17} /> Book with Annie</button>
+              </article>
+              <article className="retreat-card lift-card">
+                <button aria-label="View photos from Locanda" className="retreat-card-image" onClick={() => photoGalleryRef.current?.open(locandaGallery)} type="button">
+                  <img src={siteUrl(`${locandaImagePath}/house.jpg`)} alt="The stone house at Locanda with blue shutters and a garden terrace at dusk" loading="lazy" />
+                  <span><Images size={16} aria-hidden="true" /> View 8 photos</span>
+                </button>
+                <div className="retreat-card-topline"><span>Bookings open</span></div>
+                <div className="retreat-card-body">
+                  <h3>Locanda, Italy</h3>
+                  <div className="retreat-card-meta">
+                    <p className="retreat-card-date"><CalendarDays size={17} aria-hidden="true" /><time dateTime="2027-07-17/2027-07-23">17–23 July 2027</time></p>
+                    <p className="retreat-card-location"><MapPin size={17} aria-hidden="true" /> Locanda, Italy</p>
+                  </div>
+                  <p className="retreat-card-copy">A summer retreat with Annie, with space for yoga, shared meals and quiet moments in the gardens of Locanda.</p>
+                  <ul className="retreat-card-details">
+                    <li>From €1,250 per person</li>
+                    <li>Three meals per day included</li>
+                    <li>Shared and single rooms available</li>
+                  </ul>
+                  <Link className="button italy-discover-button" to="/retreats/italy">Discover more</Link>
+                </div>
+                <button className="button button-dark" onClick={() => enquiryDialogRef.current?.open({ enquiryType: 'Retreats', subject: 'Locanda, Italy retreat — 17–23 July 2027' })} type="button"><Mail size={17} /> Book with Annie</button>
               </article>
             </div>
           </div>

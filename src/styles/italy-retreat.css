@@ -1,0 +1,54 @@
+.italy-page { background: var(--paper); }
+.italy-page h2 { margin-bottom: 24px; font-family: var(--serif); font-size: clamp(32px, 3.7vw, 52px); line-height: 1.12; letter-spacing: -.035em; }
+.italy-page h3 { font-family: var(--serif); font-size: 25px; line-height: 1.25; }
+.italy-eyebrow { margin-bottom: 22px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .17em; }
+.italy-hero { position: relative; min-height: 620px; display: flex; align-items: center; color: white; background: var(--forest); }
+.italy-hero > img { position: absolute; width: 100%; height: 100%; object-fit: cover; object-position: center 58%; }
+.italy-hero::after { position: absolute; inset: 0; content: ''; background: linear-gradient(90deg, rgba(12,26,19,.8), rgba(12,26,19,.38) 65%, rgba(12,26,19,.15)); }
+.italy-hero-content { position: relative; z-index: 1; padding-block: 40px 64px; }
+.italy-back { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 72px; font-size: 13px; }
+.italy-hero h1 { font-family: var(--serif); font-size: clamp(43px, 5.4vw, 76px); line-height: 1.08; letter-spacing: -.045em; margin-bottom: 26px; }
+.italy-hero-content > p:not(.italy-eyebrow) { margin-bottom: 28px; }
+.italy-light-button { background: var(--paper); color: var(--forest); }
+.italy-stay-grid p { color: var(--muted); line-height: 1.8; }
+.italy-stay { padding-block: 64px 96px; }
+.italy-stay > header { margin-bottom: 36px; }
+.italy-stay-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.italy-stay-grid img { width: 100%; aspect-ratio: 4/4.5; object-fit: cover; margin-bottom: 25px; }
+.italy-stay-grid h3 { margin-bottom: 12px; }
+.italy-booking { padding-block: 80px; background: var(--cream); scroll-margin-top: 100px; }
+.italy-rooms-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; align-items: center; max-width: 1280px; }
+.italy-room-photo { width: 100%; height: 440px; object-fit: cover; }
+.italy-booking header { margin-bottom: 26px; }
+.italy-booking header h2 { margin-bottom: 16px; }
+.italy-booking header p { color: var(--muted); }
+.italy-room-prices { margin: 0; font-size: 18px; }
+.italy-room-prices > div { display: flex; justify-content: space-between; gap: 20px; padding-block: 16px; border-bottom: 1px solid var(--line); }
+.italy-room-prices dd { margin: 0; white-space: nowrap; }
+.italy-price-note { margin-top: 12px; color: var(--muted); font-size: 13px; }
+.italy-booking-action { margin-top: 24px; }
+.italy-booking-action p { margin-bottom: 20px; font-size: 14px; }
+.italy-booking-action .button { cursor: pointer; }
+.italy-payment-link { display: block; width: fit-content; margin-top: 14px; font-size: 13px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+#italy-payment-details { scroll-margin-top: 110px; }
+.italy-questions { display: grid; grid-template-columns: 1fr 1.3fr; gap: 10%; padding-block: 88px; }
+.italy-questions details { border-bottom: 1px solid var(--line); padding: 20px 0; }
+.italy-questions details:first-child { border-top: 1px solid var(--line); }
+.italy-questions summary { cursor: pointer; font-weight: 500; }
+.italy-questions details p { margin: 18px 0 0; color: var(--muted); line-height: 1.8; }
+.italy-closing-photo img { width: 100%; height: 390px; object-fit: cover; object-position: center 44%; }
+.italy-discover-button { margin-bottom: 24px; color: var(--forest); background: var(--sage); }
+.italy-discover-button:is(:hover, :focus-visible) { background: var(--cream); }
+@media (max-width: 760px) {
+  .italy-hero { min-height: 560px; }
+  .italy-back { margin-bottom: 56px; }
+  .italy-questions { grid-template-columns: 1fr; gap: 32px; }
+  .italy-stay { padding-block: 48px 60px; }
+  .italy-stay-grid, .italy-rooms-layout { grid-template-columns: 1fr; }
+  .italy-rooms-layout { gap: 32px; }
+  .italy-room-photo { height: auto; aspect-ratio: 4/3; }
+  .italy-stay-grid { gap: 30px; }
+  .italy-stay-grid img { aspect-ratio: 4/3; }
+  .italy-booking, .italy-questions { padding-block: 56px; }
+  .italy-closing-photo img { height: 260px; }
+}

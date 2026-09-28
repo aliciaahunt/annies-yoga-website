@@ -40,7 +40,7 @@ describe('upcoming retreats', () => {
       expect.stringContaining('/images/retreats/upcoming/blue-haven/donegal-bay-view.png'),
     )
     expect(screen.getByText('View 5 photos')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Book with Annie' })).toBeInTheDocument()
+    expect(screen.getAllByRole('button', { name: 'Book with Annie' })).toHaveLength(2)
   })
 
   it('shows the high-resolution sea-view dining room photograph in the Blue Haven gallery', async () => {
