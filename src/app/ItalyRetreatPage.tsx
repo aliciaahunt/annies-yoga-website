@@ -29,7 +29,7 @@ export default function ItalyRetreatPage() {
         <section className="italy-stay section-shell" aria-labelledby="italy-stay-heading">
           <header><p className="italy-eyebrow">Beyond the mat</p><h2 id="italy-stay-heading">Make yourself <em>at home.</em></h2></header>
           <div className="italy-stay-grid">
-            <article><img src={photo('yoga-classes')} alt="Locanda’s wooden-beamed yoga studio set up with mats, bolsters and wall ropes" loading="lazy" /><h3>Yoga with Annie</h3><p>Enjoy 18+ hours of yoga with Annie. Practise in two fully equipped indoor yoga studios or the outdoor pavilion, each with views over the gardens.</p></article>
+            <article><img src={photo('yoga-classes')} alt="Locanda’s wooden-beamed yoga studio set up with mats, bolsters and wall ropes" loading="lazy" /><h3>Yoga with Annie</h3><p>Enjoy 25 hours of yoga with Annie. Practise in two fully equipped indoor yoga studios or the outdoor pavilion, each with views over the gardens.</p></article>
             <article><img src={photo('meals-together')} alt="Trays of pizza topped with tomatoes, mozzarella and fresh basil" loading="lazy" /><h3>Meals together</h3><p>Enjoy Italian cuisine made with fresh, local and organic ingredients, with three meals each day included in your stay. Vegan and vegetarian options, along with other dietary requirements, can be catered for on request.</p></article>
             <article><img src={photo('relaxing-venue')} alt="A stone path beneath climbing plants and purple flowers leading to Locanda’s pool" loading="lazy" /><h3>Time to relax</h3><p>Spend your free time by the pool or find a quiet spot in the gardens.</p></article>
           </div>
