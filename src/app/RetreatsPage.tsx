@@ -158,7 +158,6 @@ export default function RetreatsPage() {
                     <p className="retreat-card-date"><CalendarDays size={17} aria-hidden="true" /><time dateTime="2027-07-17/2027-07-23">17–23 July 2027</time></p>
                     <p className="retreat-card-location"><MapPin size={17} aria-hidden="true" /> Locanda, Italy</p>
                   </div>
-                  <p className="retreat-card-copy">A summer retreat with Annie, with space for yoga, shared meals and quiet moments in the gardens of Locanda.</p>
                   <ul className="retreat-card-details">
                     <li>From €1,250 per person</li>
                     <li>Three meals per day included</li>
